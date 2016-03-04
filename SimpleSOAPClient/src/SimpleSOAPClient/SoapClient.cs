@@ -23,10 +23,100 @@
 #endregion
 namespace SimpleSOAPClient
 {
+    using System;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Helpers;
+    using Models;
+
     /// <summary>
     /// The SOAP client that can be used to invoke SOAP Endpoints
     /// </summary>
-    public class SoapClient
+    public class SoapClient : IDisposable
     {
+        #region Constructors
+
+        public SoapClient()
+            : this(new HttpClient())
+        {
+
+        }
+
+        public SoapClient(HttpMessageHandler handler)
+            : this(new HttpClient(handler))
+        {
+
+        }
+
+        public SoapClient(HttpClient httpClient)
+        {
+            HttpClient = httpClient;
+        }
+
+        ~SoapClient()
+        {
+            Dispose(false);
+        }
+
+        #endregion
+
+        public HttpClient HttpClient { get; }
+
+        public Func<string, SoapEnvelope, SoapEnvelope> RequestEnvelopeHandler { get; set; }
+
+        public Func<string, string> RequestRawHandler { get; set; }
+
+        public Func<string, SoapEnvelope, SoapEnvelope> ResponseEnvelopeHandler { get; set; }
+
+        public Func<string, string> ResponseRawHandler { get; set; }
+
+        #region Implementation of IDisposable
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+                HttpClient.Dispose();
+        }
+
+        #endregion
+
+        public async Task<SoapEnvelope> SendAsync(
+            string url, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
+        {
+            if (RequestEnvelopeHandler != null)
+                requestEnvelope = RequestEnvelopeHandler(url, requestEnvelope);
+
+            var requestXml = requestEnvelope.ToXmlString();
+            if (RequestRawHandler != null)
+                requestXml = RequestRawHandler(requestXml);
+
+            var result =
+                await HttpClient.PostAsync(
+                    url, new StringContent(requestXml, Encoding.UTF8, "text/xml"), ct);
+
+            var responseXml = await result.Content.ReadAsStringAsync();
+            if (ResponseRawHandler != null)
+                responseXml = ResponseRawHandler(responseXml);
+
+            var responseEnvelope = responseXml.ToObject<SoapEnvelope>();
+
+            if (ResponseEnvelopeHandler != null)
+                responseEnvelope = ResponseEnvelopeHandler(url, responseEnvelope);
+
+            return responseEnvelope;
+        }
+
+        public static SoapClient Prepare()
+        {
+            return new SoapClient();
+        }
     }
 }
