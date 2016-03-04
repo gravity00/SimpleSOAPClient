@@ -4,7 +4,7 @@ namespace SimpleSOAPClient.Models
     using System.Xml.Serialization;
 
     [XmlRoot("Fault", Namespace = Constant.Namespace.OrgXmlSoapSchemasSoapEnvelope)]
-    public class Fault
+    public class SoapFault
     {
         [XmlElement("faultcode", Namespace = "")]
         public string FaultCode { get; set; }
