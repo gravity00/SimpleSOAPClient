@@ -3,16 +3,31 @@
     using System;
     using System.Xml.Linq;
 
+    /// <summary>
+    /// Exception representing a fault returned by the server
+    /// </summary>
     public class FaultException : Exception
     {
         private const string DefaultErrorMessage = "A fault was returned by the server";
 
-        public string FaultCode { get; set; }
+        /// <summary>
+        /// The fault code
+        /// </summary>
+        public string Code { get; set; }
 
-        public string FaultString { get; set; }
+        /// <summary>
+        /// The fault string
+        /// </summary>
+        public string String { get; set; }
 
-        public string FaultActor { get; set; }
+        /// <summary>
+        /// The fault actor
+        /// </summary>
+        public string Actor { get; set; }
 
+        /// <summary>
+        /// The fault detail
+        /// </summary>
         public XElement Detail { get; set; }
 
         /// <summary>
