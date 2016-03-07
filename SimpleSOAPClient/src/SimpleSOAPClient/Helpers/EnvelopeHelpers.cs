@@ -32,7 +32,9 @@ namespace SimpleSOAPClient.Helpers
 
     public static class EnvelopeHelpers
     {
-        public static SoapEnvelope WithBody<T>(this SoapEnvelope envelope, T body)
+        #region Body
+
+        public static SoapEnvelope Body<T>(this SoapEnvelope envelope, T body)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
@@ -43,6 +45,19 @@ namespace SimpleSOAPClient.Helpers
 
             return envelope;
         }
+
+        public static T Body<T>(this SoapEnvelope envelope)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
+            envelope.ThrowIfFaulted();
+
+            return envelope.Body.Value.ToObject<T>();
+        }
+
+        #endregion
+
+        #region Headers
 
         public static SoapEnvelope WithHeaders(
             this SoapEnvelope envelope, Func<ICollection<XElement>, ICollection<XElement>> builder)
@@ -64,6 +79,39 @@ namespace SimpleSOAPClient.Helpers
 
             return envelope;
         }
+
+        public static SoapEnvelope WithHeaders(
+            this SoapEnvelope envelope, params XElement[] headers)
+        {
+            return envelope.WithHeaders((IEnumerable<XElement>) headers);
+        }
+
+        public static SoapEnvelope WithHeaders(
+            this SoapEnvelope envelope, IEnumerable<XElement> headers)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+            if (headers == null) throw new ArgumentNullException(nameof(headers));
+            
+            List<XElement> envelopeHeaders;
+            if (envelope.Header == null)
+            {
+                envelope.Header = new SoapEnvelopeHeader();
+                envelopeHeaders = new List<XElement>();
+            }
+            else
+            {
+                envelopeHeaders = new List<XElement>(envelope.Header.Headers);
+            }
+
+            envelopeHeaders.AddRange(headers);
+            envelope.Header.Headers = envelopeHeaders.ToArray();
+
+            return envelope;
+        }
+
+        #endregion
+
+        #region Faulted
 
         public static bool IsFaulted(this SoapEnvelope envelope)
         {
@@ -91,5 +139,7 @@ namespace SimpleSOAPClient.Helpers
                 Detail = fault.Detail
             };
         }
+
+        #endregion
     }
 }
