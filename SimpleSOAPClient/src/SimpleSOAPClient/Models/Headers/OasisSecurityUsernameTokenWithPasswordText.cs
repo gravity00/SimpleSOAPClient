@@ -13,8 +13,7 @@ namespace SimpleSOAPClient.Models.Headers
         [XmlElement("Username")]
         public string Username { get; set; }
 
-        [XmlElement("Password", 
-            DataType = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssUsernameTokenProfile10PasswordText)]
-        public string Password { get; set; }
+        [XmlElement("Password")]
+        public OasisSecurityUsernameTokenPasswordText Password { get; set; }
     }
 }
