@@ -4,26 +4,6 @@ Lightweight SOAP client for invoking HTTP SOAP endpoints
 ## Usage
 
 ```csharp
-[XmlType("AddUserRequest", Namespace = "http://example.simplesoapclient.com/request")]
-public class AddUserRequest {
-
-  [XmlElement]
-  public string Username { get; set; }
-  
-  [XmlElement]
-  public string Password { get; set; }
-}
-
-[XmlType("AddUserResponse", Namespace = "http://example.simplesoapclient.com/response")]
-public class AddUserResponse {
-
-  [XmlElement]
-  public string Id { get; set; }
-  
-  [XmlElement]
-  public string Username { get; set; }
-}
-
 public async Task<AddUserResponse> AddUserAsync(string username, string password, CancellationToken ct) {
   
   using(var client = new SoapClient{
@@ -52,5 +32,25 @@ public async Task<AddUserResponse> AddUserAsync(string username, string password
     
   }
   
+}
+
+[XmlType("AddUserRequest", Namespace = "http://example.simplesoapclient.com/request")]
+public class AddUserRequest {
+
+  [XmlElement]
+  public string Username { get; set; }
+  
+  [XmlElement]
+  public string Password { get; set; }
+}
+
+[XmlType("AddUserResponse", Namespace = "http://example.simplesoapclient.com/response")]
+public class AddUserResponse {
+
+  [XmlElement]
+  public string Id { get; set; }
+  
+  [XmlElement]
+  public string Username { get; set; }
 }
 ```
