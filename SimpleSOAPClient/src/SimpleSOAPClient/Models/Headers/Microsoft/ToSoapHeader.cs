@@ -1,7 +1,7 @@
-#region License
+Ôªø#region License
 // The MIT License (MIT)
 // 
-// Copyright (c) 2016 Jo„o Simıes
+// Copyright (c) 2016 Jo√£o Sim√µes
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.Headers
+namespace SimpleSOAPClient.Models.Headers.Microsoft
 {
     using System.Xml.Serialization;
 
     /// <summary>
-    /// The Microsoft Action SOAP Header
+    /// The Microsoft To SOAP Header
     /// </summary>
-    [XmlRoot("Action", Namespace = Constant.Namespace.ComMicrosoftSchemasWs200505AddressingNone)]
-    public class MicrosoftActionSoapHeader : SoapHeader
+    [XmlRoot("To", Namespace = Constant.Namespace.ComMicrosoftSchemasWs200505AddressingNone)]
+    public class ToSoapHeader : SoapHeader
     {
         /// <summary>
-        /// The header action content
+        /// The header to content
         /// </summary>
         [XmlText]
-        public string Action { get; set; }
+        public string To { get; set; }
     }
 }
