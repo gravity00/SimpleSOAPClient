@@ -110,13 +110,13 @@ namespace SimpleSOAPClient.Helpers
         }
 
         public static SoapEnvelope WithHeaders(
-            this SoapEnvelope envelope, params object[] headers)
+            this SoapEnvelope envelope, params SoapHeader[] headers)
         {
-            return envelope.WithHeaders((IEnumerable<object>) headers);
+            return envelope.WithHeaders((IEnumerable<SoapHeader>) headers);
         }
 
         public static SoapEnvelope WithHeaders(
-            this SoapEnvelope envelope, IEnumerable<object> headers)
+            this SoapEnvelope envelope, IEnumerable<SoapHeader> headers)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
             if (headers == null) throw new ArgumentNullException(nameof(headers));
