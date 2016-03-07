@@ -41,7 +41,7 @@ namespace SimpleSOAPClient.Helpers
         {
             using (var textWriter = new StringWriter())
             {
-                new XmlSerializer(typeof(T))
+                new XmlSerializer(item.GetType())
                     .Serialize(textWriter, item, EmptyXmlSerializerNamespaces);
                 var result = textWriter.ToString();
 

@@ -1,5 +1,5 @@
 ﻿{
-  "version": "0.1.0",
+  "version": "0.2.0",
   "title": "SimpleSOAPClient",
   "description": "Lightweight SOAP client for invoking HTTP SOAP endpoints",
   "authors": [ "João Simões" ],

@@ -109,6 +109,21 @@ namespace SimpleSOAPClient.Helpers
             return envelope;
         }
 
+        public static SoapEnvelope WithHeaders(
+            this SoapEnvelope envelope, params object[] headers)
+        {
+            return envelope.WithHeaders((IEnumerable<object>) headers);
+        }
+
+        public static SoapEnvelope WithHeaders(
+            this SoapEnvelope envelope, IEnumerable<object> headers)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+            if (headers == null) throw new ArgumentNullException(nameof(headers));
+
+            return envelope.WithHeaders(headers.Select(h => h.ToXElement()));
+        }
+
         #endregion
 
         #region Faulted

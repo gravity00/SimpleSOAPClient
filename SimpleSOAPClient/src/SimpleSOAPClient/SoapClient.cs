@@ -66,11 +66,11 @@ namespace SimpleSOAPClient
 
         public Func<string, SoapEnvelope, SoapEnvelope> RequestEnvelopeHandler { get; set; }
 
-        public Func<string, string> RequestRawHandler { get; set; }
+        public Func<string, string, string> RequestRawHandler { get; set; }
 
         public Func<string, SoapEnvelope, SoapEnvelope> ResponseEnvelopeHandler { get; set; }
 
-        public Func<string, string> ResponseRawHandler { get; set; }
+        public Func<string, string, string> ResponseRawHandler { get; set; }
 
         #region Implementation of IDisposable
 
@@ -96,7 +96,7 @@ namespace SimpleSOAPClient
 
             var requestXml = requestEnvelope.ToXmlString();
             if (RequestRawHandler != null)
-                requestXml = RequestRawHandler(requestXml);
+                requestXml = RequestRawHandler(url, requestXml);
 
             var result =
                 await HttpClient.PostAsync(
@@ -104,7 +104,7 @@ namespace SimpleSOAPClient
 
             var responseXml = await result.Content.ReadAsStringAsync();
             if (ResponseRawHandler != null)
-                responseXml = ResponseRawHandler(responseXml);
+                responseXml = ResponseRawHandler(url, responseXml);
 
             var responseEnvelope = responseXml.ToObject<SoapEnvelope>();
 
@@ -114,9 +114,23 @@ namespace SimpleSOAPClient
             return responseEnvelope;
         }
 
+        #region Prepare
+
         public static SoapClient Prepare()
         {
             return new SoapClient();
         }
+
+        public static SoapClient Prepare(HttpMessageHandler handler)
+        {
+            return new SoapClient(handler);
+        }
+
+        public static SoapClient Prepare(HttpClient httpClient)
+        {
+            return new SoapClient(httpClient);
+        }
+
+        #endregion
     }
 }
