@@ -123,14 +123,16 @@ namespace SimpleSOAPClient
 
             var cts = new TaskCompletionSource<SoapEnvelope>();
 
-            HttpClient.PostAsync(
-                url, new StringContent(requestXml, Encoding.UTF8, "text/xml"), ct).ContinueWith(t01 =>
+            HttpClient
+                .PostAsync(
+                    url, new StringContent(requestXml, Encoding.UTF8, "text/xml"), ct)
+                .ContinueWith(t01 =>
                 {
                     if (t01.IsFaulted)
                     {
                         cts.SetExceptionFromTask(t01);
                     }
-                    else if(t01.IsCompleted)
+                    else if (t01.IsCompleted)
                     {
                         t01.Result.Content.ReadAsStringAsync().ContinueWith(t02 =>
                         {
@@ -138,7 +140,7 @@ namespace SimpleSOAPClient
                             {
                                 cts.SetExceptionFromTask(t02);
                             }
-                            else if(t02.IsCompleted)
+                            else if (t02.IsCompleted)
                             {
                                 var responseXml = t02.Result;
                                 if (ResponseRawHandler != null)
