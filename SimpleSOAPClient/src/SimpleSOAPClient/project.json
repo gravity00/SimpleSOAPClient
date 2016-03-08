@@ -6,7 +6,7 @@
   "tags": [ "SOAP", "Simple Object Access Protocol", "HTTP SOAP Client" ],
   "projectUrl": "https://github.com/gravity00/SimpleSOAPClient",
   "licenseUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE",
-  "iconUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/SimpleSOAPClient-Logo.png",
+  "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
   "releaseNotes": "",
