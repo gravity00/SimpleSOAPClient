@@ -36,6 +36,11 @@ namespace SimpleSOAPClient
     /// </summary>
     public class SoapClient : ISoapClient, IDisposable
     {
+        /// <summary>
+        /// The used HTTP client
+        /// </summary>
+        public HttpClient HttpClient { get; }
+
         #region Constructors
 
         /// <summary>
@@ -75,11 +80,8 @@ namespace SimpleSOAPClient
         }
 
         #endregion
-
-        /// <summary>
-        /// The used HTTP client
-        /// </summary>
-        public HttpClient HttpClient { get; }
+        
+        #region Implementation of ISoapClient
 
         /// <summary>
         /// Handler that can manipulate the <see cref="SoapEnvelope"/>
@@ -205,6 +207,8 @@ namespace SimpleSOAPClient
         {
             return SendAsync(url, requestEnvelope).Result;
         }
+
+        #endregion
 
         #region Implementation of IDisposable
 
