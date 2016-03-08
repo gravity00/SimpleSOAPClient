@@ -27,6 +27,9 @@ namespace SimpleSOAPClient.Helpers
     using System.Xml.Linq;
     using System.Xml.Serialization;
 
+    /// <summary>
+    /// Helper class with extensions for XML manipulation
+    /// </summary>
     public static class XmlHelpers
     {
         private static readonly XmlSerializerNamespaces EmptyXmlSerializerNamespaces;
@@ -37,6 +40,12 @@ namespace SimpleSOAPClient.Helpers
             EmptyXmlSerializerNamespaces.Add("", "");
         }
 
+        /// <summary>
+        /// Serializes the given object to a XML string
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="item">The item to serialize</param>
+        /// <returns>The XML string</returns>
         public static string ToXmlString<T>(this T item)
         {
             using (var textWriter = new StringWriter())
@@ -49,11 +58,23 @@ namespace SimpleSOAPClient.Helpers
             }
         }
 
+        /// <summary>
+        /// Serializes a given object to XML and returns the <see cref="XElement"/> representation.
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="item">The item to convert</param>
+        /// <returns>The object as a <see cref="XElement"/></returns>
         public static XElement ToXElement<T>(this T item)
         {
             return item == null ? null : XElement.Parse(item.ToXmlString());
         }
 
+        /// <summary>
+        /// Deserializes a given XML string to a new object of the expected type.
+        /// </summary>
+        /// <typeparam name="T">The type to be deserializable</typeparam>
+        /// <param name="xml">The XML string to deserialize</param>
+        /// <returns>The deserialized object</returns>
         public static T ToObject<T>(this string xml)
         {
             using (var textWriter = new StringReader(xml))
@@ -64,6 +85,12 @@ namespace SimpleSOAPClient.Helpers
             }
         }
 
+        /// <summary>
+        /// Deserializes a given <see cref="XElement"/> to a new object of the expected type.
+        /// </summary>
+        /// <typeparam name="T">The type to be deserializable</typeparam>
+        /// <param name="xml">The <see cref="XElement"/> to deserialize</param>
+        /// <returns>The deserialized object</returns>
         public static T ToObject<T>(this XElement xml)
         {
             return xml.ToString().ToObject<T>();
