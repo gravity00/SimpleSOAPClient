@@ -1,5 +1,6 @@
-# SimpleSOAPClient
-Lightweight SOAP client for invoking HTTP SOAP endpoints
+# Simple SOAP Client
+Lightweight SOAP client for invoking HTTP SOAP endpoints.
+Fluently create SOAP Envelopes, send them through the SOAP Client and extract the needed information from the returned SOAP Envelope. How easier could it be? 
 
 ## Usage
 
