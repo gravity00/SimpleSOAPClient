@@ -40,7 +40,7 @@ public async Task<AddUserResponse> AddUserAsync(string username, string password
   
 }
 
-[XmlType("AddUserRequest", Namespace = "http://example.simplesoapclient.com/request")]
+[XmlRoot("AddUserRequest", Namespace = "http://example.simplesoapclient.com/request")]
 public class AddUserRequest {
 
   [XmlElement]
@@ -50,7 +50,7 @@ public class AddUserRequest {
   public string Password { get; set; }
 }
 
-[XmlType("AddUserResponse", Namespace = "http://example.simplesoapclient.com/response")]
+[XmlRoot("AddUserResponse", Namespace = "http://example.simplesoapclient.com/response")]
 public class AddUserResponse {
 
   [XmlElement]
