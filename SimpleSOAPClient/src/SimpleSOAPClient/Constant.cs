@@ -46,13 +46,13 @@ namespace SimpleSOAPClient
                 "http://schemas.microsoft.com/ws/2005/05/addressing/none";
 
             /// <summary>
-            /// 
+            /// The Oasis Security namespace
             /// </summary>
             public const string OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10 = 
                 "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
-            
+
             /// <summary>
-            /// 
+            /// The Oasis Security Utilities namespace
             /// </summary>
             public const string OrgOpenOasisDocsWss200401Oasis200401WssWssecurityUtility10 = 
                 "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
