@@ -48,6 +48,8 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The XML string</returns>
         public static string ToXmlString<T>(this T item)
         {
+            if (item == null) return null;
+
             using (var textWriter = new StringWriter())
             {
                 new XmlSerializer(item.GetType())
@@ -71,12 +73,15 @@ namespace SimpleSOAPClient.Helpers
 
         /// <summary>
         /// Deserializes a given XML string to a new object of the expected type.
+        /// If null or white spaces the default(T) will be returned;
         /// </summary>
         /// <typeparam name="T">The type to be deserializable</typeparam>
         /// <param name="xml">The XML string to deserialize</param>
         /// <returns>The deserialized object</returns>
         public static T ToObject<T>(this string xml)
         {
+            if (string.IsNullOrWhiteSpace(xml)) return default(T);
+
             using (var textWriter = new StringReader(xml))
             {
                 var result = (T)new XmlSerializer(typeof(T)).Deserialize(textWriter);
@@ -87,13 +92,14 @@ namespace SimpleSOAPClient.Helpers
 
         /// <summary>
         /// Deserializes a given <see cref="XElement"/> to a new object of the expected type.
+        /// If null the default(T) will be returned.
         /// </summary>
         /// <typeparam name="T">The type to be deserializable</typeparam>
         /// <param name="xml">The <see cref="XElement"/> to deserialize</param>
         /// <returns>The deserialized object</returns>
         public static T ToObject<T>(this XElement xml)
         {
-            return xml.ToString().ToObject<T>();
+            return xml == null ? default(T) : xml.ToString().ToObject<T>();
         }
     }
 }
