@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-alpha2",
+  "version": "1.0.0-rc1",
   "title": "SimpleSOAPClient",
   "description": "Lightweight SOAP client for invoking HTTP SOAP endpoints",
   "authors": [ "João Simões" ],
@@ -12,12 +12,20 @@
   "releaseNotes": "",
 
   "frameworks": {
-    "net45": {
-      "frameworkAssemblies": {
-        "System.Linq": "4.0.0.0",
-        "System.Net.Http": "4.0.0.0",
-        "System.Xml": "4.0.0.0",
-        "System.Xml.Linq": "4.0.0.0"
+    "dnxcore5": {
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.0",
+        "System.Net.Http": "4.0.0",
+        "System.Xml.XDocument": "4.0.0",
+        "System.Xml.XmlSerializer": "4.0.0"
+      }
+    },
+    "dotnet": {
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.0",
+        "System.Net.Http": "4.0.0",
+        "System.Xml.XDocument": "4.0.0",
+        "System.Xml.XmlSerializer": "4.0.0"
       }
     },
     "net40": {
@@ -26,6 +34,22 @@
         "System.Net.Http": "4.0.0.0",
         "System.Xml": "4.0.0.0",
         "System.Xml.Linq": "4.0.0.0"
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Linq": "4.0.0.0",
+        "System.Net.Http": "4.0.0.0",
+        "System.Xml": "4.0.0.0",
+        "System.Xml.Linq": "4.0.0.0"
+      }
+    },
+    "netcore45": {
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.0",
+        "System.Net.Http": "4.0.0",
+        "System.Xml.XDocument": "4.0.0",
+        "System.Xml.XmlSerializer": "4.0.0"
       }
     }
   }
