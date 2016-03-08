@@ -1,11 +1,12 @@
 ﻿{
-  "version": "0.2.2",
+  "version": "1.0.0-alpha1",
   "title": "SimpleSOAPClient",
   "description": "Lightweight SOAP client for invoking HTTP SOAP endpoints",
   "authors": [ "João Simões" ],
   "tags": [ "SOAP", "Simple Object Access Protocol", "HTTP SOAP Client" ],
   "projectUrl": "https://github.com/gravity00/SimpleSOAPClient",
   "licenseUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE",
+  "iconUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
   "releaseNotes": "",
