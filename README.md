@@ -2,6 +2,13 @@
 Lightweight SOAP client for invoking HTTP SOAP endpoints.
 Fluently create SOAP Envelopes, send them through the SOAP Client and extract the needed information from the returned SOAP Envelope. How easier could it be? 
 
+## Instalation 
+This library can be installed via NuGet package. Just run the following command:
+
+```
+Install-Package SimpleSOAPClient -Pre
+```
+
 ## Usage
 
 ```csharp
