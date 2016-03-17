@@ -14,16 +14,22 @@
   "frameworks": {
     "dnxcore5": {
       "dependencies": {
-        "Microsoft.CSharp": "4.0.0",
+        "System.IO": "4.0.0",
+        "System.Linq": "4.0.0",
         "System.Net.Http": "4.0.0",
+        "System.Runtime": "4.0.0",
+        "System.Runtime.InteropServices": "4.0.0",
         "System.Xml.XDocument": "4.0.0",
         "System.Xml.XmlSerializer": "4.0.0"
       }
     },
     "dotnet": {
       "dependencies": {
-        "Microsoft.CSharp": "4.0.0",
+        "System.IO": "4.0.0",
+        "System.Linq": "4.0.0",
         "System.Net.Http": "4.0.0",
+        "System.Runtime": "4.0.0",
+        "System.Runtime.InteropServices": "4.0.0",
         "System.Xml.XDocument": "4.0.0",
         "System.Xml.XmlSerializer": "4.0.0"
       }
@@ -46,8 +52,11 @@
     },
     "netcore45": {
       "dependencies": {
-        "Microsoft.CSharp": "4.0.0",
+        "System.IO": "4.0.0",
+        "System.Linq": "4.0.0",
         "System.Net.Http": "4.0.0",
+        "System.Runtime": "4.0.0",
+        "System.Runtime.InteropServices": "4.0.0",
         "System.Xml.XDocument": "4.0.0",
         "System.Xml.XmlSerializer": "4.0.0"
       }
