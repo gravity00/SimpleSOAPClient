@@ -2,6 +2,13 @@
 Lightweight SOAP client for invoking HTTP SOAP endpoints.
 Fluently create SOAP Envelopes, send them through the SOAP Client and extract the needed information from the returned SOAP Envelope. How easier could it be? 
 
+## Installation 
+This library can be installed via NuGet package. Just run the following command:
+
+```powershell
+Install-Package SimpleSOAPClient -Pre
+```
+
 ## Usage
 
 ```csharp
@@ -40,7 +47,7 @@ public async Task<AddUserResponse> AddUserAsync(string username, string password
   
 }
 
-[XmlType("AddUserRequest", Namespace = "http://example.simplesoapclient.com/request")]
+[XmlRoot("AddUserRequest", Namespace = "http://example.simplesoapclient.com/request")]
 public class AddUserRequest {
 
   [XmlElement]
@@ -50,7 +57,7 @@ public class AddUserRequest {
   public string Password { get; set; }
 }
 
-[XmlType("AddUserResponse", Namespace = "http://example.simplesoapclient.com/response")]
+[XmlRoot("AddUserResponse", Namespace = "http://example.simplesoapclient.com/response")]
 public class AddUserResponse {
 
   [XmlElement]
