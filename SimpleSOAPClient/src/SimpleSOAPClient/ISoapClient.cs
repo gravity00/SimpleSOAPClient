@@ -66,8 +66,31 @@ namespace SimpleSOAPClient
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
+        /// <param name="soapAction">SOAPAction http header value</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>A task to be awaited for the result</returns>
+        Task<SoapEnvelope> SendAsync(
+            string url, string soapAction, 
+            SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
+
+        /// <summary>
+        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
+        /// </summary>
+        /// <param name="url">The url that will receive the request</param>
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
         SoapEnvelope Send(string url, SoapEnvelope requestEnvelope);
+
+
+        /// <summary>
+        /// Sends the given <see cref="SoapEnvelope"/> into the specified url with specified SOAPAction http header value.
+        /// </summary>
+        /// <param name="url">The url that will receive the request</param>
+        /// <param name="soapAction">SOAPAction http header value</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
+        SoapEnvelope Send(string url, string soapAction, SoapEnvelope requestEnvelope);
+
     }
 }
