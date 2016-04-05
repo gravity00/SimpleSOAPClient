@@ -109,12 +109,14 @@ namespace SimpleSOAPClient
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
+        /// <param name="soapAction">SOAPAction http header value</param>
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>A task to be awaited for the result</returns>
 #if NET40
         public virtual Task<SoapEnvelope> SendAsync(
-            string url, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
+            string url, string soapAction, 
+            SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
         {
             if (RequestEnvelopeHandler != null)
                 requestEnvelope = RequestEnvelopeHandler(url, requestEnvelope);
@@ -125,9 +127,16 @@ namespace SimpleSOAPClient
 
             var cts = new TaskCompletionSource<SoapEnvelope>();
 
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            request.Content = new StringContent(requestXml, Encoding.UTF8, "text/xml");
+            if (!string.IsNullOrEmpty(soapAction))
+            {
+                request.Headers.Remove("SOAPAction");
+                request.Headers.Add("SOAPAction", soapAction);
+            }
+
             HttpClient
-                .PostAsync(
-                    url, new StringContent(requestXml, Encoding.UTF8, "text/xml"), ct)
+                .SendAsync(request, ct)
                 .ContinueWith(t01 =>
                 {
                     if (t01.IsFaulted)
@@ -171,7 +180,8 @@ namespace SimpleSOAPClient
         }
 #else
         public virtual async Task<SoapEnvelope> SendAsync(
-            string url, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
+            string url, string soapAction, 
+            SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
         {
             if (RequestEnvelopeHandler != null)
                 requestEnvelope = RequestEnvelopeHandler(url, requestEnvelope);
@@ -180,9 +190,15 @@ namespace SimpleSOAPClient
             if (RequestRawHandler != null)
                 requestXml = RequestRawHandler(url, requestXml);
 
-            var result =
-                await HttpClient.PostAsync(
-                    url, new StringContent(requestXml, Encoding.UTF8, "text/xml"), ct);
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            request.Content = new StringContent(requestXml, Encoding.UTF8, "text/xml");
+            if (!string.IsNullOrEmpty(soapAction))
+            {
+                request.Headers.Remove("SOAPAction");
+                request.Headers.Add("SOAPAction", soapAction);
+            }
+
+            var result = await HttpClient.SendAsync(request, ct);
 
             var responseXml = await result.Content.ReadAsStringAsync();
             if (ResponseRawHandler != null)
@@ -195,7 +211,14 @@ namespace SimpleSOAPClient
 
             return responseEnvelope;
         }
+
 #endif
+
+        public virtual Task<SoapEnvelope> SendAsync(
+            string url, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
+        {
+            return SendAsync(url, null, requestEnvelope, ct);
+        }
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
@@ -205,9 +228,20 @@ namespace SimpleSOAPClient
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
         public virtual SoapEnvelope Send(string url, SoapEnvelope requestEnvelope)
         {
-            return SendAsync(url, requestEnvelope).Result;
+            return Send(url, null, requestEnvelope);
         }
 
+        /// <summary>
+        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
+        /// </summary>
+        /// <param name="url">The url that will receive the request</param>
+        /// <param name="soapAction">SOAPAction http header value</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
+        public virtual SoapEnvelope Send(string url, string soapAction, SoapEnvelope requestEnvelope)
+        {
+            return SendAsync(url, requestEnvelope).Result;
+        }
         #endregion
 
         #region Implementation of IDisposable

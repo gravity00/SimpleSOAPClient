@@ -54,9 +54,17 @@ namespace SimpleSOAPClient.Helpers
             {
                 new XmlSerializer(item.GetType())
                     .Serialize(textWriter, item, EmptyXmlSerializerNamespaces);
-                var result = textWriter.ToString();
 
-                return result;
+                //exclude xml declaration if present (<?xml... ?>)
+                var rvsb = textWriter.GetStringBuilder();
+                if (rvsb.Length > 5 && rvsb[0] == '<' && rvsb[1] == '?')
+                {
+                    for (int i = 2; i < rvsb.Length; ++i)
+                    {
+                        if (rvsb[i] == '<') return rvsb.ToString(i, rvsb.Length - i);
+                    }
+                }
+                return rvsb.ToString();
             }
         }
 
