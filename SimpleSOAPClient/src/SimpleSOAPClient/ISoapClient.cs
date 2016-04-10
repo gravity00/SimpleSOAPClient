@@ -21,9 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
+
 namespace SimpleSOAPClient
 {
     using System;
+    using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
     using Models;
@@ -50,7 +52,7 @@ namespace SimpleSOAPClient
         /// <summary>
         /// Handler that can manipulate the returned string before deserialization.
         /// </summary>
-        Func<string, string, string> ResponseRawHandler { get; set; }
+        Func<string, HttpResponseMessage, string, string> ResponseRawHandler { get; set; }
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.

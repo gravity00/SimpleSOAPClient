@@ -103,7 +103,7 @@ namespace SimpleSOAPClient
         /// <summary>
         /// Handler that can manipulate the returned string before deserialization.
         /// </summary>
-        public Func<string, string, string> ResponseRawHandler { get; set; }
+        public Func<string, HttpResponseMessage, string, string> ResponseRawHandler { get; set; }
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
@@ -179,14 +179,14 @@ namespace SimpleSOAPClient
             var requestXml = requestEnvelope.ToXmlString();
             if (RequestRawHandler != null)
                 requestXml = RequestRawHandler(url, requestXml);
-
+            
             var result =
                 await HttpClient.PostAsync(
                     url, new StringContent(requestXml, Encoding.UTF8, "text/xml"), ct);
 
             var responseXml = await result.Content.ReadAsStringAsync();
             if (ResponseRawHandler != null)
-                responseXml = ResponseRawHandler(url, responseXml);
+                responseXml = ResponseRawHandler(url, result, responseXml);
 
             var responseEnvelope = responseXml.ToObject<SoapEnvelope>();
 
