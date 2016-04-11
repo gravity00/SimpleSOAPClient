@@ -9,7 +9,7 @@
   "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
-  "releaseNotes": "Response raw handlers now receive a HTTP Response Message\nImproved SOAP Envelope serialization exception handling",
+  "releaseNotes": "Response raw handlers now receive a HTTP Response Message\nImproved SOAP Envelope serialization exception handling\nXmlHelpers class is now for internal use only",
 
   "frameworks": {
     "dnxcore5": {
