@@ -136,7 +136,8 @@ namespace SimpleSOAPClient
                     }
                     else if (t01.IsCompleted)
                     {
-                        t01.Result.Content.ReadAsStringAsync().ContinueWith(t02 =>
+                        var result = t01.Result;
+                        result.Content.ReadAsStringAsync().ContinueWith(t02 =>
                         {
                             if (t02.IsFaulted)
                             {
@@ -146,7 +147,7 @@ namespace SimpleSOAPClient
                             {
                                 var responseXml = t02.Result;
                                 if (ResponseRawHandler != null)
-                                    responseXml = ResponseRawHandler(url, responseXml);
+                                    responseXml = ResponseRawHandler(url, result, responseXml);
 
                                 var responseEnvelope = responseXml.ToObject<SoapEnvelope>();
 
