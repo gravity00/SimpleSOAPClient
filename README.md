@@ -44,10 +44,16 @@ public async Task<AddUserResponse> AddUserAsync(string username, string password
             Password = password
           });
     
-    var responseEnvelope = await client.SendAsync("http://localhost/TestSoapServer", requestEnvelope, ct);
-    
     try {
+      var responseEnvelope = await client.SendAsync("http://localhost/TestSoapServer", requestEnvelope, ct);
+      
       return responseEnvelope.Body<AddUserResponse>();
+    } catch(SoapEnvelopeSerializationException e) {
+      Logger.Error(e, $"Failed to serialize the SOAP Envelope into XML [Envelope={e.Envelope}]");
+      throw;
+    } catch(SoapEnvelopeDeserializationException e) {
+      Logger.Error(e, $"Failed to deserialize the server response into a SOAP Envelope [XmlValue={e.XmlValue}]");
+      throw;
     } catch(FaultException e) {
       Logger.Error(e, $"The server returned a fault [Code={e.Code}, String={e.String}, Actor={e.Actor}]");
       throw;
