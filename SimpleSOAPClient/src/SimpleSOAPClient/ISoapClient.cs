@@ -41,7 +41,7 @@ namespace SimpleSOAPClient
         /// <summary>
         /// Handler that can manipulate the generated XML string.
         /// </summary>
-        Func<string, string, string> RequestRawHandler { get; set; }
+        Func<string, HttpRequestMessage, string, string> RequestRawHandler { get; set; }
 
         /// <summary>
         /// Handler that can manipulate the <see cref="SoapEnvelope"/> returned
@@ -58,11 +58,31 @@ namespace SimpleSOAPClient
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
+        /// <param name="action">The SOAP action beeing performed</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>A task to be awaited for the result</returns>
+        Task<SoapEnvelope> SendAsync(
+            string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
+
+        /// <summary>
+        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
+        /// </summary>
+        /// <param name="url">The url that will receive the request</param>
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>A task to be awaited for the result</returns>
         Task<SoapEnvelope> SendAsync(
             string url, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
+
+        /// <summary>
+        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
+        /// </summary>
+        /// <param name="url">The url that will receive the request</param>
+        /// <param name="action">The SOAP Action beeing performed</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
+        SoapEnvelope Send(string url, string action, SoapEnvelope requestEnvelope);
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
