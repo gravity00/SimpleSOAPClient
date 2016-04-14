@@ -9,6 +9,16 @@ This library can be installed via NuGet package. Just run the following command:
 Install-Package SimpleSOAPClient
 ```
 
+## Compatibility
+
+This library is compatible with the folowing frameworks:
+
+* .NET for Windows Store apps;
+* .NET Framework 4
+* .NET Framework 4.5+
+* .NET Platform
+* DNX Core 5.0+
+
 ## Usage
 
 ```csharp
