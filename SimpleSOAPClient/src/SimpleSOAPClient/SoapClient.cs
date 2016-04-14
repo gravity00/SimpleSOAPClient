@@ -28,6 +28,7 @@ namespace SimpleSOAPClient
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Exceptions;
     using Helpers;
     using Models;
 
@@ -112,6 +113,8 @@ namespace SimpleSOAPClient
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>A task to be awaited for the result</returns>
+        /// <exception cref="SoapEnvelopeSerializationException"></exception>
+        /// <exception cref="SoapEnvelopeDeserializationException"></exception>
 #if NET40
         public virtual Task<SoapEnvelope> SendAsync(
             string url, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
@@ -119,7 +122,15 @@ namespace SimpleSOAPClient
             if (RequestEnvelopeHandler != null)
                 requestEnvelope = RequestEnvelopeHandler(url, requestEnvelope);
 
-            var requestXml = requestEnvelope.ToXmlString();
+            string requestXml;
+            try
+            {
+                requestXml = requestEnvelope.ToXmlString();
+            }
+            catch (Exception e)
+            {
+                throw new SoapEnvelopeSerializationException(requestEnvelope, e);
+            }
             if (RequestRawHandler != null)
                 requestXml = RequestRawHandler(url, requestXml);
 
@@ -136,7 +147,8 @@ namespace SimpleSOAPClient
                     }
                     else if (t01.IsCompleted)
                     {
-                        t01.Result.Content.ReadAsStringAsync().ContinueWith(t02 =>
+                        var result = t01.Result;
+                        result.Content.ReadAsStringAsync().ContinueWith(t02 =>
                         {
                             if (t02.IsFaulted)
                             {
@@ -144,16 +156,32 @@ namespace SimpleSOAPClient
                             }
                             else if (t02.IsCompleted)
                             {
-                                var responseXml = t02.Result;
-                                if (ResponseRawHandler != null)
-                                    responseXml = ResponseRawHandler(url, responseXml);
+                                try
+                                {
+                                    var responseXml = t02.Result;
+                                    if (ResponseRawHandler != null)
+                                        responseXml = ResponseRawHandler(url, responseXml);
 
-                                var responseEnvelope = responseXml.ToObject<SoapEnvelope>();
+                                    SoapEnvelope responseEnvelope;
+                                    try
+                                    {
+                                        responseEnvelope = responseXml.ToObject<SoapEnvelope>();
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        cts.SetException(new SoapEnvelopeDeserializationException(responseXml, e));
+                                        return;
+                                    }
+                                    if (ResponseEnvelopeHandler != null)
+                                        responseEnvelope = ResponseEnvelopeHandler(url, responseEnvelope);
 
-                                if (ResponseEnvelopeHandler != null)
-                                    responseEnvelope = ResponseEnvelopeHandler(url, responseEnvelope);
-
-                                cts.SetResult(responseEnvelope);
+                                    cts.SetResult(responseEnvelope);
+                                }
+                                catch (Exception e)
+                                {
+                                    // in case some of the handlers fail
+                                    cts.SetException(e);
+                                }
                             }
                             else
                             {
@@ -176,10 +204,18 @@ namespace SimpleSOAPClient
             if (RequestEnvelopeHandler != null)
                 requestEnvelope = RequestEnvelopeHandler(url, requestEnvelope);
 
-            var requestXml = requestEnvelope.ToXmlString();
+            string requestXml;
+            try
+            {
+                requestXml = requestEnvelope.ToXmlString();
+            }
+            catch (Exception e)
+            {
+                throw new SoapEnvelopeSerializationException(requestEnvelope, e);
+            }
             if (RequestRawHandler != null)
                 requestXml = RequestRawHandler(url, requestXml);
-
+            
             var result =
                 await HttpClient.PostAsync(
                     url, new StringContent(requestXml, Encoding.UTF8, "text/xml"), ct);
@@ -188,8 +224,15 @@ namespace SimpleSOAPClient
             if (ResponseRawHandler != null)
                 responseXml = ResponseRawHandler(url, responseXml);
 
-            var responseEnvelope = responseXml.ToObject<SoapEnvelope>();
-
+            SoapEnvelope responseEnvelope;
+            try
+            {
+                responseEnvelope = responseXml.ToObject<SoapEnvelope>();
+            }
+            catch (Exception e)
+            {
+                throw new SoapEnvelopeDeserializationException(responseXml, e);
+            }
             if (ResponseEnvelopeHandler != null)
                 responseEnvelope = ResponseEnvelopeHandler(url, responseEnvelope);
 
@@ -203,6 +246,8 @@ namespace SimpleSOAPClient
         /// <param name="url">The url that will receive the request</param>
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
+        /// <exception cref="SoapEnvelopeSerializationException"></exception>
+        /// <exception cref="SoapEnvelopeDeserializationException"></exception>
         public virtual SoapEnvelope Send(string url, SoapEnvelope requestEnvelope)
         {
             return SendAsync(url, requestEnvelope).Result;

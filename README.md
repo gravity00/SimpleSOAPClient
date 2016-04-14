@@ -6,7 +6,7 @@ Fluently create SOAP Envelopes, send them through the SOAP Client and extract th
 This library can be installed via NuGet package. Just run the following command:
 
 ```powershell
-Install-Package SimpleSOAPClient -Pre
+Install-Package SimpleSOAPClient
 ```
 
 ## Usage

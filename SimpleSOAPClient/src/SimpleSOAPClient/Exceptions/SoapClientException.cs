@@ -1,7 +1,7 @@
 ﻿#region License
 // The MIT License (MIT)
 // 
-// Copyright (c) 2016 João Simões
+// Copyright (c) 2016 SimplePersistence
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,35 +21,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
+namespace SimpleSOAPClient.Exceptions
+{
+    using System;
 
-using System;
-using System.Reflection;
+    /// <summary>
+    /// Base class for specialized exceptions thrown by the Simple SOAP Client library
+    /// </summary>
+    public abstract class SoapClientException : Exception
+    {
+        /// <summary>
+        /// Initializes a new instance of <see cref="SoapClientException"/>
+        /// </summary>
+        /// <param name="message">The message to be used</param>
+        protected SoapClientException(string message) : base(message)
+        {
 
-#if NET40 || NET45
+        }
 
-using System.Runtime.InteropServices;
+        /// <summary>
+        /// Initializes a new instance of <see cref="SoapClientException"/>
+        /// </summary>
+        /// <param name="message">The message to be used</param>
+        /// <param name="innerException">The inner exception</param>
+        protected SoapClientException(string message, Exception innerException) : base(message, innerException)
+        {
 
-#endif
-
-
-[assembly: AssemblyTitle("SimpleSOAPClient")]
-[assembly: AssemblyDescription("Lightweight SOAP client for invoking HTTP SOAP endpoints")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Net.JoaoSimoes")]
-[assembly: AssemblyProduct("SimpleSOAPClient")]
-[assembly: AssemblyCopyright("Copyright © 2016 João Simões")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
-#if NET40 || NET45
-
-[assembly: ComVisible(false)]
-
-[assembly: Guid("9a03d5df-2a75-48c4-aa1a-a52774bd4f14")]
-
-#endif
-
-[assembly: CLSCompliant(true)]
-
-[assembly: AssemblyVersion("1.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0")]
+        }
+    }
+}

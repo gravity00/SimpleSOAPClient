@@ -9,7 +9,7 @@
   "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
-  "releaseNotes": "",
+  "releaseNotes": "Improved SOAP Envelope serialization exception handling\nXmlHelpers class is now for internal use only\nRemoved dependencies on System.Runtime.InteropServices",
 
   "frameworks": {
     "dnxcore5": {
@@ -18,7 +18,6 @@
         "System.Linq": "4.0.0",
         "System.Net.Http": "4.0.0",
         "System.Runtime": "4.0.0",
-        "System.Runtime.InteropServices": "4.0.0",
         "System.Xml.XDocument": "4.0.0",
         "System.Xml.XmlSerializer": "4.0.0"
       }
@@ -29,7 +28,6 @@
         "System.Linq": "4.0.0",
         "System.Net.Http": "4.0.0",
         "System.Runtime": "4.0.0",
-        "System.Runtime.InteropServices": "4.0.0",
         "System.Xml.XDocument": "4.0.0",
         "System.Xml.XmlSerializer": "4.0.0"
       }
@@ -56,7 +54,6 @@
         "System.Linq": "4.0.0",
         "System.Net.Http": "4.0.0",
         "System.Runtime": "4.0.0",
-        "System.Runtime.InteropServices": "4.0.0",
         "System.Xml.XDocument": "4.0.0",
         "System.Xml.XmlSerializer": "4.0.0"
       }

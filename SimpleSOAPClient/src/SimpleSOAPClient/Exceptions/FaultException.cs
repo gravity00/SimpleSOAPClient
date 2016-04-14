@@ -29,7 +29,7 @@ namespace SimpleSOAPClient.Exceptions
     /// <summary>
     /// Exception representing a fault returned by the server
     /// </summary>
-    public class FaultException : Exception
+    public class FaultException : SoapClientException
     {
         private const string DefaultErrorMessage = "A fault was returned by the server";
 
