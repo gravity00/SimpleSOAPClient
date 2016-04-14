@@ -25,7 +25,6 @@
 namespace SimpleSOAPClient
 {
     using System;
-    using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
     using Models;
@@ -58,11 +57,31 @@ namespace SimpleSOAPClient
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
+        /// <param name="action">The SOAP action beeing performed</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>A task to be awaited for the result</returns>
+        Task<SoapEnvelope> SendAsync(
+            string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
+
+        /// <summary>
+        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
+        /// </summary>
+        /// <param name="url">The url that will receive the request</param>
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>A task to be awaited for the result</returns>
         Task<SoapEnvelope> SendAsync(
             string url, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
+
+        /// <summary>
+        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
+        /// </summary>
+        /// <param name="url">The url that will receive the request</param>
+        /// <param name="action">The SOAP Action beeing performed</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
+        SoapEnvelope Send(string url, string action, SoapEnvelope requestEnvelope);
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.

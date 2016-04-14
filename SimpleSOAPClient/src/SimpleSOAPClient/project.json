@@ -9,7 +9,7 @@
   "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
-  "releaseNotes": "Improved SOAP Envelope serialization exception handling\nRemoved dependencies on System.Runtime.InteropServices",
+  "releaseNotes": "Added new send methods to the SOAP Client",
 
   "frameworks": {
     "dnxcore5": {
