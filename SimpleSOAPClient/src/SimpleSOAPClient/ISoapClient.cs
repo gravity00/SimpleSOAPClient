@@ -36,23 +36,23 @@ namespace SimpleSOAPClient
         /// Handler that can manipulate the <see cref="SoapEnvelope"/>
         /// before serialization.
         /// </summary>
-        Func<string, SoapEnvelope, SoapEnvelope> RequestEnvelopeHandler { get; set; }
+        Func<string, string, SoapEnvelope, SoapEnvelope> RequestEnvelopeHandler { get; set; }
 
         /// <summary>
         /// Handler that can manipulate the generated XML string.
         /// </summary>
-        Func<string, HttpRequestMessage, string, string> RequestRawHandler { get; set; }
+        Func<string, string, HttpRequestMessage, string, string> RequestRawHandler { get; set; }
 
         /// <summary>
         /// Handler that can manipulate the <see cref="SoapEnvelope"/> returned
         /// by the SOAP Endpoint.
         /// </summary>
-        Func<string, SoapEnvelope, SoapEnvelope> ResponseEnvelopeHandler { get; set; }
+        Func<string, string, SoapEnvelope, SoapEnvelope> ResponseEnvelopeHandler { get; set; }
 
         /// <summary>
         /// Handler that can manipulate the returned string before deserialization.
         /// </summary>
-        Func<string, HttpResponseMessage, string, string> ResponseRawHandler { get; set; }
+        Func<string, string, HttpResponseMessage, string, string> ResponseRawHandler { get; set; }
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.

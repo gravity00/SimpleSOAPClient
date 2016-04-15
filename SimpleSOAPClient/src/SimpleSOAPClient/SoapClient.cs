@@ -88,23 +88,23 @@ namespace SimpleSOAPClient
         /// Handler that can manipulate the <see cref="SoapEnvelope"/>
         /// before serialization.
         /// </summary>
-        public Func<string, SoapEnvelope, SoapEnvelope> RequestEnvelopeHandler { get; set; }
+        public Func<string, string, SoapEnvelope, SoapEnvelope> RequestEnvelopeHandler { get; set; }
 
         /// <summary>
         /// Handler that can manipulate the generated XML string.
         /// </summary>
-        public Func<string, HttpRequestMessage, string, string> RequestRawHandler { get; set; }
+        public Func<string, string, HttpRequestMessage, string, string> RequestRawHandler { get; set; }
 
         /// <summary>
         /// Handler that can manipulate the <see cref="SoapEnvelope"/> returned
         /// by the SOAP Endpoint.
         /// </summary>
-        public Func<string, SoapEnvelope, SoapEnvelope> ResponseEnvelopeHandler { get; set; }
+        public Func<string, string, SoapEnvelope, SoapEnvelope> ResponseEnvelopeHandler { get; set; }
 
         /// <summary>
         /// Handler that can manipulate the returned string before deserialization.
         /// </summary>
-        public Func<string, HttpResponseMessage, string, string> ResponseRawHandler { get; set; }
+        public Func<string, string, HttpResponseMessage, string, string> ResponseRawHandler { get; set; }
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
@@ -145,7 +145,7 @@ namespace SimpleSOAPClient
                             {
                                 try
                                 {
-                                    cts.SetResult(CreateSoapEnvelope(url, result, t02.Result));
+                                    cts.SetResult(CreateSoapEnvelope(url, action, result, t02.Result));
                                 }
                                 catch (Exception e)
                                 {
@@ -176,7 +176,7 @@ namespace SimpleSOAPClient
             
             var responseXml = await result.Content.ReadAsStringAsync();
 
-            return CreateSoapEnvelope(url, result, responseXml);
+            return CreateSoapEnvelope(url, action, result, responseXml);
         }
 #endif
 
@@ -273,7 +273,7 @@ namespace SimpleSOAPClient
             string url, string action, SoapEnvelope requestEnvelope)
         {
             if (RequestEnvelopeHandler != null)
-                requestEnvelope = RequestEnvelopeHandler(url, requestEnvelope);
+                requestEnvelope = RequestEnvelopeHandler(url, action, requestEnvelope);
 
             string requestXml;
             try
@@ -297,15 +297,15 @@ namespace SimpleSOAPClient
 
             if (RequestRawHandler != null)
                 request.Content = new StringContent(
-                    RequestRawHandler(url, request, requestXml), Encoding.UTF8, "text/xml; charset=utf-8");
+                    RequestRawHandler(url, action, request, requestXml), Encoding.UTF8, "text/xml; charset=utf-8");
 
             return request;
         }
 
-        private SoapEnvelope CreateSoapEnvelope(string url, HttpResponseMessage result, string responseXml)
+        private SoapEnvelope CreateSoapEnvelope(string url, string action, HttpResponseMessage result, string responseXml)
         {
             if (ResponseRawHandler != null)
-                responseXml = ResponseRawHandler(url, result, responseXml);
+                responseXml = ResponseRawHandler(url, action, result, responseXml);
 
             SoapEnvelope responseEnvelope;
             try
@@ -317,7 +317,7 @@ namespace SimpleSOAPClient
                 throw new SoapEnvelopeDeserializationException(responseXml, e);
             }
             if (ResponseEnvelopeHandler != null)
-                responseEnvelope = ResponseEnvelopeHandler(url, responseEnvelope);
+                responseEnvelope = ResponseEnvelopeHandler(url, action, responseEnvelope);
 
             return responseEnvelope;
         }
