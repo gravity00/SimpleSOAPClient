@@ -287,7 +287,7 @@ namespace SimpleSOAPClient
 
             var request = new HttpRequestMessage(HttpMethod.Post, url)
             {
-                Content = new StringContent(requestXml, Encoding.UTF8, "text/xml; charset=utf-8")
+                Content = new StringContent(requestXml, Encoding.UTF8, "text/xml")
             };
             if (!string.IsNullOrWhiteSpace(action))
             {
@@ -297,7 +297,7 @@ namespace SimpleSOAPClient
 
             if (RequestRawHandler != null)
                 request.Content = new StringContent(
-                    RequestRawHandler(url, action, request, requestXml), Encoding.UTF8, "text/xml; charset=utf-8");
+                    RequestRawHandler(url, action, request, requestXml), Encoding.UTF8, "text/xml");
 
             return request;
         }
