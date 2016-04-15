@@ -13,11 +13,11 @@ Install-Package SimpleSOAPClient
 
 This library is compatible with the folowing frameworks:
 
-* .NET for Windows Store apps (>.NETCore 4.5);
+* .NET for Windows Store apps (> .NETCore 4.5);
 * .NET Framework 4.0
 * .NET Framework 4.5
-* .NET Platform (>DotNET 5.0)
-* DNX Core (>DNXCore 5.0)
+* .NET Platform (> DotNET 5.0)
+* DNX Core (> DNXCore 5.0)
 
 ## Usage
 
