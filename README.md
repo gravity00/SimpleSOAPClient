@@ -3,11 +3,21 @@ Lightweight SOAP client for invoking HTTP SOAP endpoints.
 Fluently create SOAP Envelopes, send them through the SOAP Client and extract the needed information from the returned SOAP Envelope. How easier could it be? 
 
 ## Installation 
-This library can be installed via NuGet package. Just run the following command:
+This library can be installed via [NuGet](https://www.nuget.org/packages/SimpleSOAPClient/) package. Just run the following command:
 
 ```powershell
 Install-Package SimpleSOAPClient
 ```
+
+## Compatibility
+
+This library is compatible with the folowing frameworks:
+
+* .NET for Windows Store apps (> .NETCore 4.5);
+* .NET Framework 4.0
+* .NET Framework 4.5
+* .NET Platform (> DotNET 5.0)
+* DNX Core (> DNXCore 5.0)
 
 ## Usage
 
@@ -34,10 +44,16 @@ public async Task<AddUserResponse> AddUserAsync(string username, string password
             Password = password
           });
     
-    var responseEnvelope = await client.SendAsync("http://localhost/TestSoapServer", requestEnvelope, ct);
-    
     try {
+      var responseEnvelope = await client.SendAsync("http://localhost/TestSoapServer", requestEnvelope, ct);
+      
       return responseEnvelope.Body<AddUserResponse>();
+    } catch(SoapEnvelopeSerializationException e) {
+      Logger.Error(e, $"Failed to serialize the SOAP Envelope into XML [Envelope={e.Envelope}]");
+      throw;
+    } catch(SoapEnvelopeDeserializationException e) {
+      Logger.Error(e, $"Failed to deserialize the server response into a SOAP Envelope [XmlValue={e.XmlValue}]");
+      throw;
     } catch(FaultException e) {
       Logger.Error(e, $"The server returned a fault [Code={e.Code}, String={e.String}, Actor={e.Actor}]");
       throw;
