@@ -290,7 +290,7 @@ namespace SimpleSOAPClient
 
             var request = new HttpRequestMessage(HttpMethod.Post, url)
             {
-                Content = new StringContent(requestXml, Encoding.UTF8, "text/xml; charset=utf-8")
+                Content = new StringContent(requestXml, Encoding.UTF8, "text/xml")
             };
             if (!string.IsNullOrWhiteSpace(action))
             {
