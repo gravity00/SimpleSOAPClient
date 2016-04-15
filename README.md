@@ -3,7 +3,7 @@ Lightweight SOAP client for invoking HTTP SOAP endpoints.
 Fluently create SOAP Envelopes, send them through the SOAP Client and extract the needed information from the returned SOAP Envelope. How easier could it be? 
 
 ## Installation 
-This library can be installed via NuGet package. Just run the following command:
+This library can be installed via [NuGet](https://www.nuget.org/packages/SimpleSOAPClient/) package. Just run the following command:
 
 ```powershell
 Install-Package SimpleSOAPClient
@@ -13,11 +13,11 @@ Install-Package SimpleSOAPClient
 
 This library is compatible with the folowing frameworks:
 
-* .NET for Windows Store apps;
-* .NET Framework 4
-* .NET Framework 4.5+
-* .NET Platform
-* DNX Core 5.0+
+* .NET for Windows Store apps (>.NETCore 4.5);
+* .NET Framework 4.0
+* .NET Framework 4.5
+* .NET Platform (>DotNET 5.0)
+* DNX Core (>DNXCore 5.0)
 
 ## Usage
 
