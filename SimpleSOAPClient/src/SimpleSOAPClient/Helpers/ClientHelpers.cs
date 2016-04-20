@@ -57,7 +57,7 @@ namespace SimpleSOAPClient.Helpers
             {
                 client.RequestEnvelopeHandler = (url, action, envelope) =>
                 {
-                    envelope = currentHandler == null ? envelope : currentHandler(url, envelope);
+                    envelope = currentHandler == null ? envelope : currentHandler(url, action, envelope);
                     foreach (var handler in handlers)
                     {
                         envelope = handler(url, action, envelope);
@@ -73,7 +73,7 @@ namespace SimpleSOAPClient.Helpers
                     {
                         envelope = handler(url, action, envelope);
                     }
-                    return currentHandler == null ? envelope : currentHandler(url, envelope);
+                    return currentHandler == null ? envelope : currentHandler(url, action, envelope);
                 };
             }
 
