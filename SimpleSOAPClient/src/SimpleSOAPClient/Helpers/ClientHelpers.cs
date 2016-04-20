@@ -42,24 +42,40 @@ namespace SimpleSOAPClient.Helpers
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
         /// <param name="client">The client to be used</param>
         /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <param name="append">Indicates if the handlers must be appended to existing one. By default they will be prepended.</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingRequestEnvelopeHandler<TSoapClient>(
-            this TSoapClient client, IEnumerable<Func<string, string, SoapEnvelope, SoapEnvelope>> handlers)
+            this TSoapClient client, IEnumerable<Func<string, string, SoapEnvelope, SoapEnvelope>> handlers, bool append = false)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (handlers == null) return client;
             
             var currentHandler = client.RequestEnvelopeHandler;
-            client.RequestEnvelopeHandler = (url, action, envelope) =>
+            if (append)
             {
-                foreach (var handler in handlers)
+                client.RequestEnvelopeHandler = (url, action, envelope) =>
                 {
-                    envelope = handler(url, action, envelope);
-                }
-                return currentHandler == null ? envelope : currentHandler(url, action, envelope);
-            };
+                    envelope = currentHandler == null ? envelope : currentHandler(url, envelope);
+                    foreach (var handler in handlers)
+                    {
+                        envelope = handler(url, action, envelope);
+                    }
+                    return envelope;
+                };
+            }
+            else
+            {
+                client.RequestEnvelopeHandler = (url, action, envelope) =>
+                {
+                    foreach (var handler in handlers)
+                    {
+                        envelope = handler(url, action, envelope);
+                    }
+                    return currentHandler == null ? envelope : currentHandler(url, envelope);
+                };
+            }
 
             return client;
         }
@@ -80,8 +96,27 @@ namespace SimpleSOAPClient.Helpers
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (handlers == null || handlers.Length == 0) return client;
 
-            return client.UsingRequestEnvelopeHandler(
-                (IEnumerable<Func<string, string, SoapEnvelope, SoapEnvelope>>) handlers);
+            return client.UsingRequestEnvelopeHandler(handlers, false);
+        }
+
+        /// <summary>
+        /// Attaches the provided collection handler collection to the 
+        /// <see cref="ISoapClient.RequestEnvelopeHandler"/> creating a pipeline.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="append">Indicates if the handlers must be appended to existing one. By default they will be prepended.</param>
+        /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient UsingRequestEnvelopeHandler<TSoapClient>(
+            this TSoapClient client, bool append, params Func<string, string, SoapEnvelope, SoapEnvelope>[] handlers)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (handlers == null || handlers.Length == 0) return client;
+
+            return client.UsingRequestEnvelopeHandler(handlers, append);
         }
 
         #endregion
@@ -95,24 +130,40 @@ namespace SimpleSOAPClient.Helpers
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
         /// <param name="client">The client to be used</param>
         /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <param name="append">Indicates if the handlers must be appended to existing one. By default they will be prepended.</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingRequestRawHandler<TSoapClient>(
-            this TSoapClient client, IEnumerable<Func<string, string, HttpRequestMessage, string, string>> handlers)
+            this TSoapClient client, IEnumerable<Func<string, string, HttpRequestMessage, string, string>> handlers, bool append = false)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (handlers == null) throw new ArgumentNullException(nameof(handlers));
 
             var currentHandler = client.RequestRawHandler;
-            client.RequestRawHandler = (url, action, request, xml) =>
+            if (append)
             {
-                foreach (var handler in handlers)
+                client.RequestRawHandler = (url, action, request, xml) =>
                 {
-                    xml = handler(url, action, request, xml);
-                }
-                return currentHandler == null ? xml : currentHandler(url, action, request, xml);
-            };
+                    xml = currentHandler == null ? xml : currentHandler(url, action, request, xml);
+                    foreach (var handler in handlers)
+                    {
+                        xml = handler(url, action, request, xml);
+                    }
+                    return xml;
+                };
+            }
+            else
+            {
+                client.RequestRawHandler = (url, action, request, xml) =>
+                {
+                    foreach (var handler in handlers)
+                    {
+                        xml = handler(url, action, request, xml);
+                    }
+                    return currentHandler == null ? xml : currentHandler(url, action, request, xml);
+                };
+            }
 
             return client;
         }
@@ -133,8 +184,27 @@ namespace SimpleSOAPClient.Helpers
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (handlers == null || handlers.Length == 0) return client;
 
-            return client.UsingRequestRawHandler(
-                (IEnumerable<Func<string, string, HttpRequestMessage, string, string>>) handlers);
+            return client.UsingRequestRawHandler(handlers, false);
+        }
+
+        /// <summary>
+        /// Attaches the provided collection handler collection to the 
+        /// <see cref="ISoapClient.RequestRawHandler"/> creating a pipeline.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="append">Indicates if the handlers must be appended to existing one. By default they will be prepended.</param>
+        /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient UsingRequestRawHandler<TSoapClient>(
+            this TSoapClient client, bool append, params Func<string, string, HttpRequestMessage, string, string>[] handlers)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (handlers == null || handlers.Length == 0) return client;
+
+            return client.UsingRequestRawHandler(handlers, append);
         }
 
         #endregion
@@ -148,24 +218,40 @@ namespace SimpleSOAPClient.Helpers
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
         /// <param name="client">The client to be used</param>
         /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <param name="append">Indicates if the handlers must be appended to existing one. By default they will be prepended.</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingResponseRawHandler<TSoapClient>(
-            this TSoapClient client, IEnumerable<Func<string, string, HttpResponseMessage, string, string>> handlers)
+            this TSoapClient client, IEnumerable<Func<string, string, HttpResponseMessage, string, string>> handlers, bool append = false)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (handlers == null) throw new ArgumentNullException(nameof(handlers));
 
             var currentHandler = client.ResponseRawHandler;
-            client.ResponseRawHandler = (url, action, response, xml) =>
+            if (append)
             {
-                foreach (var handler in handlers)
+                client.ResponseRawHandler = (url, action, response, xml) =>
                 {
-                    xml = handler(url, action, response, xml);
-                }
-                return currentHandler == null ? xml : currentHandler(url, action, response, xml);
-            };
+                    xml = currentHandler == null ? xml : currentHandler(url, action, response, xml);
+                    foreach (var handler in handlers)
+                    {
+                        xml = handler(url, action, response, xml);
+                    }
+                    return xml;
+                };
+            }
+            else
+            {
+                client.ResponseRawHandler = (url, action, response, xml) =>
+                {
+                    foreach (var handler in handlers)
+                    {
+                        xml = handler(url, action, response, xml);
+                    }
+                    return currentHandler == null ? xml : currentHandler(url, action, response, xml);
+                };
+            }
 
             return client;
         }
@@ -186,8 +272,27 @@ namespace SimpleSOAPClient.Helpers
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (handlers == null || handlers.Length == 0) return client;
 
-            return client.UsingResponseRawHandler(
-                (IEnumerable<Func<string, string, HttpResponseMessage, string, string>>) handlers);
+            return client.UsingResponseRawHandler(handlers, false);
+        }
+
+        /// <summary>
+        /// Attaches the provided collection handler collection to the 
+        /// <see cref="ISoapClient.ResponseRawHandler"/> creating a pipeline.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="append">Indicates if the handlers must be appended to existing one. By default they will be prepended.</param>
+        /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient UsingResponseRawHandler<TSoapClient>(
+            this TSoapClient client, bool append, params Func<string, string, HttpResponseMessage, string, string>[] handlers)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (handlers == null || handlers.Length == 0) return client;
+
+            return client.UsingResponseRawHandler(handlers, append);
         }
 
         #endregion
@@ -201,24 +306,40 @@ namespace SimpleSOAPClient.Helpers
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
         /// <param name="client">The client to be used</param>
         /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <param name="append">Indicates if the handlers must be appended to existing one. By default they will be prepended.</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingResponseEnvelopeHandler<TSoapClient>(
-            this TSoapClient client, IEnumerable<Func<string, string, SoapEnvelope, SoapEnvelope>> handlers)
+            this TSoapClient client, IEnumerable<Func<string, string, SoapEnvelope, SoapEnvelope>> handlers, bool append = false)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (handlers == null) return client;
 
             var currentHandler = client.ResponseEnvelopeHandler;
-            client.ResponseEnvelopeHandler = (url, action, envelope) =>
+            if (append)
             {
-                foreach (var handler in handlers)
+                client.ResponseEnvelopeHandler = (url, action, envelope) =>
                 {
-                    envelope = handler(url, action, envelope);
-                }
-                return currentHandler == null ? envelope : currentHandler(url, action, envelope);
-            };
+                    envelope = currentHandler == null ? envelope : currentHandler(url, action, envelope);
+                    foreach (var handler in handlers)
+                    {
+                        envelope = handler(url, action, envelope);
+                    }
+                    return envelope;
+                };
+            }
+            else
+            {
+                client.ResponseEnvelopeHandler = (url, action, envelope) =>
+                {
+                    foreach (var handler in handlers)
+                    {
+                        envelope = handler(url, action, envelope);
+                    }
+                    return currentHandler == null ? envelope : currentHandler(url, action, envelope);
+                };
+            }
 
             return client;
         }
@@ -239,8 +360,27 @@ namespace SimpleSOAPClient.Helpers
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (handlers == null || handlers.Length == 0) return client;
 
-            return client.UsingResponseEnvelopeHandler(
-                (IEnumerable<Func<string, string, SoapEnvelope, SoapEnvelope>>)handlers);
+            return client.UsingResponseEnvelopeHandler(handlers, false);
+        }
+
+        /// <summary>
+        /// Attaches the provided collection handler collection to the 
+        /// <see cref="ISoapClient.ResponseEnvelopeHandler"/> creating a pipeline.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="append">Indicates if the handlers must be appended to existing one. By default they will be prepended.</param>
+        /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient UsingResponseEnvelopeHandler<TSoapClient>(
+            this TSoapClient client, bool append, params Func<string, string, SoapEnvelope, SoapEnvelope>[] handlers)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (handlers == null || handlers.Length == 0) return client;
+
+            return client.UsingResponseEnvelopeHandler(handlers, append);
         }
 
         #endregion
