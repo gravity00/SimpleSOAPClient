@@ -1,6 +1,7 @@
 ﻿{
-  "version": "2.0.0-alpha01",
+  "version": "2.0.0-alpha02",
   "title": "SimpleSOAPClient",
+  "summary": "Lightweight HTTP SOAP client",
   "description": "Lightweight SOAP client for invoking HTTP SOAP endpoints",
   "authors": [ "João Simões" ],
   "tags": [ "SOAP", "Simple Object Access Protocol", "HTTP SOAP Client" ],
