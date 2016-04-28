@@ -31,7 +31,6 @@ using System.Runtime.InteropServices;
 
 #endif
 
-
 [assembly: AssemblyTitle("SimpleSOAPClient")]
 [assembly: AssemblyDescription("Lightweight SOAP client for invoking HTTP SOAP endpoints")]
 [assembly: AssemblyConfiguration("")]
