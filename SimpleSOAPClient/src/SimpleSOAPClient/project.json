@@ -9,7 +9,7 @@
   "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
-  "releaseNotes": "Extension methods for creating handlers pipelines now receive a flag to chose append or prepend",
+  "releaseNotes": "Removal of XML declaration is now optional",
 
   "frameworks": {
     "dnxcore5": {
