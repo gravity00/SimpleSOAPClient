@@ -45,8 +45,9 @@ namespace SimpleSOAPClient.Helpers
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
         /// <param name="item">The item to serialize</param>
+        /// <param name="removeXmlDeclaration">Remove the XML declaration</param>
         /// <returns>The XML string</returns>
-        public static string ToXmlString<T>(this T item)
+        public static string ToXmlString<T>(this T item, bool removeXmlDeclaration)
         {
             if (item == null) return null;
 
@@ -68,6 +69,29 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
+        /// Serializes the given object to a XML string
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="item">The item to serialize</param>
+        /// <returns>The XML string</returns>
+        public static string ToXmlString<T>(this T item)
+        {
+            return item.ToXmlString(true);
+        }
+
+        /// <summary>
+        /// Serializes a given object to XML and returns the <see cref="XElement"/> representation.
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="item">The item to convert</param>
+        /// <param name="removeXmlDeclaration">Remove the XML declaration</param>
+        /// <returns>The object as a <see cref="XElement"/></returns>
+        public static XElement ToXElement<T>(this T item, bool removeXmlDeclaration)
+        {
+            return item == null ? null : XElement.Parse(item.ToXmlString(removeXmlDeclaration));
+        }
+
+        /// <summary>
         /// Serializes a given object to XML and returns the <see cref="XElement"/> representation.
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
@@ -75,7 +99,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The object as a <see cref="XElement"/></returns>
         public static XElement ToXElement<T>(this T item)
         {
-            return item == null ? null : XElement.Parse(item.ToXmlString());
+            return item.ToXElement(false);
         }
 
         /// <summary>

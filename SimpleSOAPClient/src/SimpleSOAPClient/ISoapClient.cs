@@ -54,6 +54,12 @@ namespace SimpleSOAPClient
         Func<string, string, HttpResponseMessage, string, string> ResponseRawHandler { get; set; }
 
         /// <summary>
+        /// Indicates if the XML declaration should be removed from the
+        /// serialized SOAP Envelopes
+        /// </summary>
+        bool RemoveXmlDeclaration { get; set; }
+
+        /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
