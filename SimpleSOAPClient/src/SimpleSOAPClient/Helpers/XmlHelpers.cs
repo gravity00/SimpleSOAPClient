@@ -57,11 +57,12 @@ namespace SimpleSOAPClient.Helpers
                     .Serialize(textWriter, item, EmptyXmlSerializerNamespaces);
 
                 var rvsb = textWriter.GetStringBuilder();
-                if (rvsb.Length > 5 && rvsb[0] == '<' && rvsb[1] == '?')
+                if (removeXmlDeclaration && rvsb.Length > 5 && rvsb[0] == '<' && rvsb[1] == '?')
                 {
                     for (var i = 2; i < rvsb.Length; ++i)
                     {
-                        if (rvsb[i] == '<') return rvsb.ToString(i, rvsb.Length - i);
+                        if (rvsb[i] == '<')
+                            return rvsb.ToString(i, rvsb.Length - i);
                     }
                 }
                 return rvsb.ToString();
