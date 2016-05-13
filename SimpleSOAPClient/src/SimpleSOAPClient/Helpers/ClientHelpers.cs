@@ -383,5 +383,22 @@ namespace SimpleSOAPClient.Helpers
         }
 
         #endregion
+
+        /// <summary>
+        /// Should the XML declaration be removed from the resulting deserialization?
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="remove">Should the XML declaration be removed? Defaults to true</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient OnSerializeRemoveXmlDeclaration<TSoapClient>(this TSoapClient client, bool remove = true)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+
+            client.RemoveXmlDeclaration = remove;
+            return client;
+        }
     }
 }

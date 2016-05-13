@@ -9,7 +9,7 @@
   "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
-  "releaseNotes": "Removal of XML declaration is now optional",
+  "releaseNotes": "Removal of XML declaration is now optional\nAdded extensions for ISoapClient instances",
 
   "frameworks": {
     "dnxcore5": {
