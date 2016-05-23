@@ -26,9 +26,7 @@ using System;
 using System.Reflection;
 
 #if NET40 || NET45
-
 using System.Runtime.InteropServices;
-
 #endif
 
 
@@ -51,5 +49,5 @@ using System.Runtime.InteropServices;
 
 [assembly: CLSCompliant(true)]
 
-[assembly: AssemblyVersion("1.2.0")]
-[assembly: AssemblyInformationalVersion("1.2.0")]
+[assembly: AssemblyVersion("1.2.1")]
+[assembly: AssemblyInformationalVersion("1.2.1")]
