@@ -1,16 +1,16 @@
 ﻿{
   "version": "2.0.0-alpha02",
-  "title": "SimpleSOAPClient",
+  "title": "Simple SOAP Client",
   "summary": "Lightweight HTTP SOAP client",
   "description": "Lightweight SOAP client for invoking HTTP SOAP endpoints",
   "authors": [ "João Simões" ],
-  "tags": [ "SOAP", "Simple Object Access Protocol", "HTTP SOAP Client" ],
+  "tags": [ "SOAP", "Simple Object Access Protocol", "HTTP SOAP Client", "Web Client" ],
   "projectUrl": "https://github.com/gravity00/SimpleSOAPClient",
   "licenseUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE",
   "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
-  "releaseNotes": "Added new send methods to the SOAP Client\nAdded extensions for ISoapClient instances\nResponse raw handlers now receive a HTTP Response Message (breaking change)\nRemoval of XML declaration is now optional",
+  "releaseNotes": "Added new send methods to the SOAP Client\nAdded extensions for ISoapClient instances\nResponse raw handlers now receive a HTTP Response Message (breaking change)\nRemoval of XML declaration is now optional\nSOAP Security Timestamp Created element was being serialized with name Timestamp\nMethod KnownHeader.Oasis.Security.UsernameTokenAndPasswordText(username,password,mustUnderstand) now correctly creates dates in UTC",
 
   "frameworks": {
     "dnxcore5": {

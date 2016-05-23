@@ -26,9 +26,7 @@ using System;
 using System.Reflection;
 
 #if NET40 || NET45
-
 using System.Runtime.InteropServices;
-
 #endif
 
 [assembly: AssemblyTitle("SimpleSOAPClient")]
