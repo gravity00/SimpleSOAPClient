@@ -33,7 +33,7 @@ namespace SimpleSOAPClient.Models.Headers.Oasis.Security
         [XmlAttribute("Id")]
         public string Id { get; set; }
 
-        [XmlElement("Timestamp")]
+        [XmlElement("Created")]
         public DateTime Created { get; set; }
 
         [XmlElement("Expires")]
