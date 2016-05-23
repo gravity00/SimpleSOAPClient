@@ -95,8 +95,8 @@ namespace SimpleSOAPClient.Models.Headers
                         Timestamp = new Timestamp
                         {
                             Id = string.Concat("_TS", randomId),
-                            Created = DateTime.Now,
-                            Expires = DateTime.Now.AddMinutes(15)
+                            Created = DateTime.UtcNow,
+                            Expires = DateTime.UtcNow.AddMinutes(15)
                         },
                         UsernameToken = new UsernameTokenWithPasswordText
                         {
