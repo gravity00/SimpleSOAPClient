@@ -24,11 +24,13 @@
 namespace SimpleSOAPClient
 {
     using System;
+    using System.Collections.Generic;
     using System.Net.Http;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using Exceptions;
+    using Handlers;
     using Helpers;
     using Models;
 
@@ -85,26 +87,30 @@ namespace SimpleSOAPClient
         #region Implementation of ISoapClient
 
         /// <summary>
-        /// Handler that can manipulate the <see cref="SoapEnvelope"/>
+        /// Handler collection that can manipulate the <see cref="SoapEnvelope"/>
         /// before serialization.
         /// </summary>
-        public Func<string, string, SoapEnvelope, SoapEnvelope> RequestEnvelopeHandler { get; set; }
+        public ICollection<Action<ISoapClient, IRequestEnvelopeHandlerData>> RequestEnvelopeHandlers { get; } = 
+            new List<Action<ISoapClient, IRequestEnvelopeHandlerData>>();
 
         /// <summary>
-        /// Handler that can manipulate the generated XML string.
+        /// Handler collection that can manipulate the generated XML string.
         /// </summary>
-        public Func<string, string, HttpRequestMessage, string, string> RequestRawHandler { get; set; }
+        public ICollection<Action<ISoapClient, IRequestRawHandlerData>> RequestRawHandlers { get; } =
+            new List<Action<ISoapClient, IRequestRawHandlerData>>();
 
         /// <summary>
-        /// Handler that can manipulate the <see cref="SoapEnvelope"/> returned
+        /// Handler collection that can manipulate the <see cref="SoapEnvelope"/> returned
         /// by the SOAP Endpoint.
         /// </summary>
-        public Func<string, string, SoapEnvelope, SoapEnvelope> ResponseEnvelopeHandler { get; set; }
+        public ICollection<Action<ISoapClient, IResponseEnvelopeHandlerData>> ResponseEnvelopeHandlers { get; } =
+            new List<Action<ISoapClient, IResponseEnvelopeHandlerData>>();
 
         /// <summary>
-        /// Handler that can manipulate the returned string before deserialization.
+        /// Handler collection that can manipulate the returned string before deserialization.
         /// </summary>
-        public Func<string, string, HttpResponseMessage, string, string> ResponseRawHandler { get; set; }
+        public ICollection<Action<ISoapClient, IResponseRawHandlerData>> ResponseRawHandlers { get; } =
+            new List<Action<ISoapClient, IResponseRawHandlerData>>();
 
         /// <summary>
         /// Indicates if the XML declaration should be removed from the
@@ -190,29 +196,6 @@ namespace SimpleSOAPClient
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
-        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
-        /// <param name="ct">The cancellation token</param>
-        /// <returns>A task to be awaited for the result</returns>
-        /// <exception cref="SoapEnvelopeSerializationException"></exception>
-        /// <exception cref="SoapEnvelopeDeserializationException"></exception>
-#if NET40
-        public virtual Task<SoapEnvelope> SendAsync(
-            string url, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
-            {
-            return SendAsync(url, null, requestEnvelope, ct);
-            }
-#else
-        public virtual async Task<SoapEnvelope> SendAsync(
-            string url, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
-            {
-            return await SendAsync(url, null, requestEnvelope, ct);
-            }
-#endif
-
-        /// <summary>
-        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
-        /// </summary>
-        /// <param name="url">The url that will receive the request</param>
         /// <param name="action">The SOAP action beeing performed</param>
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
@@ -221,19 +204,6 @@ namespace SimpleSOAPClient
         public virtual SoapEnvelope Send(string url, string action, SoapEnvelope requestEnvelope)
         {
             return SendAsync(url, action, requestEnvelope).Result;
-        }
-
-        /// <summary>
-        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
-        /// </summary>
-        /// <param name="url">The url that will receive the request</param>
-        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
-        /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
-        /// <exception cref="SoapEnvelopeSerializationException"></exception>
-        /// <exception cref="SoapEnvelopeDeserializationException"></exception>
-        public virtual SoapEnvelope Send(string url, SoapEnvelope requestEnvelope)
-        {
-            return SendAsync(url, requestEnvelope).Result;
         }
 
         #endregion
@@ -278,13 +248,18 @@ namespace SimpleSOAPClient
         private HttpRequestMessage CreateHttpRequestMessage(
             string url, string action, SoapEnvelope requestEnvelope)
         {
-            if (RequestEnvelopeHandler != null)
-                requestEnvelope = RequestEnvelopeHandler(url, action, requestEnvelope);
+            var requestEnvelopeHandlerData = new RequestEnvelopeHandlerData(url, action, requestEnvelope);
+            foreach (var handler in RequestEnvelopeHandlers)
+            {
+                if (requestEnvelopeHandlerData.CancelHandlerFlow)
+                    break;
+                handler(this, requestEnvelopeHandlerData);
+            }
 
             string requestXml;
             try
             {
-                requestXml = requestEnvelope.ToXmlString(RemoveXmlDeclaration);
+                requestXml = requestEnvelopeHandlerData.Envelope.ToXmlString(RemoveXmlDeclaration);
             }
             catch (Exception e)
             {
@@ -295,37 +270,50 @@ namespace SimpleSOAPClient
             {
                 Content = new StringContent(requestXml, Encoding.UTF8, "text/xml")
             };
-            if (!string.IsNullOrWhiteSpace(action))
+            request.Headers.Add("SOAPAction", action);
+
+            var requestRawHandlerData = new RequestRawHandlerData(url, action, request, requestXml);
+            foreach (var handler in RequestRawHandlers)
             {
-                request.Headers.Remove("SOAPAction");
-                request.Headers.Add("SOAPAction", action);
+                if(requestRawHandlerData.CancelHandlerFlow)
+                    break;
+                handler(this, requestRawHandlerData);
             }
+            requestRawHandlerData.Request.Content =
+                new StringContent(requestRawHandlerData.Content, Encoding.UTF8, "text/xml");
 
-            if (RequestRawHandler != null)
-                request.Content = new StringContent(
-                    RequestRawHandler(url, action, request, requestXml), Encoding.UTF8, "text/xml");
-
-            return request;
+            return requestRawHandlerData.Request;
         }
 
-        private SoapEnvelope CreateSoapEnvelope(string url, string action, HttpResponseMessage result, string responseXml)
+        private SoapEnvelope CreateSoapEnvelope(string url, string action, HttpResponseMessage response, string responseXml)
         {
-            if (ResponseRawHandler != null)
-                responseXml = ResponseRawHandler(url, action, result, responseXml);
+            var responseRawHandlerData = new ResponseRawHandlerData(url, action, response, responseXml);
+            foreach (var handler in ResponseRawHandlers)
+            {
+                if(responseRawHandlerData.CancelHandlerFlow)
+                    break;
+                handler(this, responseRawHandlerData);
+            }
 
             SoapEnvelope responseEnvelope;
             try
             {
-                responseEnvelope = responseXml.ToObject<SoapEnvelope>();
+                responseEnvelope = responseRawHandlerData.Content.ToObject<SoapEnvelope>();
             }
             catch (Exception e)
             {
-                throw new SoapEnvelopeDeserializationException(responseXml, e);
+                throw new SoapEnvelopeDeserializationException(responseRawHandlerData.Content, e);
             }
-            if (ResponseEnvelopeHandler != null)
-                responseEnvelope = ResponseEnvelopeHandler(url, action, responseEnvelope);
 
-            return responseEnvelope;
+            var responseEnvelopeHandlerData = new ResponseEnvelopeHandlerData(url, action, responseEnvelope);
+            foreach (var handler in ResponseEnvelopeHandlers)
+            {
+                if(responseEnvelopeHandlerData.CancelHandlerFlow)
+                    break;
+                handler(this, responseEnvelopeHandlerData);
+            }
+
+            return responseEnvelopeHandlerData.Envelope;
         }
 
         #endregion

@@ -24,34 +24,35 @@
 namespace SimpleSOAPClient
 {
     using System;
-    using System.Net.Http;
+    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Handlers;
     using Models;
 
     public interface ISoapClient
     {
         /// <summary>
-        /// Handler that can manipulate the <see cref="SoapEnvelope"/>
+        /// Handler collection that can manipulate the <see cref="SoapEnvelope"/>
         /// before serialization.
         /// </summary>
-        Func<string, string, SoapEnvelope, SoapEnvelope> RequestEnvelopeHandler { get; set; }
+        ICollection<Action<ISoapClient, IRequestEnvelopeHandlerData>> RequestEnvelopeHandlers { get; }
 
         /// <summary>
-        /// Handler that can manipulate the generated XML string.
+        /// Handler collection that can manipulate the generated XML string.
         /// </summary>
-        Func<string, string, HttpRequestMessage, string, string> RequestRawHandler { get; set; }
+        ICollection<Action<ISoapClient, IRequestRawHandlerData>> RequestRawHandlers { get; }
 
         /// <summary>
-        /// Handler that can manipulate the <see cref="SoapEnvelope"/> returned
+        /// Handler collection that can manipulate the <see cref="SoapEnvelope"/> returned
         /// by the SOAP Endpoint.
         /// </summary>
-        Func<string, string, SoapEnvelope, SoapEnvelope> ResponseEnvelopeHandler { get; set; }
+        ICollection<Action<ISoapClient, IResponseEnvelopeHandlerData>> ResponseEnvelopeHandlers { get; }
 
         /// <summary>
-        /// Handler that can manipulate the returned string before deserialization.
+        /// Handler collection that can manipulate the returned string before deserialization.
         /// </summary>
-        Func<string, string, HttpResponseMessage, string, string> ResponseRawHandler { get; set; }
+        ICollection<Action<ISoapClient, IResponseRawHandlerData>> ResponseRawHandlers { get; }
 
         /// <summary>
         /// Indicates if the XML declaration should be removed from the
@@ -67,18 +68,9 @@ namespace SimpleSOAPClient
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>A task to be awaited for the result</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         Task<SoapEnvelope> SendAsync(
             string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
-
-        /// <summary>
-        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
-        /// </summary>
-        /// <param name="url">The url that will receive the request</param>
-        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
-        /// <param name="ct">The cancellation token</param>
-        /// <returns>A task to be awaited for the result</returns>
-        Task<SoapEnvelope> SendAsync(
-            string url, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
@@ -87,14 +79,7 @@ namespace SimpleSOAPClient
         /// <param name="action">The SOAP Action beeing performed</param>
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         SoapEnvelope Send(string url, string action, SoapEnvelope requestEnvelope);
-
-        /// <summary>
-        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
-        /// </summary>
-        /// <param name="url">The url that will receive the request</param>
-        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
-        /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
-        SoapEnvelope Send(string url, SoapEnvelope requestEnvelope);
     }
 }
