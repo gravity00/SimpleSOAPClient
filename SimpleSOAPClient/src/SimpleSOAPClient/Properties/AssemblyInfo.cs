@@ -49,4 +49,4 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(true)]
 
 [assembly: AssemblyVersion("2.0.0")]
-[assembly: AssemblyInformationalVersion("2.0.0-alpha02")]
+[assembly: AssemblyInformationalVersion("2.0.0-alpha03")]
