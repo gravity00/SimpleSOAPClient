@@ -29,7 +29,7 @@ namespace SimpleSOAPClient.Helpers
     
     public static partial class ClientHelpers
     {
-        #region UsingRequestRawHandler
+        #region Result
 
         /// <summary>
         /// Attaches the provided collection handler collection to the 
@@ -73,6 +73,116 @@ namespace SimpleSOAPClient.Helpers
 
             foreach (var handler in handlers)
                 client.AddRequestRawHandler(handler);
+
+            return client;
+        }
+
+        #endregion
+
+        #region Void
+
+        /// <summary>
+        /// Attaches the provided collection handler collection to the 
+        /// <see cref="ISoapClient.RequestRawHandlers"/> creating a pipeline.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient UsingRequestRawHandler<TSoapClient>(
+            this TSoapClient client, IEnumerable<Action<ISoapClient, IRequestRawHandlerData>> handlers)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (handlers == null)
+                return client;
+
+            foreach (var handler in handlers)
+                client.AddRequestRawHandler((c, data) =>
+                {
+                    handler(c, data);
+                    return Handling.ProceedRequestRawHandlerFlowWith(data);
+                });
+
+            return client;
+        }
+
+        /// <summary>
+        /// Attaches the provided collection handler collection to the 
+        /// <see cref="ISoapClient.RequestRawHandlers"/> creating a pipeline.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient UsingRequestRawHandler<TSoapClient>(
+            this TSoapClient client, params Action<ISoapClient, IRequestRawHandlerData>[] handlers)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (handlers == null || handlers.Length == 0)
+                return client;
+
+            foreach (var handler in handlers)
+                client.AddRequestRawHandler((c, data) =>
+                {
+                    handler(c, data);
+                    return Handling.ProceedRequestRawHandlerFlowWith(data);
+                });
+
+            return client;
+        }
+
+        #endregion
+
+        #region Boolean
+
+        /// <summary>
+        /// Attaches the provided collection handler collection to the 
+        /// <see cref="ISoapClient.RequestRawHandlers"/> creating a pipeline.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient UsingRequestRawHandler<TSoapClient>(
+            this TSoapClient client, IEnumerable<Func<ISoapClient, IRequestRawHandlerData, bool>> handlers)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (handlers == null)
+                return client;
+
+            foreach (var handler in handlers)
+                client.AddRequestRawHandler(
+                    (c, data) => new RequestRawHandlerResult(handler(c, data), data.Request, data.Content));
+
+            return client;
+        }
+
+        /// <summary>
+        /// Attaches the provided collection handler collection to the 
+        /// <see cref="ISoapClient.RequestRawHandlers"/> creating a pipeline.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="handlers">The handler collection to attach as a pipeline</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient UsingRequestRawHandler<TSoapClient>(
+            this TSoapClient client, params Func<ISoapClient, IRequestRawHandlerData, bool>[] handlers)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (handlers == null || handlers.Length == 0)
+                return client;
+
+            foreach (var handler in handlers)
+                client.AddRequestRawHandler(
+                    (c, data) => new RequestRawHandlerResult(handler(c, data), data.Request, data.Content));
 
             return client;
         }
