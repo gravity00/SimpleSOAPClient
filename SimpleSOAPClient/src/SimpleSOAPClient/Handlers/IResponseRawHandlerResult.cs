@@ -3,17 +3,17 @@
     using System.Net.Http;
 
     /// <summary>
-    /// Represents the raw response handler data.
+    /// Represents the raw response handler result.
     /// </summary>
-    public interface IResponseRawHandlerData : IHandlerData
+    public interface IResponseRawHandlerResult : IHandlerResult
     {
         /// <summary>
-        /// The current HTTP response message
+        /// The resultant HTTP response message
         /// </summary>
         HttpResponseMessage Response { get; }
 
         /// <summary>
-        /// The current string content that will be deserialized as a SOAP Envelope
+        /// The resultant string content that will be deserialized as a SOAP Envelope
         /// </summary>
         string Content { get; }
     }

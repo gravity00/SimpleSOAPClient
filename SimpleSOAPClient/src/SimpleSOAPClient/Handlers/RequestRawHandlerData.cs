@@ -1,5 +1,6 @@
 namespace SimpleSOAPClient.Handlers
 {
+    using System;
     using System.Net.Http;
 
     /// <summary>
@@ -12,7 +13,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="url">The URL being invoked</param>
         /// <param name="action">The action being invoked</param>
-        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public RequestRawHandlerData(string url, string action) 
             : base(url, action)
         {
@@ -26,10 +27,13 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="action">The action being invoked</param>
         /// <param name="request">The HTTP request message</param>
         /// <param name="content">The request content</param>
-        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public RequestRawHandlerData(string url, string action, HttpRequestMessage request, string content) 
             : base(url, action)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+            if (content == null) throw new ArgumentNullException(nameof(content));
+
             Request = request;
             Content = content;
         }

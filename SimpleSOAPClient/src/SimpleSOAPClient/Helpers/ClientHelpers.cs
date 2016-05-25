@@ -44,7 +44,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingRequestEnvelopeHandler<TSoapClient>(
-            this TSoapClient client, IEnumerable<Action<ISoapClient, IRequestEnvelopeHandlerData>> handlers)
+            this TSoapClient client, IEnumerable<Func<ISoapClient, IRequestEnvelopeHandlerData, IRequestEnvelopeHandlerResult>> handlers)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -52,7 +52,7 @@ namespace SimpleSOAPClient.Helpers
                 return client;
 
             foreach (var handler in handlers)
-                client.RequestEnvelopeHandlers.Add(handler);
+                client.AddRequestEnvelopeHandler(handler);
 
             return client;
         }
@@ -67,7 +67,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingRequestEnvelopeHandler<TSoapClient>(
-            this TSoapClient client, params Action<ISoapClient, IRequestEnvelopeHandlerData>[] handlers)
+            this TSoapClient client, params Func<ISoapClient, IRequestEnvelopeHandlerData, IRequestEnvelopeHandlerResult>[] handlers)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -75,7 +75,7 @@ namespace SimpleSOAPClient.Helpers
                 return client;
 
             foreach (var handler in handlers)
-                client.RequestEnvelopeHandlers.Add(handler);
+                client.AddRequestEnvelopeHandler(handler);
 
             return client;
         }
@@ -94,7 +94,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingRequestRawHandler<TSoapClient>(
-            this TSoapClient client, IEnumerable<Action<ISoapClient, IRequestRawHandlerData>> handlers)
+            this TSoapClient client, IEnumerable<Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult>> handlers)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -102,7 +102,7 @@ namespace SimpleSOAPClient.Helpers
                 return client;
 
             foreach (var handler in handlers)
-                client.RequestRawHandlers.Add(handler);
+                client.AddRequestRawHandler(handler);
 
             return client;
         }
@@ -117,7 +117,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingRequestRawHandler<TSoapClient>(
-            this TSoapClient client, params Action<ISoapClient, IRequestRawHandlerData>[] handlers)
+            this TSoapClient client, params Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult>[] handlers)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -125,7 +125,7 @@ namespace SimpleSOAPClient.Helpers
                 return client;
 
             foreach (var handler in handlers)
-                client.RequestRawHandlers.Add(handler);
+                client.AddRequestRawHandler(handler);
 
             return client;
         }
@@ -144,7 +144,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingResponseRawHandler<TSoapClient>(
-            this TSoapClient client, IEnumerable<Action<ISoapClient, IResponseRawHandlerData>> handlers)
+            this TSoapClient client, IEnumerable<Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult>> handlers)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -152,7 +152,7 @@ namespace SimpleSOAPClient.Helpers
                 return client;
 
             foreach (var handler in handlers)
-                client.ResponseRawHandlers.Add(handler);
+                client.AddResponseRawHandler(handler);
 
             return client;
         }
@@ -167,14 +167,15 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingResponseRawHandler<TSoapClient>(
-            this TSoapClient client, params Action<ISoapClient, IResponseRawHandlerData>[] handlers)
+            this TSoapClient client, params Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult>[] handlers)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
-            if (handlers == null || handlers.Length == 0) return client;
+            if (handlers == null || handlers.Length == 0)
+                return client;
 
             foreach (var handler in handlers)
-                client.ResponseRawHandlers.Add(handler);
+                client.AddResponseRawHandler(handler);
 
             return client;
         }
@@ -190,11 +191,10 @@ namespace SimpleSOAPClient.Helpers
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
         /// <param name="client">The client to be used</param>
         /// <param name="handlers">The handler collection to attach as a pipeline</param>
-        /// <param name="append">Indicates if the handlers must be appended to existing one. By default they will be prepended.</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingResponseEnvelopeHandler<TSoapClient>(
-            this TSoapClient client, IEnumerable<Action<ISoapClient, IResponseEnvelopeHandlerData>> handlers, bool append = false)
+            this TSoapClient client, IEnumerable<Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult>> handlers)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -202,7 +202,7 @@ namespace SimpleSOAPClient.Helpers
                 return client;
 
             foreach (var handler in handlers)
-                client.ResponseEnvelopeHandlers.Add(handler);
+                client.AddResponseEnvelopeHandler(handler);
 
             return client;
         }
@@ -217,14 +217,15 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient UsingResponseEnvelopeHandler<TSoapClient>(
-            this TSoapClient client, params Action<ISoapClient, IResponseEnvelopeHandlerData>[] handlers)
+            this TSoapClient client, params Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult>[] handlers)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
-            if (handlers == null || handlers.Length == 0) return client;
+            if (handlers == null || handlers.Length == 0)
+                return client;
 
             foreach (var handler in handlers)
-                client.ResponseEnvelopeHandlers.Add(handler);
+                client.AddResponseEnvelopeHandler(handler);
 
             return client;
         }

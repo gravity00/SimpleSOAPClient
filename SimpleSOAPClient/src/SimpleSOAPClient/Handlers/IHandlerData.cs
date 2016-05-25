@@ -14,10 +14,5 @@
         /// The action being invoked
         /// </summary>
         string Action { get; }
-
-        /// <summary>
-        /// Cancel handler flow?
-        /// </summary>
-        bool CancelHandlerFlow { get; set; }
     }
 }

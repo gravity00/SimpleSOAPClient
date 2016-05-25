@@ -39,6 +39,11 @@ namespace SimpleSOAPClient
     /// </summary>
     public class SoapClient : ISoapClient, IDisposable
     {
+        private readonly List<Func<ISoapClient, IRequestEnvelopeHandlerData, IRequestEnvelopeHandlerResult>> _requestEnvelopeHandlers = new List<Func<ISoapClient, IRequestEnvelopeHandlerData, IRequestEnvelopeHandlerResult>>();
+        private readonly List<Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult>> _requestRawHandlers = new List<Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult>>();
+        private readonly List<Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult>> _responseRawHandlers = new List<Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult>>();
+        private readonly List<Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult>> _responseEnvelopeHandlers = new List<Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult>>();
+
         /// <summary>
         /// The used HTTP client
         /// </summary>
@@ -83,40 +88,42 @@ namespace SimpleSOAPClient
         }
 
         #endregion
-        
+
         #region Implementation of ISoapClient
+
+        #region Handlers
 
         /// <summary>
         /// Handler collection that can manipulate the <see cref="SoapEnvelope"/>
         /// before serialization.
         /// </summary>
-        public ICollection<Action<ISoapClient, IRequestEnvelopeHandlerData>> RequestEnvelopeHandlers { get; } = 
-            new List<Action<ISoapClient, IRequestEnvelopeHandlerData>>();
+        public IEnumerable<Func<ISoapClient, IRequestEnvelopeHandlerData, IRequestEnvelopeHandlerResult>> RequestEnvelopeHandlers => _requestEnvelopeHandlers;
 
         /// <summary>
         /// Handler collection that can manipulate the generated XML string.
         /// </summary>
-        public ICollection<Action<ISoapClient, IRequestRawHandlerData>> RequestRawHandlers { get; } =
-            new List<Action<ISoapClient, IRequestRawHandlerData>>();
+        public IEnumerable<Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult>> RequestRawHandlers => _requestRawHandlers;
+
+        /// <summary>
+        /// Handler collection that can manipulate the returned string before deserialization.
+        /// </summary>
+        public IEnumerable<Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult>> ResponseRawHandlers => _responseRawHandlers;
 
         /// <summary>
         /// Handler collection that can manipulate the <see cref="SoapEnvelope"/> returned
         /// by the SOAP Endpoint.
         /// </summary>
-        public ICollection<Action<ISoapClient, IResponseEnvelopeHandlerData>> ResponseEnvelopeHandlers { get; } =
-            new List<Action<ISoapClient, IResponseEnvelopeHandlerData>>();
+        public IEnumerable<Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult>> ResponseEnvelopeHandlers => _responseEnvelopeHandlers;
 
-        /// <summary>
-        /// Handler collection that can manipulate the returned string before deserialization.
-        /// </summary>
-        public ICollection<Action<ISoapClient, IResponseRawHandlerData>> ResponseRawHandlers { get; } =
-            new List<Action<ISoapClient, IResponseRawHandlerData>>();
+        #endregion
 
         /// <summary>
         /// Indicates if the XML declaration should be removed from the
         /// serialized SOAP Envelopes
         /// </summary>
         public bool RemoveXmlDeclaration { get; set; } = true;
+
+        #region Send
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
@@ -208,6 +215,52 @@ namespace SimpleSOAPClient
 
         #endregion
 
+        #region AddHandler
+
+        /// <summary>
+        /// Appends the given handler to the <see cref="RequestEnvelopeHandlers"/> collection.
+        /// </summary>
+        /// <param name="handler">The handler to append</param>
+        public void AddRequestEnvelopeHandler(
+            Func<ISoapClient, IRequestEnvelopeHandlerData, IRequestEnvelopeHandlerResult> handler)
+        {
+            _requestEnvelopeHandlers.Add(handler);
+        }
+
+        /// <summary>
+        /// Appends the given handler to the <see cref="RequestRawHandlers"/> collection.
+        /// </summary>
+        /// <param name="handler">The handler to append</param>
+        public void AddRequestRawHandler(
+            Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult> handler)
+        {
+            _requestRawHandlers.Add(handler);
+        }
+
+        /// <summary>
+        /// Appends the given handler to the <see cref="ResponseRawHandlers"/> collection.
+        /// </summary>
+        /// <param name="handler">The handler to append</param>
+        public void AddResponseRawHandler(
+            Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult> handler)
+        {
+            _responseRawHandlers.Add(handler);
+        }
+
+        /// <summary>
+        /// Appends the given handler to the <see cref="ResponseEnvelopeHandlers"/> collection.
+        /// </summary>
+        /// <param name="handler">The handler to append</param>
+        public void AddResponseEnvelopeHandler(
+            Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult> handler)
+        {
+            _responseEnvelopeHandlers.Add(handler);
+        }
+
+        #endregion
+
+        #endregion
+
         #region Implementation of IDisposable
 
         public void Dispose()
@@ -251,9 +304,10 @@ namespace SimpleSOAPClient
             var requestEnvelopeHandlerData = new RequestEnvelopeHandlerData(url, action, requestEnvelope);
             foreach (var handler in RequestEnvelopeHandlers)
             {
-                if (requestEnvelopeHandlerData.CancelHandlerFlow)
+                var result = handler(this, requestEnvelopeHandlerData);
+                if(result.CancelHandlerFlow)
                     break;
-                handler(this, requestEnvelopeHandlerData);
+                requestEnvelopeHandlerData = new RequestEnvelopeHandlerData(url, action, result.Envelope);
             }
 
             string requestXml;
@@ -275,9 +329,10 @@ namespace SimpleSOAPClient
             var requestRawHandlerData = new RequestRawHandlerData(url, action, request, requestXml);
             foreach (var handler in RequestRawHandlers)
             {
-                if(requestRawHandlerData.CancelHandlerFlow)
+                var result = handler(this, requestRawHandlerData);
+                if(result.CancelHandlerFlow)
                     break;
-                handler(this, requestRawHandlerData);
+                requestRawHandlerData = new RequestRawHandlerData(url, action, result.Request, result.Content);
             }
             requestRawHandlerData.Request.Content =
                 new StringContent(requestRawHandlerData.Content, Encoding.UTF8, "text/xml");
@@ -290,9 +345,10 @@ namespace SimpleSOAPClient
             var responseRawHandlerData = new ResponseRawHandlerData(url, action, response, responseXml);
             foreach (var handler in ResponseRawHandlers)
             {
-                if(responseRawHandlerData.CancelHandlerFlow)
+                var result = handler(this, responseRawHandlerData);
+                if(result.CancelHandlerFlow)
                     break;
-                handler(this, responseRawHandlerData);
+                responseRawHandlerData = new ResponseRawHandlerData(url, action, result.Response, result.Content);
             }
 
             SoapEnvelope responseEnvelope;
@@ -308,9 +364,10 @@ namespace SimpleSOAPClient
             var responseEnvelopeHandlerData = new ResponseEnvelopeHandlerData(url, action, responseEnvelope);
             foreach (var handler in ResponseEnvelopeHandlers)
             {
-                if(responseEnvelopeHandlerData.CancelHandlerFlow)
+                var result = handler(this, responseEnvelopeHandlerData);
+                if(result.CancelHandlerFlow)
                     break;
-                handler(this, responseEnvelopeHandlerData);
+                responseEnvelopeHandlerData = new ResponseEnvelopeHandlerData(url, action, result.Envelope);
             }
 
             return responseEnvelopeHandlerData.Envelope;

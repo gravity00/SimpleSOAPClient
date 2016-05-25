@@ -3,13 +3,13 @@ namespace SimpleSOAPClient.Handlers
     using Models;
 
     /// <summary>
-    /// Represents the SOAP Envelope request data.
+    /// Represents the SOAP Envelope request handler data.
     /// </summary>
     public interface IRequestEnvelopeHandlerData : IHandlerData
     {
         /// <summary>
-        /// The SOAP Envelope to be serialized
+        /// The current SOAP Envelope to be serialized
         /// </summary>
-        SoapEnvelope Envelope { get; set; }
+        SoapEnvelope Envelope { get; }
     }
 }

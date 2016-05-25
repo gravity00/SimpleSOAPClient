@@ -1,5 +1,6 @@
 namespace SimpleSOAPClient.Handlers
 {
+    using System;
     using Models;
 
     /// <summary>
@@ -29,6 +30,8 @@ namespace SimpleSOAPClient.Handlers
         public RequestEnvelopeHandlerData(string url, string action, SoapEnvelope envelope) 
             : base(url, action)
         {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
             Envelope = envelope;
         }
 

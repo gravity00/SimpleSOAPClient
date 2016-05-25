@@ -3,12 +3,12 @@
     using Models;
 
     /// <summary>
-    /// Represents the SOAP Envelope response handler data.
+    /// Represents the SOAP Envelope response handler result.
     /// </summary>
-    public interface IResponseEnvelopeHandlerData : IHandlerData
+    public interface IResponseEnvelopeHandlerResult : IHandlerResult
     {
         /// <summary>
-        /// The current SOAP Envelope response
+        /// The resultant SOAP Envelope response
         /// </summary>
         SoapEnvelope Envelope { get; }
     }

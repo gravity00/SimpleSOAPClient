@@ -32,33 +32,39 @@ namespace SimpleSOAPClient
 
     public interface ISoapClient
     {
+        #region Handlers
+
         /// <summary>
         /// Handler collection that can manipulate the <see cref="SoapEnvelope"/>
         /// before serialization.
         /// </summary>
-        ICollection<Action<ISoapClient, IRequestEnvelopeHandlerData>> RequestEnvelopeHandlers { get; }
+        IEnumerable<Func<ISoapClient, IRequestEnvelopeHandlerData, IRequestEnvelopeHandlerResult>> RequestEnvelopeHandlers { get; }
 
         /// <summary>
         /// Handler collection that can manipulate the generated XML string.
         /// </summary>
-        ICollection<Action<ISoapClient, IRequestRawHandlerData>> RequestRawHandlers { get; }
+        IEnumerable<Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult>> RequestRawHandlers { get; }
+
+        /// <summary>
+        /// Handler collection that can manipulate the returned string before deserialization.
+        /// </summary>
+        IEnumerable<Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult>> ResponseRawHandlers { get; }
 
         /// <summary>
         /// Handler collection that can manipulate the <see cref="SoapEnvelope"/> returned
         /// by the SOAP Endpoint.
         /// </summary>
-        ICollection<Action<ISoapClient, IResponseEnvelopeHandlerData>> ResponseEnvelopeHandlers { get; }
+        IEnumerable<Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult>> ResponseEnvelopeHandlers { get; }
 
-        /// <summary>
-        /// Handler collection that can manipulate the returned string before deserialization.
-        /// </summary>
-        ICollection<Action<ISoapClient, IResponseRawHandlerData>> ResponseRawHandlers { get; }
+        #endregion
 
         /// <summary>
         /// Indicates if the XML declaration should be removed from the
         /// serialized SOAP Envelopes
         /// </summary>
         bool RemoveXmlDeclaration { get; set; }
+
+        #region Send
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
@@ -81,5 +87,39 @@ namespace SimpleSOAPClient
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
         /// <exception cref="ArgumentNullException"></exception>
         SoapEnvelope Send(string url, string action, SoapEnvelope requestEnvelope);
+
+        #endregion
+
+        #region AddHandler
+
+        /// <summary>
+        /// Appends the given handler to the <see cref="RequestEnvelopeHandlers"/> collection.
+        /// </summary>
+        /// <param name="handler">The handler to append</param>
+        void AddRequestEnvelopeHandler(
+            Func<ISoapClient, IRequestEnvelopeHandlerData, IRequestEnvelopeHandlerResult> handler);
+
+        /// <summary>
+        /// Appends the given handler to the <see cref="RequestRawHandlers"/> collection.
+        /// </summary>
+        /// <param name="handler">The handler to append</param>
+        void AddRequestRawHandler(
+            Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult> handler);
+
+        /// <summary>
+        /// Appends the given handler to the <see cref="ResponseRawHandlers"/> collection.
+        /// </summary>
+        /// <param name="handler">The handler to append</param>
+        void AddResponseRawHandler(
+            Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult> handler);
+
+        /// <summary>
+        /// Appends the given handler to the <see cref="ResponseEnvelopeHandlers"/> collection.
+        /// </summary>
+        /// <param name="handler">The handler to append</param>
+        void AddResponseEnvelopeHandler(
+            Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult> handler);
+
+        #endregion
     }
 }

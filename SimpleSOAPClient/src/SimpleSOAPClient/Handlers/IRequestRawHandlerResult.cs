@@ -3,17 +3,17 @@ namespace SimpleSOAPClient.Handlers
     using System.Net.Http;
 
     /// <summary>
-    /// Represents the raw request handler data.
+    /// Represents the raw request handler result.
     /// </summary>
-    public interface IRequestRawHandlerData : IHandlerData
+    public interface IRequestRawHandlerResult : IHandlerResult
     {
         /// <summary>
-        /// The current HTTP request message
+        /// The resultant HTTP request message
         /// </summary>
         HttpRequestMessage Request { get; }
 
         /// <summary>
-        /// The current string content that will be included in the <see cref="Request"/>
+        /// The resultant string content that will be included in the <see cref="Request"/>
         /// </summary>
         string Content { get; }
     }
