@@ -1,7 +1,7 @@
 namespace SimpleSOAPClient.Handlers
 {
     /// <summary>
-    /// Represents the handler result
+    /// Base class for handler results
     /// </summary>
     public abstract class HandlerResult : IHandlerResult
     {
