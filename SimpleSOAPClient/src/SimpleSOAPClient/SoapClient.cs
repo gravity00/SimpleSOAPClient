@@ -305,9 +305,9 @@ namespace SimpleSOAPClient
             foreach (var handler in RequestEnvelopeHandlers)
             {
                 var result = handler(this, requestEnvelopeHandlerData);
-                if(result.CancelHandlerFlow)
-                    break;
                 requestEnvelopeHandlerData = new RequestEnvelopeHandlerData(url, action, result.Envelope);
+                if (result.CancelHandlerFlow)
+                    break;
             }
 
             string requestXml;
@@ -330,9 +330,9 @@ namespace SimpleSOAPClient
             foreach (var handler in RequestRawHandlers)
             {
                 var result = handler(this, requestRawHandlerData);
-                if(result.CancelHandlerFlow)
-                    break;
                 requestRawHandlerData = new RequestRawHandlerData(url, action, result.Request, result.Content);
+                if (result.CancelHandlerFlow)
+                    break;
             }
             requestRawHandlerData.Request.Content =
                 new StringContent(requestRawHandlerData.Content, Encoding.UTF8, "text/xml");
@@ -346,9 +346,9 @@ namespace SimpleSOAPClient
             foreach (var handler in ResponseRawHandlers)
             {
                 var result = handler(this, responseRawHandlerData);
-                if(result.CancelHandlerFlow)
-                    break;
                 responseRawHandlerData = new ResponseRawHandlerData(url, action, result.Response, result.Content);
+                if (result.CancelHandlerFlow)
+                    break;
             }
 
             SoapEnvelope responseEnvelope;
@@ -365,9 +365,9 @@ namespace SimpleSOAPClient
             foreach (var handler in ResponseEnvelopeHandlers)
             {
                 var result = handler(this, responseEnvelopeHandlerData);
-                if(result.CancelHandlerFlow)
-                    break;
                 responseEnvelopeHandlerData = new ResponseEnvelopeHandlerData(url, action, result.Envelope);
+                if (result.CancelHandlerFlow)
+                    break;
             }
 
             return responseEnvelopeHandlerData.Envelope;
