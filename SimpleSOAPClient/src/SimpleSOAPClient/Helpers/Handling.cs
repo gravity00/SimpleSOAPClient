@@ -202,7 +202,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="data">The data to use</param>
         /// <returns>The handler result</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static IResponseEnvelopeHandlerResult ProceedRequestEnvelopeHandlerFlowWith(IResponseEnvelopeHandlerData data)
+        public static IResponseEnvelopeHandlerResult ProceedResponseEnvelopeHandlerFlowWith(IResponseEnvelopeHandlerData data)
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
 
