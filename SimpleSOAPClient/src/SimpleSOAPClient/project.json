@@ -10,7 +10,7 @@
   "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
-  "releaseNotes": "Added extensions for ISoapClient instances\nChanged SOAP Client handler parameters (breaking change)\nRemoval of XML declaration is now optional\nSOAP Security Timestamp Created element was being serialized with name Timestamp\nMethod KnownHeader.Oasis.Security.UsernameTokenAndPasswordText(username,password,mustUnderstand) now correctly creates dates in UTC\nRemoved SOAP Client methods that didn't require a SOAP action (breaking change)",
+  "releaseNotes": "Added extensions for ISoapClient instances\nChanged SOAP Client handler parameters (breaking change)\nRemoval of XML declaration is now optional\nRemoved SOAP Client methods that didn't require a SOAP action (breaking change)",
 
   "frameworks": {
     "dnxcore5": {
