@@ -25,18 +25,20 @@ namespace SimpleSOAPClient.Models.Headers.Oasis.Security
 {
     using System.Xml.Serialization;
 
-    [XmlType("UsernameToken", 
+    [XmlType("UsernameToken",
         Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10)]
     public class UsernameTokenWithPasswordText
     {
-        [XmlAttribute("Id", 
+        [XmlAttribute("Id",
             Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecurityUtility10)]
         public string Id { get; set; }
 
-        [XmlElement("Username")]
+        [XmlElement("Username",
+            Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10)]
         public string Username { get; set; }
 
-        [XmlElement("Password")]
+        [XmlElement("Password",
+            Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10)]
         public UsernameTokenPasswordText Password { get; set; }
     }
 }

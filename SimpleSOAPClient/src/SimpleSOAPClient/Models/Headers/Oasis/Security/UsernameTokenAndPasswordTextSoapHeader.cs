@@ -25,14 +25,16 @@ namespace SimpleSOAPClient.Models.Headers.Oasis.Security
 {
     using System.Xml.Serialization;
 
-    [XmlRoot("Security", 
+    [XmlRoot("Security",
         Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10)]
     public class UsernameTokenAndPasswordTextSoapHeader : SoapHeader
     {
-        [XmlElement("Timestamp")]
+        [XmlElement("Timestamp",
+            Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecurityUtility10)]
         public Timestamp Timestamp { get; set; }
 
-        [XmlElement("UsernameToken")]
+        [XmlElement("UsernameToken",
+            Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10)]
         public UsernameTokenWithPasswordText UsernameToken { get; set; }
 
         public UsernameTokenAndPasswordTextSoapHeader()

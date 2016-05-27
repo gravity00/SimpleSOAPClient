@@ -26,17 +26,20 @@ namespace SimpleSOAPClient.Models.Headers.Oasis.Security
     using System;
     using System.Xml.Serialization;
 
-    [XmlType("Timestamp", 
+    [XmlType("Timestamp",
         Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecurityUtility10)]
     public class Timestamp
     {
-        [XmlAttribute("Id")]
+        [XmlAttribute("Id",
+            Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecurityUtility10)]
         public string Id { get; set; }
 
-        [XmlElement("Created")]
+        [XmlElement("Created",
+            Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecurityUtility10)]
         public DateTime Created { get; set; }
 
-        [XmlElement("Expires")]
+        [XmlElement("Expires",
+            Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecurityUtility10)]
         public DateTime Expires { get; set; }
     }
 }
