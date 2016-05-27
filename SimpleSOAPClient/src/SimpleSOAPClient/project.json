@@ -9,7 +9,7 @@
   "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
-  "releaseNotes": "Server responses with an empty content were not throwing a SoapEnvelopeDeserializationException as expected\nInvalid namespaces when using UsernameTokenAndPasswordTextSoapHeader",
+  "releaseNotes": "Server responses with an empty content were not throwing a SoapEnvelopeDeserializationException as expected\nInvalid namespaces when using UsernameTokenAndPasswordTextSoapHeader\nOptimized serialization to XML",
 
   "frameworks": {
     "dnxcore5": {
