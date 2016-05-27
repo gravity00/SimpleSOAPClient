@@ -10,7 +10,7 @@
   "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
   "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
-  "releaseNotes": "Added extensions for ISoapClient instances\nChanged SOAP Client handler parameters (breaking change)\nRemoval of XML declaration is now optional\nRemoved SOAP Client methods that didn't require a SOAP action (breaking change)",
+  "releaseNotes": "Changed SOAP Client handler parameters (breaking change)\nRemoved SOAP Client methods that didn't require a SOAP action (breaking change)",
   "compilationOptions": {
     "keyFile": "SimpleSOAPClient.snk"
   },
