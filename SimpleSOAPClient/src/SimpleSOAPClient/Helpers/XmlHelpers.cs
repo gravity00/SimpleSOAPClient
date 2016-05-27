@@ -24,6 +24,7 @@
 namespace SimpleSOAPClient.Helpers
 {
     using System.IO;
+    using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
 
@@ -52,20 +53,16 @@ namespace SimpleSOAPClient.Helpers
             if (item == null) return null;
 
             using (var textWriter = new StringWriter())
+            using (var xmlWriter = XmlWriter.Create(textWriter, new XmlWriterSettings
+            {
+                OmitXmlDeclaration = removeXmlDeclaration,
+                Indent = false,
+                NamespaceHandling = NamespaceHandling.OmitDuplicates
+            }))
             {
                 new XmlSerializer(item.GetType())
-                    .Serialize(textWriter, item, EmptyXmlSerializerNamespaces);
-
-                var rvsb = textWriter.GetStringBuilder();
-                if (removeXmlDeclaration && rvsb.Length > 5 && rvsb[0] == '<' && rvsb[1] == '?')
-                {
-                    for (var i = 2; i < rvsb.Length; ++i)
-                    {
-                        if (rvsb[i] == '<')
-                            return rvsb.ToString(i, rvsb.Length - i);
-                    }
-                }
-                return rvsb.ToString();
+                    .Serialize(xmlWriter, item, EmptyXmlSerializerNamespaces);
+                return textWriter.ToString();
             }
         }
 
