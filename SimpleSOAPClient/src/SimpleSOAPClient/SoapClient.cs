@@ -43,6 +43,7 @@ namespace SimpleSOAPClient
         private readonly List<Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult>> _requestRawHandlers = new List<Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult>>();
         private readonly List<Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult>> _responseRawHandlers = new List<Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult>>();
         private readonly List<Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult>> _responseEnvelopeHandlers = new List<Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult>>();
+        private readonly bool _disposeHttpClient = true;
 
         /// <summary>
         /// The used HTTP client
@@ -75,11 +76,13 @@ namespace SimpleSOAPClient
         /// Creates a new SOAP Client
         /// </summary>
         /// <param name="httpClient">The <see cref="HttpClient"/> to be used</param>
-        public SoapClient(HttpClient httpClient)
+        /// <param name="disposeHttpClient">Should the client also be disposed</param>
+        public SoapClient(HttpClient httpClient, bool disposeHttpClient = true)
         {
             if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
 
             HttpClient = httpClient;
+            _disposeHttpClient = disposeHttpClient;
         }
 
         ~SoapClient()
@@ -271,7 +274,7 @@ namespace SimpleSOAPClient
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && _disposeHttpClient)
                 HttpClient.Dispose();
         }
 
@@ -279,19 +282,34 @@ namespace SimpleSOAPClient
 
         #region Prepare
 
+        /// <summary>
+        /// Prepares a new <see cref="SoapClient"/> instance to be configured.
+        /// </summary>
+        /// <returns>The SOAP client to be configured</returns>
         public static SoapClient Prepare()
         {
             return new SoapClient();
         }
 
+        /// <summary>
+        /// Prepares a new <see cref="SoapClient"/> instance to be configured.
+        /// </summary>
+        /// <param name="handler">The handler to be used by the <see cref="HttpClient"/></param>
+        /// <returns>The SOAP client to be configured</returns>
         public static SoapClient Prepare(HttpMessageHandler handler)
         {
             return new SoapClient(handler);
         }
 
-        public static SoapClient Prepare(HttpClient httpClient)
+        /// <summary>
+        /// Prepares a new <see cref="SoapClient"/> instance to be configured.
+        /// </summary>
+        /// <param name="httpClient">The <see cref="HttpClient"/> to be used</param>
+        /// <param name="disposeHttpClient">Should the client also be disposed</param>
+        /// <returns>The SOAP client to be configured</returns>
+        public static SoapClient Prepare(HttpClient httpClient, bool disposeHttpClient = true)
         {
-            return new SoapClient(httpClient);
+            return new SoapClient(httpClient, disposeHttpClient);
         }
 
         #endregion
