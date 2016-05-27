@@ -37,6 +37,8 @@ namespace SimpleSOAPClient
     /// </summary>
     public class SoapClient : ISoapClient, IDisposable
     {
+        private readonly bool _disposeHttpClient = true;
+
         /// <summary>
         /// The used HTTP client
         /// </summary>
@@ -68,11 +70,13 @@ namespace SimpleSOAPClient
         /// Creates a new SOAP Client
         /// </summary>
         /// <param name="httpClient">The <see cref="HttpClient"/> to be used</param>
-        public SoapClient(HttpClient httpClient)
+        /// <param name="disposeHttpClient">Should the client also be disposed</param>
+        public SoapClient(HttpClient httpClient, bool disposeHttpClient = true)
         {
             if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
 
             HttpClient = httpClient;
+            _disposeHttpClient = disposeHttpClient;
         }
 
         ~SoapClient()
@@ -248,7 +252,7 @@ namespace SimpleSOAPClient
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && _disposeHttpClient)
                 HttpClient.Dispose();
         }
 
@@ -279,10 +283,11 @@ namespace SimpleSOAPClient
         /// Prepares a new <see cref="SoapClient"/> instance to be configured.
         /// </summary>
         /// <param name="httpClient">The <see cref="HttpClient"/> to be used</param>
+        /// <param name="disposeHttpClient">Should the client also be disposed</param>
         /// <returns>The SOAP client to be configured</returns>
-        public static SoapClient Prepare(HttpClient httpClient)
+        public static SoapClient Prepare(HttpClient httpClient, bool disposeHttpClient = true)
         {
-            return new SoapClient(httpClient);
+            return new SoapClient(httpClient, disposeHttpClient);
         }
 
         #endregion
