@@ -351,6 +351,10 @@ namespace SimpleSOAPClient
                     break;
             }
 
+            if (string.IsNullOrWhiteSpace(responseRawHandlerData.Content))
+                throw new SoapEnvelopeDeserializationException(
+                    responseRawHandlerData.Content, "The response content is empty.");
+
             SoapEnvelope responseEnvelope;
             try
             {
