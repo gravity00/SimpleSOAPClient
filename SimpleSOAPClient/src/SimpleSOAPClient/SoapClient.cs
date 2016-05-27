@@ -256,16 +256,30 @@ namespace SimpleSOAPClient
 
         #region Prepare
 
+        /// <summary>
+        /// Prepares a new <see cref="SoapClient"/> instance to be configured.
+        /// </summary>
+        /// <returns>The SOAP client to be configured</returns>
         public static SoapClient Prepare()
         {
             return new SoapClient();
         }
 
+        /// <summary>
+        /// Prepares a new <see cref="SoapClient"/> instance to be configured.
+        /// </summary>
+        /// <param name="handler">The handler to be used by the <see cref="HttpClient"/></param>
+        /// <returns>The SOAP client to be configured</returns>
         public static SoapClient Prepare(HttpMessageHandler handler)
         {
             return new SoapClient(handler);
         }
 
+        /// <summary>
+        /// Prepares a new <see cref="SoapClient"/> instance to be configured.
+        /// </summary>
+        /// <param name="httpClient">The <see cref="HttpClient"/> to be used</param>
+        /// <returns>The SOAP client to be configured</returns>
         public static SoapClient Prepare(HttpClient httpClient)
         {
             return new SoapClient(httpClient);
