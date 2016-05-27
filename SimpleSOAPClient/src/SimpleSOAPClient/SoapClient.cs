@@ -312,6 +312,10 @@ namespace SimpleSOAPClient
             if (ResponseRawHandler != null)
                 responseXml = ResponseRawHandler(url, responseXml);
 
+            if (string.IsNullOrWhiteSpace(responseXml))
+                throw new SoapEnvelopeDeserializationException(
+                    responseXml, "The response content is empty.");
+
             SoapEnvelope responseEnvelope;
             try
             {
