@@ -55,12 +55,25 @@ public static async Task MainAsync(string[] args, CancellationToken ct)
 	{
 		var requestEnvelope =
 			SoapEnvelope.Prepare().Body(new IsAliveRequest());
-
-		var responseEnvelope =
-			await client.SendAsync(
-				"https://services.company.com/Service.svc",
-				"http://services.company.com/IService/IsAlive",
-				requestEnvelope, ct);
+			
+		try
+		{
+			responseEnvelope =
+				await client.SendAsync(
+					"https://services.company.com/Service.svc",
+					"http://services.company.com/IService/IsAlive",
+					requestEnvelope, ct);
+		}
+		catch (SoapEnvelopeSerializationException e)
+		{
+			Logger.Error(e, $"Failed to serialize the SOAP Envelope [Envelope={e.Envelope}]");
+			throw;
+		}
+		catch (SoapEnvelopeDeserializationException e)
+		{
+			Logger.Error(e, $"Failed to deserialize the response into a SOAP Envelope [XmlValue={e.XmlValue}]");
+			throw;
+		}
 
 		try
 		{
@@ -68,20 +81,19 @@ public static async Task MainAsync(string[] args, CancellationToken ct)
 		}
 		catch (FaultException e)
 		{
-			Logger.Error(e,
-				$"The server returned a fault [Code={e.Code}, String={e.String}, Actor={e.Actor}]");
+			Logger.Error(e, $"The server returned a fault [Code={e.Code}, String={e.String}, Actor={e.Actor}]");
 			throw;
 		}
 	}
 }
 
-[XmlRoot("IsAliveRequest", Namespace = "http://services.anf.pt")]
+[XmlRoot("IsAliveRequest", Namespace = "http://services.company.com")]
 public class IsAliveRequest
 {
 
 }
 
-[XmlRoot("IsAliveResponse", Namespace = "http://services.anf.pt")]
+[XmlRoot("IsAliveResponse", Namespace = "http://services.company.com")]
 public class IsAliveResponse
 {
 	[XmlElement("IsAliveResult")]
