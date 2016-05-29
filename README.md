@@ -22,64 +22,69 @@ This library is compatible with the folowing frameworks:
 ## Usage
 
 ```csharp
-public async Task<AddUserResponse> AddUserAsync(string username, string password, CancellationToken ct) {
-  
-  using(var client = new SoapClient {
-    RequestRawHandler = (url, xml) => {
-      Logger.Trace("SOAP Outbound Request -> {0} \n {1}", url, xml);
-      return xml;
-    },
-    ResponseRawHandler = (url, xml) => {
-      Logger.Trace("SOAP Outbound Response -> {0} \n {1}", url, xml);
-      return xml;
-    }
-  }) {
-    
-    var requestEnvelope = 
-        SoapEnvelope.Prepare()
-          .WithHeaders(
-            KnownHeader.Oasis.Security.UsernameTokenAndPasswordText("some-user", "some-password"))
-          .Body(new AddUserRequest {
-            Username = username,
-            Password = password
-          });
-    
-    try {
-      var responseEnvelope = await client.SendAsync("http://localhost/TestSoapServer", requestEnvelope, ct);
-      
-      return responseEnvelope.Body<AddUserResponse>();
-    } catch(SoapEnvelopeSerializationException e) {
-      Logger.Error(e, $"Failed to serialize the SOAP Envelope into XML [Envelope={e.Envelope}]");
-      throw;
-    } catch(SoapEnvelopeDeserializationException e) {
-      Logger.Error(e, $"Failed to deserialize the server response into a SOAP Envelope [XmlValue={e.XmlValue}]");
-      throw;
-    } catch(FaultException e) {
-      Logger.Error(e, $"The server returned a fault [Code={e.Code}, String={e.String}, Actor={e.Actor}]");
-      throw;
-    }
-    
-  }
-  
+public static async Task MainAsync(string[] args, CancellationToken ct)
+{
+	using (var client =
+		SoapClient.Prepare()
+			.OnSerializeRemoveXmlDeclaration()
+			.UsingRequestEnvelopeHandler((c, d) =>
+			{
+				d.Envelope.WithHeaders(
+					KnownHeader.Oasis.Security.UsernameTokenAndPasswordText(
+						"some-user", "some-password"));
+			})
+			.UsingRequestRawHandler((c, d) =>
+			{
+				Logger.Trace(
+					"SOAP Outbound Request -> {0} {1}({2})\n{3}",
+					d.Request.Method, d.Url, d.Action, d.Content);
+			})
+			.UsingResponseRawHandler((c, d) =>
+			{
+				Logger.Trace(
+					"SOAP Outbound Response -> {0}({1}) {2} {3}\n{4}",
+					d.Url, d.Action, (int) d.Response.StatusCode, d.Response.StatusCode, d.Content);
+			}).UsingResponseEnvelopeHandler((c, d) =>
+			{
+				var header =
+					d.Envelope.Header<UsernameTokenAndPasswordTextSoapHeader>(
+						"{" +
+						Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10 +
+						"}Security");
+			}))
+	{
+		var requestEnvelope =
+			SoapEnvelope.Prepare().Body(new IsAliveRequest());
+
+		var responseEnvelope =
+			await client.SendAsync(
+				"https://services.company.com/Service.svc",
+				"http://services.company.com/IService/IsAlive",
+				requestEnvelope, ct);
+
+		try
+		{
+			var response = responseEnvelope.Body<IsAliveResponse>();
+		}
+		catch (FaultException e)
+		{
+			Logger.Error(e,
+				$"The server returned a fault [Code={e.Code}, String={e.String}, Actor={e.Actor}]");
+			throw;
+		}
+	}
 }
 
-[XmlRoot("AddUserRequest", Namespace = "http://example.simplesoapclient.com/request")]
-public class AddUserRequest {
+[XmlRoot("IsAliveRequest", Namespace = "http://services.anf.pt")]
+public class IsAliveRequest
+{
 
-  [XmlElement]
-  public string Username { get; set; }
-  
-  [XmlElement]
-  public string Password { get; set; }
 }
 
-[XmlRoot("AddUserResponse", Namespace = "http://example.simplesoapclient.com/response")]
-public class AddUserResponse {
-
-  [XmlElement]
-  public string Id { get; set; }
-  
-  [XmlElement]
-  public string Username { get; set; }
+[XmlRoot("IsAliveResponse", Namespace = "http://services.anf.pt")]
+public class IsAliveResponse
+{
+	[XmlElement("IsAliveResult")]
+	public bool IsAlive { get; set; }
 }
 ```
