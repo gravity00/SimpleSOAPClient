@@ -55,7 +55,8 @@ public static async Task MainAsync(string[] args, CancellationToken ct)
 	{
 		var requestEnvelope =
 			SoapEnvelope.Prepare().Body(new IsAliveRequest());
-			
+		
+		SoapEnvelope responseEnvelope;	
 		try
 		{
 			responseEnvelope =
