@@ -20,7 +20,7 @@ This library is compatible with the folowing frameworks:
 * .NET Platform (> DotNET 5.0)
 * DNX Core (> DNXCore 5.0)
 
-## Usage
+## Usage (Version 2.0.0-alpha05)
 
 ```csharp
 public static async Task MainAsync(string[] args, CancellationToken ct)
