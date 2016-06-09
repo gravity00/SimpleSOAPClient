@@ -1,5 +1,5 @@
 ﻿{
-  "version": "2.0.0-alpha05",
+  "version": "2.0.0-rc01",
   "title": "Simple SOAP Client",
   "summary": "Lightweight HTTP SOAP client",
   "description": "Lightweight SOAP client for invoking HTTP SOAP endpoints",
