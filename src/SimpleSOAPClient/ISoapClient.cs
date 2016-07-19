@@ -30,6 +30,9 @@ namespace SimpleSOAPClient
     using Handlers;
     using Models;
 
+    /// <summary>
+    /// The SOAP client that can be used to invoke SOAP Endpoints
+    /// </summary>
     public interface ISoapClient
     {
         #region Handlers
