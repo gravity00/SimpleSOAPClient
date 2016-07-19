@@ -25,7 +25,7 @@
 using System;
 using System.Reflection;
 
-#if NET40 || NET45
+#if NET45
 using System.Runtime.InteropServices;
 #endif
 
@@ -38,10 +38,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-#if NET40 || NET45
+#if NET45
 
 [assembly: ComVisible(false)]
-
 [assembly: Guid("9a03d5df-2a75-48c4-aa1a-a52774bd4f14")]
 
 #endif

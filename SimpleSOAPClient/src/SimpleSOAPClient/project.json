@@ -1,65 +1,50 @@
 ﻿{
   "version": "2.0.0-rc01",
   "title": "Simple SOAP Client",
-  "summary": "Lightweight HTTP SOAP client",
   "description": "Lightweight SOAP client for invoking HTTP SOAP endpoints",
   "authors": [ "João Simões" ],
-  "tags": [ "SOAP", "Simple Object Access Protocol", "HTTP SOAP Client", "Web Client" ],
-  "projectUrl": "https://github.com/gravity00/SimpleSOAPClient",
-  "licenseUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE",
-  "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
-  "language": "en-US",
   "copyright": "Copyright © 2016 João Simões",
-  "releaseNotes": "Changed SOAP Client handler parameters (breaking change)\nRemoved SOAP Client methods that didn't require a SOAP action (breaking change)",
-  "compilationOptions": {
-    "keyFile": "SimpleSOAPClient.snk"
+  "packOptions": {
+    "summary": "Lightweight HTTP SOAP client",
+    "tags": [ "SOAP", "Simple Object Access Protocol", "HTTP SOAP Client", "Web Client" ],
+    "projectUrl": "https://github.com/gravity00/SimpleSOAPClient",
+    "licenseUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE",
+    "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
+    "releaseNotes": "Changed SOAP Client handler parameters (breaking change)\nRemoved SOAP Client methods that didn't require a SOAP action (breaking change)"
+  },
+  "buildOptions": {
+    "xmlDoc": true,
+    "keyFile": "SimpleSOAPClient.snk",
+    "optimize": true
   },
 
   "frameworks": {
-    "dnxcore5": {
-      "dependencies": {
-        "System.IO": "4.0.0",
-        "System.Linq": "4.0.0",
-        "System.Net.Http": "4.0.0",
-        "System.Runtime": "4.0.0",
-        "System.Xml.XDocument": "4.0.0",
-        "System.Xml.XmlSerializer": "4.0.0"
-      }
-    },
-    "dotnet": {
-      "dependencies": {
-        "System.IO": "4.0.0",
-        "System.Linq": "4.0.0",
-        "System.Net.Http": "4.0.0",
-        "System.Runtime": "4.0.0",
-        "System.Xml.XDocument": "4.0.0",
-        "System.Xml.XmlSerializer": "4.0.0"
-      }
-    },
-    "net40": {
+    "net4.5": {
       "frameworkAssemblies": {
-        "System.Linq": "4.0.0.0",
-        "System.Net.Http": "4.0.0.0",
-        "System.Xml": "4.0.0.0",
-        "System.Xml.Linq": "4.0.0.0"
+        "System.IO": "",
+        "System.Linq": "",
+        "System.Net.Http": "",
+        "System.Runtime": "",
+        "System.Xml": "",
+        "System.Xml.Linq": "",
+        "System.Xml.XDocument": "",
+        "System.Xml.XmlSerializer": ""
       }
     },
-    "net45": {
-      "frameworkAssemblies": {
-        "System.Linq": "4.0.0.0",
-        "System.Net.Http": "4.0.0.0",
-        "System.Xml": "4.0.0.0",
-        "System.Xml.Linq": "4.0.0.0"
-      }
-    },
-    "netcore45": {
+    "netcore5.0": {
       "dependencies": {
-        "System.IO": "4.0.0",
-        "System.Linq": "4.0.0",
-        "System.Net.Http": "4.0.0",
-        "System.Runtime": "4.0.0",
-        "System.Xml.XDocument": "4.0.0",
-        "System.Xml.XmlSerializer": "4.0.0"
+        "System.Net.Http": "4.1.0",
+        "System.Linq": "4.1.0",
+        "System.Xml.XDocument": "4.0.11",
+        "System.Xml.XmlSerializer": "4.0.11"
+      }
+    },
+    "netstandard1.3": {
+      "dependencies": {
+        "System.Net.Http": "4.1.0",
+        "System.Linq": "4.1.0",
+        "System.Xml.XDocument": "4.0.11",
+        "System.Xml.XmlSerializer": "4.0.11"
       }
     }
   }
