@@ -24,6 +24,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{B81B9E45
 		tools\SimpleSOAPClient.snk = tools\SimpleSOAPClient.snk
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{3E870336-6820-4B64-BB28-078432192AB3}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+		SimpleSOAPClient-Logo.pdn = SimpleSOAPClient-Logo.pdn
+		SimpleSOAPClient-Logo.png = SimpleSOAPClient-Logo.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +50,6 @@ Global
 		{9A03D5DF-2A75-48C4-AA1A-A52774BD4F14} = {8C4A1D6D-2068-4B7B-A4FB-84B8F37DF5F9}
 		{FD9E2BBB-138B-4CF1-96E3-9E6A72F1C31A} = {1D5A1FFB-2996-4D7D-97F6-B6DC77FE1EB1}
 		{B81B9E45-4BBD-4025-912A-66B3B99A7435} = {1D5A1FFB-2996-4D7D-97F6-B6DC77FE1EB1}
+		{3E870336-6820-4B64-BB28-078432192AB3} = {1D5A1FFB-2996-4D7D-97F6-B6DC77FE1EB1}
 	EndGlobalSection
 EndGlobal
