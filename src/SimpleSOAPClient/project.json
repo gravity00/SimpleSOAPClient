@@ -14,7 +14,7 @@
   },
   "buildOptions": {
     "xmlDoc": true,
-    "keyFile": "SimpleSOAPClient.snk",
+    "keyFile": "../../tools/SimpleSOAPClient.snk",
     "optimize": true
   },
 
