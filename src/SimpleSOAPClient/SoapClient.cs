@@ -143,9 +143,9 @@ namespace SimpleSOAPClient
         {
             var request = CreateHttpRequestMessage(url, action, requestEnvelope);
 
-            var result = await HttpClient.SendAsync(request, ct).ConfigureAwait(false);
+            var result = await HttpClient.SendAsync(request, ct);
             
-            var responseXml = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var responseXml = await result.Content.ReadAsStringAsync();
 
             return CreateSoapEnvelope(url, action, result, responseXml);
         }
