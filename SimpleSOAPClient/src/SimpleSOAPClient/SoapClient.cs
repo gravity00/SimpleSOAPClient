@@ -138,57 +138,6 @@ namespace SimpleSOAPClient
         /// <returns>A task to be awaited for the result</returns>
         /// <exception cref="SoapEnvelopeSerializationException"></exception>
         /// <exception cref="SoapEnvelopeDeserializationException"></exception>
-#if NET40
-        public virtual Task<SoapEnvelope> SendAsync(
-            string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
-        {
-            var request = CreateHttpRequestMessage(url, action, requestEnvelope);
-
-            var cts = new TaskCompletionSource<SoapEnvelope>();
-
-            HttpClient
-                .SendAsync(request, ct)
-                .ContinueWith(t01 =>
-                {
-                    if (t01.IsFaulted)
-                    {
-                        cts.SetExceptionFromTask(t01);
-                    }
-                    else if (t01.IsCompleted)
-                    {
-                        var result = t01.Result;
-                        result.Content.ReadAsStringAsync().ContinueWith(t02 =>
-                        {
-                            if (t02.IsFaulted)
-                            {
-                                cts.SetExceptionFromTask(t02);
-                            }
-                            else if (t02.IsCompleted)
-                            {
-                                try
-                                {
-                                    cts.SetResult(CreateSoapEnvelope(url, action, result, t02.Result));
-                                }
-                                catch (Exception e)
-                                {
-                                    cts.SetException(e);
-                                }
-                            }
-                            else
-                            {
-                                cts.SetCanceled();
-                            }
-                        }, ct);
-                    }
-                    else
-                    {
-                        cts.SetCanceled();
-                    }
-                }, ct);
-
-            return cts.Task;
-        }
-#else
         public virtual async Task<SoapEnvelope> SendAsync(
             string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
         {
@@ -200,7 +149,6 @@ namespace SimpleSOAPClient
 
             return CreateSoapEnvelope(url, action, result, responseXml);
         }
-#endif
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.

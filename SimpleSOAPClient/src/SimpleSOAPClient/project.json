@@ -10,7 +10,7 @@
     "projectUrl": "https://github.com/gravity00/SimpleSOAPClient",
     "licenseUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE",
     "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
-    "releaseNotes": "Changed SOAP Client handler parameters (breaking change)\nRemoved SOAP Client methods that didn't require a SOAP action (breaking change)"
+    "releaseNotes": "Changed SOAP Client handler parameters (breaking change)\nRemoved SOAP Client methods that didn't require a SOAP action (breaking change)\nRemoved support for .NET 4.0"
   },
   "buildOptions": {
     "xmlDoc": true,
