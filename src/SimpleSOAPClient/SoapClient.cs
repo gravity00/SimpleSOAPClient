@@ -184,7 +184,7 @@ namespace SimpleSOAPClient
         /// <exception cref="SoapEnvelopeDeserializationException"></exception>
         public virtual SoapEnvelope Send(string url, string action, SoapEnvelope requestEnvelope)
         {
-            return SendAsync(url, action, requestEnvelope).Result;
+            return SendAsync(url, action, requestEnvelope).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         #endregion
