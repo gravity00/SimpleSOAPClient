@@ -136,7 +136,7 @@ namespace SimpleSOAPClient.Helpers
             var client = factory.Get<TSoapClient>();
             try
             {
-                await action(client, ct);
+                await action(client, ct).ConfigureAwait(false);
             }
             finally
             {
@@ -156,7 +156,7 @@ namespace SimpleSOAPClient.Helpers
         public static async Task GetAndReleaseAsync(
             this ISoapClientFactory factory, Func<SoapClient, CancellationToken, Task> action, CancellationToken ct = default(CancellationToken))
         {
-            await GetAndReleaseAsync<SoapClient>(factory, action, ct);
+            await GetAndReleaseAsync<SoapClient>(factory, action, ct).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace SimpleSOAPClient.Helpers
             var client = factory.Get<TSoapClient>();
             try
             {
-                return await action(client, ct);
+                return await action(client, ct).ConfigureAwait(false);
             }
             finally
             {
@@ -201,7 +201,7 @@ namespace SimpleSOAPClient.Helpers
         public static async Task<TResult> GetAndReleaseAsync<TResult>(
             this ISoapClientFactory factory, Func<SoapClient, CancellationToken, Task<TResult>> action, CancellationToken ct = default(CancellationToken))
         {
-            return await GetAndReleaseAsync<SoapClient, TResult>(factory, action, ct);
+            return await GetAndReleaseAsync<SoapClient, TResult>(factory, action, ct).ConfigureAwait(false);
         }
 
         #endregion
