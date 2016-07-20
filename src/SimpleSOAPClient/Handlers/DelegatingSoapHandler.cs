@@ -33,24 +33,24 @@ namespace SimpleSOAPClient.Handlers
     public sealed class DelegatingSoapHandler : ISoapHandler
     {
         /// <summary>
-        /// Delegate for <see cref="ISoapHandler.BeforeSoapEnvelopeSerialization"/> method.
+        /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeRequest"/> method.
         /// </summary>
-        public Action<ISoapClient, BeforeSoapEnvelopeSerializationArguments> BeforeSoapEnvelopeSerializationDelegate { get; set; }
+        public Action<ISoapClient, OnSoapEnvelopeRequestArguments> OnSoapEnvelopeRequestDelegate { get; set; }
 
         /// <summary>
-        /// Delegate for <see cref="ISoapHandler.BeforeHttpRequest"/> method.
+        /// Delegate for <see cref="ISoapHandler.OnHttpRequest"/> method.
         /// </summary>
-        public Action<ISoapClient, BeforeHttpRequestArguments> BeforeHttpRequestDelegate { get; set; }
+        public Action<ISoapClient, OnHttpRequestArguments> OnHttpRequestDelegate { get; set; }
 
         /// <summary>
-        /// Delegate for <see cref="ISoapHandler.AfterHttpResponse"/> method.
+        /// Delegate for <see cref="ISoapHandler.OnHttpResponse"/> method.
         /// </summary>
-        public Action<ISoapClient, AfterHttpResponseArguments> AfterHttpResponseDelegate { get; set; }
+        public Action<ISoapClient, OnHttpResponseArguments> OnHttpResponseDelegate { get; set; }
 
         /// <summary>
-        /// Delegate for <see cref="ISoapHandler.AfterSoapEnvelopeDeserialization"/> method.
+        /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeResponse"/> method.
         /// </summary>
-        public Action<ISoapClient, AfterSoapEnvelopeDeserializationArguments> AfterSoapEnvelopeDeserializationDelegate { get; set; }
+        public Action<ISoapClient, OnSoapEnvelopeResponseArguments> OnSoapEnvelopeResponseDelegate { get; set; }
 
         #region Implementation of ISoapHandler
 
@@ -65,9 +65,9 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public void BeforeSoapEnvelopeSerialization(ISoapClient client, BeforeSoapEnvelopeSerializationArguments arguments)
+        public void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeRequestArguments arguments)
         {
-            BeforeSoapEnvelopeSerializationDelegate?.Invoke(client, arguments);
+            OnSoapEnvelopeRequestDelegate?.Invoke(client, arguments);
         }
 
         /// <summary>
@@ -76,9 +76,9 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public void BeforeHttpRequest(ISoapClient client, BeforeHttpRequestArguments arguments)
+        public void OnHttpRequest(ISoapClient client, OnHttpRequestArguments arguments)
         {
-            BeforeHttpRequestDelegate?.Invoke(client, arguments);
+            OnHttpRequestDelegate?.Invoke(client, arguments);
         }
 
         /// <summary>
@@ -87,9 +87,9 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public void AfterHttpResponse(ISoapClient client, AfterHttpResponseArguments arguments)
+        public void OnHttpResponse(ISoapClient client, OnHttpResponseArguments arguments)
         {
-            AfterHttpResponseDelegate?.Invoke(client, arguments);
+            OnHttpResponseDelegate?.Invoke(client, arguments);
         }
 
         /// <summary>
@@ -98,9 +98,9 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public void AfterSoapEnvelopeDeserialization(ISoapClient client, AfterSoapEnvelopeDeserializationArguments arguments)
+        public void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeResponseArguments arguments)
         {
-            AfterSoapEnvelopeDeserializationDelegate?.Invoke(client, arguments);
+            OnSoapEnvelopeResponseDelegate?.Invoke(client, arguments);
         }
 
         #endregion

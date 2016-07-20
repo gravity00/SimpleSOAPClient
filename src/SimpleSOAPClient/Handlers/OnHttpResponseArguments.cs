@@ -24,44 +24,44 @@
 namespace SimpleSOAPClient.Handlers
 {
     using System;
-    using Models;
+    using System.Net.Http;
 
     /// <summary>
-    /// The SOAP Handler arguments for <see cref="ISoapHandler.BeforeSoapEnvelopeSerialization"/> method.
+    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnHttpResponse"/> method.
     /// </summary>
-    public sealed class BeforeSoapEnvelopeSerializationArguments : SoapHandlerArguments
+    public sealed class OnHttpResponseArguments : SoapHandlerArguments
     {
-        private SoapEnvelope _envelope;
+        private HttpResponseMessage _response;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="envelope">The SOAP envelope</param>
+        /// <param name="response">The HTTP message response</param>
         /// <param name="url">The SOAP service url</param>
         /// <param name="action">The SOAP action</param>
         /// <param name="trackingId">An optional tracking id</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public BeforeSoapEnvelopeSerializationArguments(SoapEnvelope envelope, string url, string action, Guid? trackingId = null)
+        public OnHttpResponseArguments(HttpResponseMessage response, string url, string action, Guid? trackingId = null) 
             : base(url, action, trackingId)
         {
-            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+            if (response == null) throw new ArgumentNullException(nameof(response));
 
-            _envelope = envelope;
+            _response = response;
         }
 
-        #region Implementation of IBeforeSoapEnvelopeSerializationArguments
+        #region Implementation of IAfterHttpResponseArguments
 
         /// <summary>
-        /// The SOAP Envelope to be serialized
+        /// The current HTTP response message
         /// </summary>
-        public SoapEnvelope Envelope
+        public HttpResponseMessage Response
         {
-            get { return _envelope; }
+            get { return _response; }
             set
             {
                 if (value == null) throw new ArgumentNullException(nameof(value));
-                _envelope = value;
+                _response = value;
             }
         }
 

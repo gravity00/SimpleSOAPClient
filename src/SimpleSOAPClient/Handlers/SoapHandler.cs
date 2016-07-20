@@ -45,7 +45,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public virtual void BeforeSoapEnvelopeSerialization(ISoapClient client, BeforeSoapEnvelopeSerializationArguments arguments)
+        public virtual void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeRequestArguments arguments)
         {
             
         }
@@ -56,7 +56,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public virtual void BeforeHttpRequest(ISoapClient client, BeforeHttpRequestArguments arguments)
+        public virtual void OnHttpRequest(ISoapClient client, OnHttpRequestArguments arguments)
         {
 
         }
@@ -67,7 +67,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public virtual void AfterHttpResponse(ISoapClient client, AfterHttpResponseArguments arguments)
+        public virtual void OnHttpResponse(ISoapClient client, OnHttpResponseArguments arguments)
         {
 
         }
@@ -78,7 +78,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public virtual void AfterSoapEnvelopeDeserialization(ISoapClient client, AfterSoapEnvelopeDeserializationArguments arguments)
+        public virtual void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeResponseArguments arguments)
         {
 
         }

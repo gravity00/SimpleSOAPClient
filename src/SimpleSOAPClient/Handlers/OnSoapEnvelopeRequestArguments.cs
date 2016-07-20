@@ -27,9 +27,9 @@ namespace SimpleSOAPClient.Handlers
     using Models;
 
     /// <summary>
-    /// The SOAP Handler arguments for <see cref="ISoapHandler.AfterSoapEnvelopeDeserialization"/> method.
+    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnSoapEnvelopeRequest"/> method.
     /// </summary>
-    public sealed class AfterSoapEnvelopeDeserializationArguments : SoapHandlerArguments
+    public sealed class OnSoapEnvelopeRequestArguments : SoapHandlerArguments
     {
         private SoapEnvelope _envelope;
 
@@ -42,7 +42,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="trackingId">An optional tracking id</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public AfterSoapEnvelopeDeserializationArguments(SoapEnvelope envelope, string url, string action, Guid? trackingId = null) 
+        public OnSoapEnvelopeRequestArguments(SoapEnvelope envelope, string url, string action, Guid? trackingId = null)
             : base(url, action, trackingId)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
@@ -50,10 +50,10 @@ namespace SimpleSOAPClient.Handlers
             _envelope = envelope;
         }
 
-        #region Implementation of IAfterSoapEnvelopeDeserializationArguments
+        #region Implementation of IBeforeSoapEnvelopeSerializationArguments
 
         /// <summary>
-        /// The SOAP Envelope that was deserialized
+        /// The SOAP Envelope to be serialized
         /// </summary>
         public SoapEnvelope Envelope
         {

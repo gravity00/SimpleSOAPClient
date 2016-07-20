@@ -260,22 +260,22 @@ namespace SimpleSOAPClient
 
         #region Private
 
-        private BeforeSoapEnvelopeSerializationArguments RunBeforeSoapEnvelopeSerializationHandlers(
+        private OnSoapEnvelopeRequestArguments RunBeforeSoapEnvelopeSerializationHandlers(
             SoapEnvelope envelope, string url, string action, Guid trackingId, IEnumerable<ISoapHandler> handlers)
         {
             var beforeSoapEnvelopeSerializationArg =
-                new BeforeSoapEnvelopeSerializationArguments(envelope, url, action, trackingId);
+                new OnSoapEnvelopeRequestArguments(envelope, url, action, trackingId);
             foreach (var handler in handlers)
-                handler.BeforeSoapEnvelopeSerialization(this, beforeSoapEnvelopeSerializationArg);
+                handler.OnSoapEnvelopeRequest(this, beforeSoapEnvelopeSerializationArg);
 
             return beforeSoapEnvelopeSerializationArg;
         }
 
-        private BeforeHttpRequestArguments RunBeforeHttpRequestHandlers(
+        private OnHttpRequestArguments RunBeforeHttpRequestHandlers(
             string xml, string url, string action, Guid trackingId, object state, IEnumerable<ISoapHandler> handlers)
         {
             var beforeHttpRequestArguments =
-                new BeforeHttpRequestArguments(new HttpRequestMessage(HttpMethod.Post, url)
+                new OnHttpRequestArguments(new HttpRequestMessage(HttpMethod.Post, url)
                 {
                     Content = new StringContent(xml, Encoding.UTF8, "text/xml")
                 }, url, action, trackingId)
@@ -283,35 +283,35 @@ namespace SimpleSOAPClient
                     State = state
                 };
             foreach (var handler in handlers)
-                handler.BeforeHttpRequest(this, beforeHttpRequestArguments);
+                handler.OnHttpRequest(this, beforeHttpRequestArguments);
 
             return beforeHttpRequestArguments;
         }
 
-        private AfterHttpResponseArguments RunAfterHttpResponseHandlers(
+        private OnHttpResponseArguments RunAfterHttpResponseHandlers(
             HttpResponseMessage response, string url, string action, Guid trackingId, object state, IEnumerable<ISoapHandler> handlers)
         {
             var afterHttpResponseArguments =
-                new AfterHttpResponseArguments(response, url, action, trackingId)
+                new OnHttpResponseArguments(response, url, action, trackingId)
                 {
                     State = state
                 };
             foreach (var handler in handlers)
-                handler.AfterHttpResponse(this, afterHttpResponseArguments);
+                handler.OnHttpResponse(this, afterHttpResponseArguments);
 
             return afterHttpResponseArguments;
         }
 
-        private AfterSoapEnvelopeDeserializationArguments RunAfterSoapEnvelopeDeserializationHandler(
+        private OnSoapEnvelopeResponseArguments RunAfterSoapEnvelopeDeserializationHandler(
             SoapEnvelope envelope, string url, string action, Guid trackingId, object state, IEnumerable<ISoapHandler> handlers)
         {
             var afterSoapEnvelopeDeserializationArguments =
-                new AfterSoapEnvelopeDeserializationArguments(envelope, url, action, trackingId)
+                new OnSoapEnvelopeResponseArguments(envelope, url, action, trackingId)
                 {
                     State = state
                 };
             foreach (var handler in handlers)
-                handler.AfterSoapEnvelopeDeserialization(this, afterSoapEnvelopeDeserializationArguments);
+                handler.OnSoapEnvelopeResponse(this, afterSoapEnvelopeDeserializationArguments);
 
             return afterSoapEnvelopeDeserializationArguments;
         }

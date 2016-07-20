@@ -27,9 +27,9 @@ namespace SimpleSOAPClient.Handlers
     using System.Net.Http;
 
     /// <summary>
-    /// The SOAP Handler arguments for <see cref="ISoapHandler.BeforeHttpRequest"/> method.
+    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnHttpRequest"/> method.
     /// </summary>
-    public sealed class BeforeHttpRequestArguments : SoapHandlerArguments
+    public sealed class OnHttpRequestArguments : SoapHandlerArguments
     {
         private HttpRequestMessage _request;
 
@@ -42,7 +42,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="trackingId">An optional tracking id</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public BeforeHttpRequestArguments(HttpRequestMessage request, string url, string action, Guid? trackingId = null) 
+        public OnHttpRequestArguments(HttpRequestMessage request, string url, string action, Guid? trackingId = null) 
             : base(url, action, trackingId)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
