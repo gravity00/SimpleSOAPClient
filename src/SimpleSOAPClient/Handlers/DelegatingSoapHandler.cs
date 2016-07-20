@@ -35,22 +35,22 @@ namespace SimpleSOAPClient.Handlers
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeRequest"/> method.
         /// </summary>
-        public Action<ISoapClient, OnSoapEnvelopeRequestArguments> OnSoapEnvelopeRequestDelegate { get; set; }
+        public Action<ISoapClient, OnSoapEnvelopeRequestArguments> OnSoapEnvelopeRequestAction { get; set; }
 
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnHttpRequest"/> method.
         /// </summary>
-        public Action<ISoapClient, OnHttpRequestArguments> OnHttpRequestDelegate { get; set; }
+        public Action<ISoapClient, OnHttpRequestArguments> OnHttpRequestAction { get; set; }
 
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnHttpResponse"/> method.
         /// </summary>
-        public Action<ISoapClient, OnHttpResponseArguments> OnHttpResponseDelegate { get; set; }
+        public Action<ISoapClient, OnHttpResponseArguments> OnHttpResponseAction { get; set; }
 
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeResponse"/> method.
         /// </summary>
-        public Action<ISoapClient, OnSoapEnvelopeResponseArguments> OnSoapEnvelopeResponseDelegate { get; set; }
+        public Action<ISoapClient, OnSoapEnvelopeResponseArguments> OnSoapEnvelopeResponseAction { get; set; }
 
         #region Implementation of ISoapHandler
 
@@ -67,7 +67,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         public void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeRequestArguments arguments)
         {
-            OnSoapEnvelopeRequestDelegate?.Invoke(client, arguments);
+            OnSoapEnvelopeRequestAction?.Invoke(client, arguments);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         public void OnHttpRequest(ISoapClient client, OnHttpRequestArguments arguments)
         {
-            OnHttpRequestDelegate?.Invoke(client, arguments);
+            OnHttpRequestAction?.Invoke(client, arguments);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         public void OnHttpResponse(ISoapClient client, OnHttpResponseArguments arguments)
         {
-            OnHttpResponseDelegate?.Invoke(client, arguments);
+            OnHttpResponseAction?.Invoke(client, arguments);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         public void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeResponseArguments arguments)
         {
-            OnSoapEnvelopeResponseDelegate?.Invoke(client, arguments);
+            OnSoapEnvelopeResponseAction?.Invoke(client, arguments);
         }
 
         #endregion

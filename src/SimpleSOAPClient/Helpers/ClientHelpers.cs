@@ -88,7 +88,7 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnSoapEnvelopeRequestDelegate = action
+                OnSoapEnvelopeRequestAction = action
             });
             return client;
         }
@@ -113,7 +113,7 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnHttpRequestDelegate = action
+                OnHttpRequestAction = action
             });
             return client;
         }
@@ -138,7 +138,7 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnHttpResponseDelegate = action
+                OnHttpResponseAction = action
             });
             return client;
         }
@@ -163,7 +163,7 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnSoapEnvelopeResponseDelegate = action
+                OnSoapEnvelopeResponseAction = action
             });
             return client;
         }
