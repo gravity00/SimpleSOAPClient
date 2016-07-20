@@ -35,7 +35,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="url">The SOAP service url</param>
         /// <param name="action">The SOAP action</param>
-        /// <param name="trackingId">An optional tracking id</param>
+        /// <param name="trackingId">An optional tracking id. If null <see cref="Guid.NewGuid"/> will be used.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         protected SoapHandlerArguments(string url, string action, Guid? trackingId = null)
