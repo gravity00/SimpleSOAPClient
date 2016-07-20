@@ -35,31 +35,10 @@ namespace SimpleSOAPClient
     /// </summary>
     public interface ISoapClient
     {
-        #region Handlers
-
         /// <summary>
-        /// Handler collection that can manipulate the <see cref="SoapEnvelope"/>
-        /// before serialization.
+        /// The handler
         /// </summary>
-        IEnumerable<Func<ISoapClient, IRequestEnvelopeHandlerData, IRequestEnvelopeHandlerResult>> RequestEnvelopeHandlers { get; }
-
-        /// <summary>
-        /// Handler collection that can manipulate the generated XML string.
-        /// </summary>
-        IEnumerable<Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult>> RequestRawHandlers { get; }
-
-        /// <summary>
-        /// Handler collection that can manipulate the returned string before deserialization.
-        /// </summary>
-        IEnumerable<Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult>> ResponseRawHandlers { get; }
-
-        /// <summary>
-        /// Handler collection that can manipulate the <see cref="SoapEnvelope"/> returned
-        /// by the SOAP Endpoint.
-        /// </summary>
-        IEnumerable<Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult>> ResponseEnvelopeHandlers { get; }
-
-        #endregion
+        IReadOnlyCollection<ISoapHandler> Handlers { get; }
 
         /// <summary>
         /// Indicates if the XML declaration should be removed from the
@@ -93,36 +72,10 @@ namespace SimpleSOAPClient
 
         #endregion
 
-        #region AddHandler
-
         /// <summary>
-        /// Appends the given handler to the <see cref="RequestEnvelopeHandlers"/> collection.
+        /// Adds the <see cref="ISoapHandler"/> to the <see cref="Handlers"/> collection.
         /// </summary>
-        /// <param name="handler">The handler to append</param>
-        void AddRequestEnvelopeHandler(
-            Func<ISoapClient, IRequestEnvelopeHandlerData, IRequestEnvelopeHandlerResult> handler);
-
-        /// <summary>
-        /// Appends the given handler to the <see cref="RequestRawHandlers"/> collection.
-        /// </summary>
-        /// <param name="handler">The handler to append</param>
-        void AddRequestRawHandler(
-            Func<ISoapClient, IRequestRawHandlerData, IRequestRawHandlerResult> handler);
-
-        /// <summary>
-        /// Appends the given handler to the <see cref="ResponseRawHandlers"/> collection.
-        /// </summary>
-        /// <param name="handler">The handler to append</param>
-        void AddResponseRawHandler(
-            Func<ISoapClient, IResponseRawHandlerData, IResponseRawHandlerResult> handler);
-
-        /// <summary>
-        /// Appends the given handler to the <see cref="ResponseEnvelopeHandlers"/> collection.
-        /// </summary>
-        /// <param name="handler">The handler to append</param>
-        void AddResponseEnvelopeHandler(
-            Func<ISoapClient, IResponseEnvelopeHandlerData, IResponseEnvelopeHandlerResult> handler);
-
-        #endregion
+        /// <param name="handler">The handler to add</param>
+        void AddHandler(ISoapHandler handler);
     }
 }
