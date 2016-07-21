@@ -24,6 +24,8 @@
 namespace SimpleSOAPClient.Helpers
 {
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Handlers;
 
     /// <summary>
@@ -67,6 +69,8 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(handler);
             return client;
         }
+
+        #region OnSoapEnvelopeRequest
 
         /// <summary>
         /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeRequest"/>
@@ -119,6 +123,60 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeRequestAsync"/>
+        /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="action">The handler action</param>
+        /// <param name="order">The handler order</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient OnSoapEnvelopeRequest<TSoapClient>(
+            this TSoapClient client, Func<ISoapClient, OnSoapEnvelopeRequestArguments, CancellationToken, Task> action, int order = 0)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            client.AddHandler(new DelegatingSoapHandler
+            {
+                Order = order,
+                OnSoapEnvelopeRequestAsyncAction = action
+            });
+            return client;
+        }
+
+        /// <summary>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeRequestAsync"/>
+        /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="action">The handler action</param>
+        /// <param name="order">The handler order</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient OnSoapEnvelopeRequest<TSoapClient>(
+            this TSoapClient client, Func<OnSoapEnvelopeRequestArguments, CancellationToken, Task> action, int order = 0)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            client.AddHandler(new DelegatingSoapHandler
+            {
+                Order = order,
+                OnSoapEnvelopeRequestAsyncAction = async (c, args, ct) => await action(args, ct)
+            });
+            return client;
+        }
+
+        #endregion
+
+        #region OnHttpRequest
+
+        /// <summary>
         /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnHttpRequest"/>
         /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
         /// </summary>
@@ -167,6 +225,60 @@ namespace SimpleSOAPClient.Helpers
             });
             return client;
         }
+
+        /// <summary>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnHttpRequestAsync"/>
+        /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="action">The handler action</param>
+        /// <param name="order">The handler order</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient OnHttpRequest<TSoapClient>(
+            this TSoapClient client, Func<ISoapClient, OnHttpRequestArguments, CancellationToken, Task> action, int order = 0)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            client.AddHandler(new DelegatingSoapHandler
+            {
+                Order = order,
+                OnHttpRequestAsyncAction = action
+            });
+            return client;
+        }
+
+        /// <summary>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnHttpRequestAsync"/>
+        /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="action">The handler action</param>
+        /// <param name="order">The handler order</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient OnHttpRequest<TSoapClient>(
+            this TSoapClient client, Func<OnHttpRequestArguments, CancellationToken, Task> action, int order = 0)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            client.AddHandler(new DelegatingSoapHandler
+            {
+                Order = order,
+                OnHttpRequestAsyncAction = async (c, args, ct) => await action(args, ct)
+            });
+            return client;
+        }
+
+        #endregion
+
+        #region OnHttpResponse
 
         /// <summary>
         /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnHttpResponse"/>
@@ -219,6 +331,60 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnHttpResponseAsync"/>
+        /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="action">The handler action</param>
+        /// <param name="order">The handler order</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient OnHttpResponse<TSoapClient>(
+            this TSoapClient client, Func<ISoapClient, OnHttpResponseArguments, CancellationToken, Task> action, int order = 0)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            client.AddHandler(new DelegatingSoapHandler
+            {
+                Order = order,
+                OnHttpResponseAsyncAction = action
+            });
+            return client;
+        }
+
+        /// <summary>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnHttpResponseAsync"/>
+        /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="action">The handler action</param>
+        /// <param name="order">The handler order</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient OnHttpResponse<TSoapClient>(
+            this TSoapClient client, Func<OnHttpResponseArguments, CancellationToken, Task> action, int order = 0)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            client.AddHandler(new DelegatingSoapHandler
+            {
+                Order = order,
+                OnHttpResponseAsyncAction = async (c, args, ct) => await action(args, ct)
+            });
+            return client;
+        }
+
+        #endregion
+
+        #region OnSoapEnvelopeResponse
+
+        /// <summary>
         /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeResponse"/>
         /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
         /// </summary>
@@ -267,6 +433,58 @@ namespace SimpleSOAPClient.Helpers
             });
             return client;
         }
+
+        /// <summary>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeResponseAsync"/>
+        /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="action">The handler action</param>
+        /// <param name="order">The handler order</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient OnSoapEnvelopeResponse<TSoapClient>(
+            this TSoapClient client, Func<ISoapClient, OnSoapEnvelopeResponseArguments, CancellationToken, Task> action, int order = 0)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            client.AddHandler(new DelegatingSoapHandler
+            {
+                Order = order,
+                OnSoapEnvelopeResponseAsyncAction = action
+            });
+            return client;
+        }
+
+        /// <summary>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeResponseAsync"/>
+        /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <param name="action">The handler action</param>
+        /// <param name="order">The handler order</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient OnSoapEnvelopeResponse<TSoapClient>(
+            this TSoapClient client, Func<OnSoapEnvelopeResponseArguments, CancellationToken, Task> action, int order = 0)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            client.AddHandler(new DelegatingSoapHandler
+            {
+                Order = order,
+                OnSoapEnvelopeResponseAsyncAction = async (c, args, ct) => await action(args, ct)
+            });
+            return client;
+        }
+
+        #endregion
 
         #endregion
     }
