@@ -24,6 +24,8 @@
 namespace SimpleSOAPClient.Handlers
 {
     using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Models;
 
     /// <summary>
@@ -51,6 +53,20 @@ namespace SimpleSOAPClient.Handlers
         }
 
         /// <summary>
+        /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
+        /// Useful to add properties like <see cref="SoapHeader"/>.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>Task to be awaited</returns>
+        public virtual Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeRequestArguments arguments, CancellationToken ct)
+        {
+            OnSoapEnvelopeRequest(client, arguments);
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
         /// Method invoked before sending the <see cref="HttpRequestMessage"/> to the server.
         /// Useful to log the request or change properties like HTTP headers.
         /// </summary>
@@ -59,6 +75,20 @@ namespace SimpleSOAPClient.Handlers
         public virtual void OnHttpRequest(ISoapClient client, OnHttpRequestArguments arguments)
         {
 
+        }
+
+        /// <summary>
+        /// Method invoked before sending the <see cref="HttpRequestMessage"/> to the server.
+        /// Useful to log the request or change properties like HTTP headers.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>Task to be awaited</returns>
+        public virtual Task OnHttpRequestAsync(ISoapClient client, OnHttpRequestArguments arguments, CancellationToken ct)
+        {
+            OnHttpRequest(client, arguments);
+            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -73,6 +103,20 @@ namespace SimpleSOAPClient.Handlers
         }
 
         /// <summary>
+        /// Method invoked after receiving a <see cref="HttpResponseMessage"/> from the server.
+        /// Useful to log the response or validate HTTP headers.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>Task to be awaited</returns>
+        public virtual Task OnHttpResponseAsync(ISoapClient client, OnHttpResponseArguments arguments, CancellationToken ct)
+        {
+            OnHttpResponse(client, arguments);
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
         /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
         /// Useful to validate properties like <see cref="SoapHeader"/>.
         /// </summary>
@@ -81,6 +125,20 @@ namespace SimpleSOAPClient.Handlers
         public virtual void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeResponseArguments arguments)
         {
 
+        }
+
+        /// <summary>
+        /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
+        /// Useful to validate properties like <see cref="SoapHeader"/>.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>Task to be awaited</returns>
+        public virtual Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeResponseArguments arguments, CancellationToken ct)
+        {
+            OnSoapEnvelopeResponse(client, arguments);
+            return Task.FromResult(true);
         }
 
         #endregion
