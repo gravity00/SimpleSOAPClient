@@ -32,7 +32,6 @@ namespace SimpleSOAPClient
     using System.Threading.Tasks;
     using Exceptions;
     using Handlers;
-    using Helpers;
     using Models;
 
     /// <summary>
@@ -42,6 +41,7 @@ namespace SimpleSOAPClient
     {
         private readonly bool _disposeHttpClient = true;
         private readonly List<ISoapHandler> _handlers = new List<ISoapHandler>();
+        private ISoapEnvelopeSerializationProvider _serializationProvider = new SoapEnvelopeSerializationProvider();
 
         /// <summary>
         /// The used HTTP client
@@ -99,10 +99,18 @@ namespace SimpleSOAPClient
         public IReadOnlyCollection<ISoapHandler> Handlers => _handlers;
 
         /// <summary>
-        /// Indicates if the XML declaration should be removed from the
-        /// serialized SOAP Envelopes
+        /// The serialization provider for SOAP envelopes
         /// </summary>
-        public bool RemoveXmlDeclaration { get; set; } = true;
+        /// <exception cref="ArgumentNullException"></exception>
+        public ISoapEnvelopeSerializationProvider SerializationProvider
+        {
+            get { return _serializationProvider; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                _serializationProvider = value;
+            }
+        }
 
         #region Send
 
@@ -129,7 +137,11 @@ namespace SimpleSOAPClient
             string requestXml;
             try
             {
-                requestXml = beforeSoapEnvelopeSerializationHandlersResult.Envelope.ToXmlString(RemoveXmlDeclaration);
+                requestXml = SerializationProvider.ToXmlString(beforeSoapEnvelopeSerializationHandlersResult.Envelope);
+            }
+            catch (SoapEnvelopeSerializationException)
+            {
+                throw;
             }
             catch (Exception e)
             {
@@ -158,7 +170,11 @@ namespace SimpleSOAPClient
             SoapEnvelope responseEnvelope;
             try
             {
-                responseEnvelope = responseXml.ToObject<SoapEnvelope>();
+                responseEnvelope = SerializationProvider.ToSoapEnvelope(responseXml);
+            }
+            catch (SoapEnvelopeDeserializationException)
+            {
+                throw;
             }
             catch (Exception e)
             {

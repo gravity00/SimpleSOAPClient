@@ -34,19 +34,21 @@ namespace SimpleSOAPClient.Helpers
     public static class ClientHelpers
     {
         /// <summary>
-        /// Should the XML declaration be removed from the resulting deserialization?
+        /// Sets the <see cref="ISoapEnvelopeSerializationProvider"/> to be used by the client.
         /// </summary>
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
         /// <param name="client">The client to be used</param>
-        /// <param name="remove">Should the XML declaration be removed? Defaults to true</param>
+        /// <param name="serializationProvider">The serialization provider</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static TSoapClient OnSerializeRemoveXmlDeclaration<TSoapClient>(this TSoapClient client, bool remove = true)
+        public static TSoapClient UsingSerializationProvider<TSoapClient>(
+            this TSoapClient client, ISoapEnvelopeSerializationProvider serializationProvider)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
+            if (serializationProvider == null) throw new ArgumentNullException(nameof(serializationProvider));
 
-            client.RemoveXmlDeclaration = remove;
+            client.SerializationProvider = serializationProvider;
             return client;
         }
 

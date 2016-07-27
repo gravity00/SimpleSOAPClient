@@ -41,10 +41,9 @@ namespace SimpleSOAPClient
         IReadOnlyCollection<ISoapHandler> Handlers { get; }
 
         /// <summary>
-        /// Indicates if the XML declaration should be removed from the
-        /// serialized SOAP Envelopes
+        /// The serialization provider for SOAP envelopes
         /// </summary>
-        bool RemoveXmlDeclaration { get; set; }
+        ISoapEnvelopeSerializationProvider SerializationProvider { get; set; }
 
         #region Send
 
