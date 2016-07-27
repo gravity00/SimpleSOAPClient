@@ -10,7 +10,12 @@
     "projectUrl": "https://github.com/gravity00/SimpleSOAPClient",
     "licenseUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE",
     "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
-    "releaseNotes": "Removed SOAP Client methods that didn't require a SOAP action\nRemoved support for .NET 4.0\nMissing ConfigureAwait(false)\nAdded factory interface for SOAP Client instances\nChanged SOAP request and response handlers logic\nThe SOAP Client now uses a XML serialization provider"
+    "releaseNotes": "Removed SOAP Client methods that didn't require a SOAP action\nRemoved support for .NET 4.0\nMissing ConfigureAwait(false)\nAdded factory interface for SOAP Client instances\nChanged SOAP request and response handlers logic\nThe SOAP Client now uses a XML serialization provider",
+    "owners": [ "João Simões" ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/gravity00/SimpleSOAPClient"
+    }
   },
   "buildOptions": {
     "xmlDoc": true,
