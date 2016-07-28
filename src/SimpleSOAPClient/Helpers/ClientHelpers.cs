@@ -24,6 +24,7 @@
 namespace SimpleSOAPClient.Helpers
 {
     using System;
+    using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
     using Handlers;
@@ -507,6 +508,29 @@ namespace SimpleSOAPClient.Helpers
         }
 
         #endregion
+
+        #endregion
+
+        #region HttpClient
+
+        /// <summary>
+        /// Allows an handler to configure the <see cref="SoapClient.HttpClient"/> instance.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP Client type</typeparam>
+        /// <param name="client">The client to configure</param>
+        /// <param name="cfgHandler">The configuration handler</param>
+        /// <returns>The client after changes</returns>
+        public static TSoapClient UsingClientConfiguration<TSoapClient>(
+            this TSoapClient client, Action<HttpClient> cfgHandler)
+            where TSoapClient : SoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            if (cfgHandler == null) throw new ArgumentNullException(nameof(cfgHandler));
+
+            cfgHandler(client.HttpClient);
+
+            return client;
+        }
 
         #endregion
     }
