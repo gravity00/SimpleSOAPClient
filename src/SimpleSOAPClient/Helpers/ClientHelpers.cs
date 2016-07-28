@@ -33,6 +33,8 @@ namespace SimpleSOAPClient.Helpers
     /// </summary>
     public static class ClientHelpers
     {
+        #region Settings
+
         /// <summary>
         /// Sets the <see cref="SoapClientSettings"/> to be used by the client.
         /// </summary>
@@ -67,6 +69,8 @@ namespace SimpleSOAPClient.Helpers
             client.Settings = SoapClientSettings.Default;
             return client;
         }
+
+        #endregion
 
         #region Handlers
 
