@@ -24,6 +24,34 @@
   },
 
   "frameworks": {
+    "monoandroid1.0": {
+      "frameworkAssemblies": {
+        "mscorlib": "",
+        "System": "",
+        "System.Core": "",
+        "System.IO": "",
+        "System.Net.Http": "",
+        "System.Runtime": "",
+        "System.Xml": "",
+        "System.Xml.Linq": "",
+        "System.Xml.XDocument": "",
+        "System.Xml.XmlSerializer": ""
+      }
+    },
+    "monotouch1.0": {
+      "frameworkAssemblies": {
+        "mscorlib": "",
+        "System": "",
+        "System.Core": "",
+        "System.IO": "",
+        "System.Net.Http": "",
+        "System.Runtime": "",
+        "System.Xml": "",
+        "System.Xml.Linq": "",
+        "System.Xml.XDocument": "",
+        "System.Xml.XmlSerializer": ""
+      }
+    },
     "net4.5": {
       "frameworkAssemblies": {
         "System.IO": "",
@@ -50,6 +78,34 @@
         "System.Linq": "4.1.0",
         "System.Xml.XDocument": "4.0.11",
         "System.Xml.XmlSerializer": "4.0.11"
+      }
+    },
+    "xamarinios1.0": {
+      "frameworkAssemblies": {
+        "mscorlib": "",
+        "System": "",
+        "System.Core": "",
+        "System.IO": "",
+        "System.Net.Http": "",
+        "System.Runtime": "",
+        "System.Xml": "",
+        "System.Xml.Linq": "",
+        "System.Xml.XDocument": "",
+        "System.Xml.XmlSerializer": ""
+      }
+    },
+    "xamarintvos1.0": {
+      "frameworkAssemblies": {
+        "mscorlib": "",
+        "System": "",
+        "System.Core": "",
+        "System.IO": "",
+        "System.Net.Http": "",
+        "System.Runtime": "",
+        "System.Xml": "",
+        "System.Xml.Linq": "",
+        "System.Xml.XDocument": "",
+        "System.Xml.XmlSerializer": ""
       }
     }
   }
