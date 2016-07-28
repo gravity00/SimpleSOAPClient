@@ -34,21 +34,37 @@ namespace SimpleSOAPClient.Helpers
     public static class ClientHelpers
     {
         /// <summary>
-        /// Sets the <see cref="ISoapEnvelopeSerializationProvider"/> to be used by the client.
+        /// Sets the <see cref="SoapClientSettings"/> to be used by the client.
         /// </summary>
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
         /// <param name="client">The client to be used</param>
-        /// <param name="serializationProvider">The serialization provider</param>
+        /// <param name="settings">The settings to be used</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static TSoapClient UsingSerializationProvider<TSoapClient>(
-            this TSoapClient client, ISoapEnvelopeSerializationProvider serializationProvider)
+        public static TSoapClient UsingSettings<TSoapClient>(
+            this TSoapClient client, SoapClientSettings settings)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
-            if (serializationProvider == null) throw new ArgumentNullException(nameof(serializationProvider));
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
 
-            client.SerializationProvider = serializationProvider;
+            client.Settings = settings;
+            return client;
+        }
+
+        /// <summary>
+        /// Sets the <see cref="SoapClientSettings.Default"/> as the settings to be used by the client.
+        /// </summary>
+        /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
+        /// <param name="client">The client to be used</param>
+        /// <returns>The SOAP client after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static TSoapClient UsingDefaultSettings<TSoapClient>(this TSoapClient client)
+            where TSoapClient : ISoapClient
+        {
+            if (client == null) throw new ArgumentNullException(nameof(client));
+
+            client.Settings = SoapClientSettings.Default;
             return client;
         }
 

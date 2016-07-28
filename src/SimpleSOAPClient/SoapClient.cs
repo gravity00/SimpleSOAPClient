@@ -41,7 +41,7 @@ namespace SimpleSOAPClient
     {
         private readonly bool _disposeHttpClient = true;
         private readonly List<ISoapHandler> _handlers = new List<ISoapHandler>();
-        private ISoapEnvelopeSerializationProvider _serializationProvider = new SoapEnvelopeSerializationProvider();
+        private SoapClientSettings _settings = SoapClientSettings.Default;
 
         /// <summary>
         /// The used HTTP client
@@ -99,16 +99,15 @@ namespace SimpleSOAPClient
         public IReadOnlyCollection<ISoapHandler> Handlers => _handlers;
 
         /// <summary>
-        /// The serialization provider for SOAP envelopes
+        /// The client settings
         /// </summary>
-        /// <exception cref="ArgumentNullException"></exception>
-        public ISoapEnvelopeSerializationProvider SerializationProvider
+        public SoapClientSettings Settings
         {
-            get { return _serializationProvider; }
+            get { return _settings; }
             set
             {
-                if (value == null) throw new ArgumentNullException(nameof(value));
-                _serializationProvider = value;
+                if(value == null) throw new ArgumentNullException(nameof(value));
+                _settings = value;
             }
         }
 
@@ -137,7 +136,8 @@ namespace SimpleSOAPClient
             string requestXml;
             try
             {
-                requestXml = SerializationProvider.ToXmlString(beforeSoapEnvelopeSerializationHandlersResult.Envelope);
+                requestXml =
+                    Settings.SerializationProvider.ToXmlString(beforeSoapEnvelopeSerializationHandlersResult.Envelope);
             }
             catch (SoapEnvelopeSerializationException)
             {
@@ -170,7 +170,8 @@ namespace SimpleSOAPClient
             SoapEnvelope responseEnvelope;
             try
             {
-                responseEnvelope = SerializationProvider.ToSoapEnvelope(responseXml);
+                responseEnvelope = 
+                    Settings.SerializationProvider.ToSoapEnvelope(responseXml);
             }
             catch (SoapEnvelopeDeserializationException)
             {

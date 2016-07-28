@@ -41,9 +41,9 @@ namespace SimpleSOAPClient
         IReadOnlyCollection<ISoapHandler> Handlers { get; }
 
         /// <summary>
-        /// The serialization provider for SOAP envelopes
+        /// The client settings
         /// </summary>
-        ISoapEnvelopeSerializationProvider SerializationProvider { get; set; }
+        SoapClientSettings Settings { get; set; }
 
         #region Send
 
