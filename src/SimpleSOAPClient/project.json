@@ -24,6 +24,29 @@
   },
 
   "frameworks": {
+    ".NETPortable,Version=v4.5,Profile=Profile111": {
+      "buildOptions": {
+        "define": [ "PORTABLE45" ]
+      },
+      "frameworkAssemblies": {
+        "mscorlib": "",
+        "System": "",
+        "System.Collections": "",
+        "System.Core": "",
+        "System.IO": "",
+        "System.Linq": "",
+        "System.Net.Http": "",
+        "System.Runtime": "",
+        "System.Text.Encoding": "",
+        "System.Threading": "",
+        "System.Threading.Tasks": "",
+        "System.Xml": "",
+        "System.Xml.Linq": "",
+        "System.Xml.ReaderWriter": "",
+        "System.Xml.XDocument": "",
+        "System.Xml.XmlSerializer": ""
+      }
+    },
     "monoandroid1.0": {
       "frameworkAssemblies": {
         "mscorlib": "",
@@ -78,29 +101,6 @@
         "System.Linq": "4.1.0",
         "System.Xml.XDocument": "4.0.11",
         "System.Xml.XmlSerializer": "4.0.11"
-      }
-    },
-    ".NETPortable,Version=v4.5,Profile=Profile111": {
-      "buildOptions": {
-        "define": [ "PORTABLE45" ]
-      },
-      "frameworkAssemblies": {
-        "mscorlib": "",
-        "System": "",
-        "System.Collections": "",
-        "System.Core": "",
-        "System.IO": "",
-        "System.Linq": "",
-        "System.Net.Http": "",
-        "System.Runtime": "",
-        "System.Text.Encoding": "",
-        "System.Threading": "",
-        "System.Threading.Tasks": "",
-        "System.Xml": "",
-        "System.Xml.Linq": "",
-        "System.Xml.ReaderWriter": "",
-        "System.Xml.XDocument": "",
-        "System.Xml.XmlSerializer": ""
       }
     },
     "xamarinios1.0": {
