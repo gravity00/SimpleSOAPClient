@@ -41,7 +41,7 @@ namespace SimpleSOAPClient
     {
         private readonly bool _disposeHttpClient = true;
         private readonly List<ISoapHandler> _handlers = new List<ISoapHandler>();
-        private SoapClientSettings _settings = SoapClientSettings.Default;
+        private SoapClientSettings _settings;
 
         /// <summary>
         /// The used HTTP client
@@ -53,8 +53,53 @@ namespace SimpleSOAPClient
         /// <summary>
         /// Creates a new SOAP Client
         /// </summary>
-        public SoapClient()
-            : this(new HttpClient())
+        /// <param name="settings">The settings to be used</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public SoapClient(SoapClientSettings settings)
+        {
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
+
+            _settings = settings;
+            HttpClient = _settings.HttpClientFactory.Get();
+        }
+
+        /// <summary>
+        /// Creates a new SOAP Client
+        /// </summary>
+        /// <param name="settings">The settings to be used</param>
+        /// <param name="handler">The handler to be used by the <see cref="HttpClient"/></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public SoapClient(SoapClientSettings settings, HttpMessageHandler handler)
+        {
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            _settings = settings;
+            HttpClient = _settings.HttpClientFactory.Get(handler);
+        }
+
+        /// <summary>
+        /// Creates a new SOAP Client
+        /// </summary>
+        /// <param name="settings">The settings to be used</param>
+        /// <param name="httpClient">The <see cref="HttpClient"/> to be used</param>
+        /// <param name="disposeHttpClient">Should the client also be disposed</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public SoapClient(SoapClientSettings settings, HttpClient httpClient, bool disposeHttpClient = true)
+        {
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
+            if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
+
+            _settings = settings;
+            HttpClient = httpClient;
+            _disposeHttpClient = disposeHttpClient;
+        }
+
+        /// <summary>
+        /// Creates a new SOAP Client
+        /// </summary>
+        public SoapClient() 
+            : this(SoapClientSettings.Default)
         {
 
         }
@@ -63,11 +108,10 @@ namespace SimpleSOAPClient
         /// Creates a new SOAP Client
         /// </summary>
         /// <param name="handler">The handler to be used by the <see cref="HttpClient"/></param>
-        public SoapClient(HttpMessageHandler handler)
+        public SoapClient(HttpMessageHandler handler) 
+            : this(SoapClientSettings.Default, handler)
         {
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
 
-            HttpClient = new HttpClient(handler);
         }
 
         /// <summary>
@@ -75,12 +119,10 @@ namespace SimpleSOAPClient
         /// </summary>
         /// <param name="httpClient">The <see cref="HttpClient"/> to be used</param>
         /// <param name="disposeHttpClient">Should the client also be disposed</param>
-        public SoapClient(HttpClient httpClient, bool disposeHttpClient = true)
+        public SoapClient(HttpClient httpClient, bool disposeHttpClient = true) 
+            : this(SoapClientSettings.Default, httpClient, disposeHttpClient)
         {
-            if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
 
-            HttpClient = httpClient;
-            _disposeHttpClient = disposeHttpClient;
         }
 
         /// <summary>Allows an object to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.</summary>
