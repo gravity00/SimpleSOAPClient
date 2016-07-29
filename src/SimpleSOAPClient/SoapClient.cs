@@ -169,11 +169,11 @@ namespace SimpleSOAPClient
             string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
         {
             var trackingId = Guid.NewGuid();
-            var handlersOrderedAsc = _handlers.OrderBy(e => e.Order).ToList();
+            var orderedHandlers = _handlers.OrderBy(e => e.Order).ToArray();
 
             var beforeSoapEnvelopeSerializationHandlersResult =
                 await RunBeforeSoapEnvelopeSerializationHandlers(
-                    requestEnvelope, url, action, trackingId, handlersOrderedAsc, ct);
+                    requestEnvelope, url, action, trackingId, orderedHandlers, ct);
 
             string requestXml;
             try
@@ -193,16 +193,14 @@ namespace SimpleSOAPClient
             var beforeHttpRequestHandlersResult =
                 await RunBeforeHttpRequestHandlers(
                     requestXml, url, action, trackingId,
-                    beforeSoapEnvelopeSerializationHandlersResult.State, handlersOrderedAsc, ct);
+                    beforeSoapEnvelopeSerializationHandlersResult.State, orderedHandlers, ct);
 
             var response =
                 await HttpClient.SendAsync(beforeHttpRequestHandlersResult.Request, ct).ConfigureAwait(false);
 
-            var handlersOrderedDesc = _handlers.OrderByDescending(e => e.Order).ToList();
-
             var afterHttpResponseHandlersResult =
                 await RunAfterHttpResponseHandlers(
-                    response, url, action, trackingId, beforeHttpRequestHandlersResult.State, handlersOrderedDesc, ct);
+                    response, url, action, trackingId, beforeHttpRequestHandlersResult.State, orderedHandlers, ct);
 
             var responseXml =
                 await afterHttpResponseHandlersResult.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -227,7 +225,7 @@ namespace SimpleSOAPClient
             var afterSoapEnvelopeDeserializationHandlerResult =
                 await RunAfterSoapEnvelopeDeserializationHandler(
                     responseEnvelope, url, action, trackingId,
-                    afterHttpResponseHandlersResult.State, handlersOrderedDesc, ct);
+                    afterHttpResponseHandlersResult.State, orderedHandlers, ct);
 
             return afterSoapEnvelopeDeserializationHandlerResult.Envelope;
         }
@@ -320,18 +318,18 @@ namespace SimpleSOAPClient
         #region Private
 
         private async Task<OnSoapEnvelopeRequestArguments> RunBeforeSoapEnvelopeSerializationHandlers(
-            SoapEnvelope envelope, string url, string action, Guid trackingId, IEnumerable<ISoapHandler> handlers, CancellationToken ct)
+            SoapEnvelope envelope, string url, string action, Guid trackingId, ISoapHandler[] orderedHandlers, CancellationToken ct)
         {
             var beforeSoapEnvelopeSerializationArg =
                 new OnSoapEnvelopeRequestArguments(envelope, url, action, trackingId);
-            foreach (var handler in handlers)
+            foreach (var handler in orderedHandlers)
                 await handler.OnSoapEnvelopeRequestAsync(this, beforeSoapEnvelopeSerializationArg, ct);
 
             return beforeSoapEnvelopeSerializationArg;
         }
 
         private async Task<OnHttpRequestArguments> RunBeforeHttpRequestHandlers(
-            string xml, string url, string action, Guid trackingId, object state, IEnumerable<ISoapHandler> handlers, CancellationToken ct)
+            string xml, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
         {
             var beforeHttpRequestArguments =
                 new OnHttpRequestArguments(new HttpRequestMessage(HttpMethod.Post, url)
@@ -341,36 +339,37 @@ namespace SimpleSOAPClient
                 {
                     State = state
                 };
-            foreach (var handler in handlers)
+            foreach (var handler in orderedHandlers)
                 await handler.OnHttpRequestAsync(this, beforeHttpRequestArguments, ct);
 
             return beforeHttpRequestArguments;
         }
 
         private async Task<OnHttpResponseArguments> RunAfterHttpResponseHandlers(
-            HttpResponseMessage response, string url, string action, Guid trackingId, object state, IEnumerable<ISoapHandler> handlers, CancellationToken ct)
+            HttpResponseMessage response, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
         {
             var afterHttpResponseArguments =
                 new OnHttpResponseArguments(response, url, action, trackingId)
                 {
                     State = state
                 };
-            foreach (var handler in handlers)
-                await handler.OnHttpResponseAsync(this, afterHttpResponseArguments, ct);
+            for (var index = orderedHandlers.Length - 1; index >= 0; index--)
+                await orderedHandlers[index].OnHttpResponseAsync(this, afterHttpResponseArguments, ct);
 
             return afterHttpResponseArguments;
         }
 
         private async Task<OnSoapEnvelopeResponseArguments> RunAfterSoapEnvelopeDeserializationHandler(
-            SoapEnvelope envelope, string url, string action, Guid trackingId, object state, IEnumerable<ISoapHandler> handlers, CancellationToken ct)
+            SoapEnvelope envelope, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
         {
             var afterSoapEnvelopeDeserializationArguments =
                 new OnSoapEnvelopeResponseArguments(envelope, url, action, trackingId)
                 {
                     State = state
                 };
-            foreach (var handler in handlers)
-                await handler.OnSoapEnvelopeResponseAsync(this, afterSoapEnvelopeDeserializationArguments, ct);
+            for (var index = orderedHandlers.Length - 1; index >= 0; index--)
+                await orderedHandlers[index].OnSoapEnvelopeResponseAsync(
+                    this, afterSoapEnvelopeDeserializationArguments, ct);
 
             return afterSoapEnvelopeDeserializationArguments;
         }
