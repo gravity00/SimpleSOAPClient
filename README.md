@@ -26,6 +26,8 @@ This library is compatible with the folowing frameworks:
 
 ## Usage (Version 2.0.0-rc03 - _recommended_)
 
+> Note: For more details, check the project [wiki](https://github.com/gravity00/SimpleSOAPClient/wiki).
+
 ```csharp
 public static async Task MainAsync(string[] args, CancellationToken ct)
 {
