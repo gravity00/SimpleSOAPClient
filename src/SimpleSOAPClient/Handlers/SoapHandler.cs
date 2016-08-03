@@ -62,7 +62,6 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public virtual Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeRequestArguments arguments, CancellationToken ct)
         {
-            OnSoapEnvelopeRequest(client, arguments);
             return Task.FromResult(true);
         }
 
@@ -87,7 +86,6 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public virtual Task OnHttpRequestAsync(ISoapClient client, OnHttpRequestArguments arguments, CancellationToken ct)
         {
-            OnHttpRequest(client, arguments);
             return Task.FromResult(true);
         }
 
@@ -112,7 +110,6 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public virtual Task OnHttpResponseAsync(ISoapClient client, OnHttpResponseArguments arguments, CancellationToken ct)
         {
-            OnHttpResponse(client, arguments);
             return Task.FromResult(true);
         }
 
@@ -137,7 +134,6 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public virtual Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeResponseArguments arguments, CancellationToken ct)
         {
-            OnSoapEnvelopeResponse(client, arguments);
             return Task.FromResult(true);
         }
 

@@ -102,9 +102,7 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public async Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeRequestArguments arguments, CancellationToken ct)
         {
-            if (OnSoapEnvelopeRequestAsyncAction == null)
-                OnSoapEnvelopeRequest(client, arguments);
-            else
+            if (OnSoapEnvelopeRequestAsyncAction != null)
                 await OnSoapEnvelopeRequestAsyncAction(client, arguments, ct);
         }
 
@@ -129,9 +127,7 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public async Task OnHttpRequestAsync(ISoapClient client, OnHttpRequestArguments arguments, CancellationToken ct)
         {
-            if (OnHttpRequestAsyncAction == null)
-                OnHttpRequest(client, arguments);
-            else
+            if (OnHttpRequestAsyncAction != null)
                 await OnHttpRequestAsyncAction(client, arguments, ct);
         }
 
@@ -156,9 +152,7 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public async Task OnHttpResponseAsync(ISoapClient client, OnHttpResponseArguments arguments, CancellationToken ct)
         {
-            if (OnHttpResponseAsyncAction == null)
-                OnHttpResponse(client, arguments);
-            else
+            if (OnHttpResponseAsyncAction != null)
                 await OnHttpResponseAsyncAction(client, arguments, ct);
         }
 
@@ -183,9 +177,7 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public async Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeResponseArguments arguments, CancellationToken ct)
         {
-            if (OnSoapEnvelopeResponseAsyncAction == null)
-                OnSoapEnvelopeResponseAction(client, arguments);
-            else
+            if (OnSoapEnvelopeResponseAsyncAction != null)
                 await OnSoapEnvelopeResponseAsyncAction(client, arguments, ct);
         }
 
