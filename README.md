@@ -12,7 +12,7 @@ Install-Package SimpleSOAPClient -Pre
 
 ## Compatibility
 
-This library is compatible with the folowing frameworks:
+This library is compatible with the following frameworks:
 
 * MonoAndroid 1.0;
 * MonoTouch 1.0;
@@ -26,7 +26,7 @@ This library is compatible with the folowing frameworks:
 
 ## Usage (Version 2.0.0-rc03 - _recommended_)
 
-> Note: For more details, check the project [wiki](https://github.com/gravity00/SimpleSOAPClient/wiki).
+> Note: For more details, check the project [wiki](https://github.com/gravity00/SimpleSOAPClient/wiki) pages.
 
 ```csharp
 public static async Task MainAsync(string[] args, CancellationToken ct)
