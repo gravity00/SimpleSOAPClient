@@ -21,29 +21,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.Envelope.V1Dot2
+namespace SimpleSOAPClient.Models.V1_2
 {
     using System.Xml.Linq;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents the SOAP Envelope version 1.2 Header section
+    /// Represents the SOAP Envelope version 1.2 Body section
     /// </summary>
-    [XmlRoot("Header", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-    public class SoapEnvelopeHeader
+    public class SoapEnvelopeBody
     {
         /// <summary>
-        /// The collection of headers
+        /// The encoding style attribute
         /// </summary>
-        [XmlAnyElement]
-        public XElement[] Headers { get; set; }
+        [XmlAttribute("encodingStyle", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public string EncodingStyle { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="Models.SoapEnvelopeHeader"/>
+        /// The body content
         /// </summary>
-        public SoapEnvelopeHeader()
-        {
-            Headers = new XElement[0];
-        }
+        [XmlAnyElement]
+        public XElement Value { get; set; }
     }
 }
