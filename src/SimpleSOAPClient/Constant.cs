@@ -34,10 +34,16 @@ namespace SimpleSOAPClient
         public static class Namespace
         {
             /// <summary>
-            /// The SOAP Envelope namespace
+            /// The SOAP 1.1 Envelope namespace
             /// </summary>
             public const string OrgXmlSoapSchemasSoapEnvelope = 
                 "http://schemas.xmlsoap.org/soap/envelope/";
+
+            /// <summary>
+            /// The SOAP 1.2 Envelope namespace
+            /// </summary>
+            public const string OrgW3Www200305SoapEnvelope =
+                "http://www.w3.org/2003/05/soap-envelope";
 
             /// <summary>
             /// The Microsoft addressing namespace
