@@ -23,6 +23,7 @@
 #endregion
 namespace SimpleSOAPClient
 {
+
     /// <summary>
     /// Class with a wide range of constant values
     /// </summary>
@@ -34,9 +35,21 @@ namespace SimpleSOAPClient
         public static class Namespace
         {
             /// <summary>
+            /// The XML schema
+            /// </summary>
+            public const string OrgW3Www2001XmlSchema =
+                "http://www.w3.org/2001/XMLSchema";
+
+            /// <summary>
+            /// The XML namespace
+            /// </summary>
+            public const string OrgW3WwwXml1998Namespace =
+                "http://www.w3.org/XML/1998/namespace";
+
+            /// <summary>
             /// The SOAP 1.1 Envelope namespace
             /// </summary>
-            public const string OrgXmlSoapSchemasSoapEnvelope = 
+            public const string OrgXmlSoapSchemasSoapEnvelope =
                 "http://schemas.xmlsoap.org/soap/envelope/";
 
             /// <summary>
@@ -48,25 +61,25 @@ namespace SimpleSOAPClient
             /// <summary>
             /// The Microsoft addressing namespace
             /// </summary>
-            public const string ComMicrosoftSchemasWs200505AddressingNone = 
+            public const string ComMicrosoftSchemasWs200505AddressingNone =
                 "http://schemas.microsoft.com/ws/2005/05/addressing/none";
 
             /// <summary>
             /// The Oasis Security namespace
             /// </summary>
-            public const string OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10 = 
+            public const string OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10 =
                 "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
 
             /// <summary>
             /// The Oasis Security Utilities namespace
             /// </summary>
-            public const string OrgOpenOasisDocsWss200401Oasis200401WssWssecurityUtility10 = 
+            public const string OrgOpenOasisDocsWss200401Oasis200401WssWssecurityUtility10 =
                 "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
 
             /// <summary>
             /// 
             /// </summary>
-            public const string OrgOpenOasisDocsWss200401Oasis200401WssUsernameTokenProfile10PasswordText = 
+            public const string OrgOpenOasisDocsWss200401Oasis200401WssUsernameTokenProfile10PasswordText =
                 "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText";
         }
     }
