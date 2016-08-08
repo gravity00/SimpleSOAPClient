@@ -23,6 +23,7 @@
 #endregion
 namespace SimpleSOAPClient.Models.V1_2
 {
+    using System;
     using System.Xml.Serialization;
 
     /// <summary>
@@ -31,6 +32,8 @@ namespace SimpleSOAPClient.Models.V1_2
     [XmlRoot("Envelope", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
     public class SoapEnvelope
     {
+        private SoapEnvelopeBody _body;
+
         /// <summary>
         /// The SOAP Envelope Header section
         /// </summary>
@@ -41,6 +44,22 @@ namespace SimpleSOAPClient.Models.V1_2
         /// The SOAP Envelope Body section
         /// </summary>
         [XmlElement("Body", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public SoapEnvelopeBody Body { get; set; }
+        public SoapEnvelopeBody Body
+        {
+            get { return _body; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                _body = value;
+            }
+        }
+
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
+        public SoapEnvelope()
+        {
+            Body = new SoapEnvelopeBody();
+        }
     }
 }
