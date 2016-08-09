@@ -29,7 +29,7 @@ namespace SimpleSOAPClient.Models.V1_2.Headers.W3.Soap
     /// The upgrade header thrown by VersionMismatch faults
     /// </summary>
     [XmlRoot("Upgrade", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-    public class UpgradeHeader
+    public class UpgradeHeader : SoapEnvelopeHeaderBlock
     {
         /// <summary>
         /// The supported envelopes
