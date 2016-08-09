@@ -29,7 +29,7 @@ namespace SimpleSOAPClient
     public static class SoapMessage
     {
         /// <summary>
-        /// SOAP Version 1.2 messages
+        /// SOAP Version 1.1 messages
         /// </summary>
         public static class V1Dot1
         {
