@@ -79,7 +79,9 @@ namespace SimpleSOAPClient
             };
 
             _xmlSerializerNamespaces = new XmlSerializerNamespaces();
-            _xmlSerializerNamespaces.Add("", "");
+            _xmlSerializerNamespaces.Add("xs", Constant.Namespace.OrgW3Www2001XmlSchema);
+            _xmlSerializerNamespaces.Add("xml", Constant.Namespace.OrgW3WwwXml1998Namespace);
+            _xmlSerializerNamespaces.Add("env", Constant.Namespace.OrgW3Www200305SoapEnvelope);
         }
 
         #region Implementation of ISoapEnvelopeSerializationProvider
@@ -91,17 +93,9 @@ namespace SimpleSOAPClient
         /// <returns>The resulting XML string</returns>
         public string ToXmlString(SoapEnvelope envelope)
         {
-            if (envelope == null) return null;
-
             try
             {
-                using (var textWriter = new StringWriter())
-                using (var xmlWriter = XmlWriter.Create(textWriter, XmlWriterSettings))
-                {
-                    new XmlSerializer(typeof(SoapEnvelope))
-                        .Serialize(xmlWriter, envelope, XmlSerializerNamespaces);
-                    return textWriter.ToString();
-                }
+                return ToXmlString<SoapEnvelope>(envelope);
             }
             catch (Exception e)
             {
@@ -116,16 +110,9 @@ namespace SimpleSOAPClient
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
         public SoapEnvelope ToSoapEnvelope(string xml)
         {
-            if (string.IsNullOrWhiteSpace(xml)) return null;
-
             try
             {
-                using (var textWriter = new StringReader(xml))
-                {
-                    var result = (SoapEnvelope)new XmlSerializer(typeof(SoapEnvelope)).Deserialize(textWriter);
-
-                    return result;
-                }
+                return ToObject<SoapEnvelope>(xml);
             }
             catch (Exception e)
             {
@@ -133,6 +120,65 @@ namespace SimpleSOAPClient
             }
         }
 
+        /// <summary>
+        /// Serializes a given <see cref="Models.V1_2.SoapEnvelope"/> instance into a XML string.
+        /// </summary>
+        /// <param name="envelope">The instance to serialize</param>
+        /// <returns>The resulting XML string</returns>
+        public string ToXmlString(Models.V1_2.SoapEnvelope envelope)
+        {
+            try
+            {
+                return ToXmlString<Models.V1_2.SoapEnvelope>(envelope);
+            }
+            catch (Exception e)
+            {
+                throw new SoapEnvelopeV1Dot2SerializationException(envelope, e);
+            }
+        }
+
+        /// <summary>
+        /// Deserializes a given XML string into a <see cref="Models.V1_2.SoapEnvelope"/>.
+        /// </summary>
+        /// <param name="xml">The XML string do deserialize</param>
+        /// <returns>The resulting <see cref="Models.V1_2.SoapEnvelope"/></returns>
+        public Models.V1_2.SoapEnvelope ToSoapEnvelopeV1Dot2(string xml)
+        {
+            try
+            {
+                return ToObject<Models.V1_2.SoapEnvelope>(xml);
+            }
+            catch (Exception e)
+            {
+                throw new SoapEnvelopeV1Dot2DeserializationException(xml, e);
+            }
+        }
+
         #endregion
+
+        private string ToXmlString<T>(T instance)
+        {
+            if (instance == null) return null;
+
+            using (var textWriter = new StringWriter())
+            using (var xmlWriter = XmlWriter.Create(textWriter, XmlWriterSettings))
+            {
+                new XmlSerializer(typeof(T))
+                    .Serialize(xmlWriter, instance, XmlSerializerNamespaces);
+                return textWriter.ToString();
+            }
+        }
+
+        private static T ToObject<T>(string xml) where T : class
+        {
+            if (string.IsNullOrWhiteSpace(xml)) return null;
+
+            using (var textWriter = new StringReader(xml))
+            {
+                var result = (T) new XmlSerializer(typeof(T)).Deserialize(textWriter);
+
+                return result;
+            }
+        }
     }
 }
