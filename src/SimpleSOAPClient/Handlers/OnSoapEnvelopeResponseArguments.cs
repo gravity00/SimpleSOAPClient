@@ -31,8 +31,7 @@ namespace SimpleSOAPClient.Handlers
     /// </summary>
     public sealed class OnSoapEnvelopeResponseArguments : SoapHandlerArguments
     {
-        private SoapEnvelope _envelopeV1Dot1;
-        private Models.V1_2.SoapEnvelope _envelopeV1Dot2;
+        private SoapEnvelope _envelope;
 
         /// <summary>
         /// Creates a new instance
@@ -48,24 +47,7 @@ namespace SimpleSOAPClient.Handlers
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
-            _envelopeV1Dot1 = envelope;
-        }
-
-        /// <summary>
-        /// Creates a new instance
-        /// </summary>
-        /// <param name="envelope">The SOAP envelope</param>
-        /// <param name="url">The SOAP service url</param>
-        /// <param name="action">The SOAP action</param>
-        /// <param name="trackingId">An optional tracking id</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        public OnSoapEnvelopeResponseArguments(Models.V1_2.SoapEnvelope envelope, string url, string action, Guid? trackingId = null) 
-            : base(url, action, trackingId)
-        {
-            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
-
-            _envelopeV1Dot2 = envelope;
+            _envelope = envelope;
         }
 
         /// <summary>
@@ -73,24 +55,11 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         public SoapEnvelope Envelope
         {
-            get { return _envelopeV1Dot1; }
+            get { return _envelope; }
             set
             {
                 if (value == null) throw new ArgumentNullException(nameof(value));
-                _envelopeV1Dot1 = value;
-            }
-        }
-
-        /// <summary>
-        /// The SOAP Envelope version 1.2 to be serialized
-        /// </summary>
-        public Models.V1_2.SoapEnvelope EnvelopeV1Dot2
-        {
-            get { return _envelopeV1Dot2; }
-            set
-            {
-                if (value == null) throw new ArgumentNullException(nameof(value));
-                _envelopeV1Dot2 = value;
+                _envelope = value;
             }
         }
     }
