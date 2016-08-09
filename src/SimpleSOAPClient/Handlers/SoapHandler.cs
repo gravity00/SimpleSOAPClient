@@ -49,7 +49,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public virtual void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeRequestArguments arguments)
+        public virtual void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments)
         {
             
         }
@@ -62,7 +62,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
-        public virtual Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeRequestArguments arguments, CancellationToken ct)
+        public virtual Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments, CancellationToken ct)
         {
             return Task.FromResult(true);
         }
@@ -157,7 +157,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public virtual void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeResponseArguments arguments)
+        public virtual void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments)
         {
 
         }
@@ -170,7 +170,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
-        public virtual Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeResponseArguments arguments, CancellationToken ct)
+        public virtual Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments, CancellationToken ct)
         {
             return Task.FromResult(true);
         }

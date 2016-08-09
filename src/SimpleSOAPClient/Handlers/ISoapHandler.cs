@@ -46,7 +46,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeRequestArguments arguments);
+        void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments);
 
         /// <summary>
         /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
@@ -56,7 +56,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
-        Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeRequestArguments arguments, CancellationToken ct);
+        Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments, CancellationToken ct);
 
         /// <summary>
         /// Method invoked before serializing a <see cref="Models.V1_2.SoapEnvelope"/>. 
@@ -130,7 +130,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeResponseArguments arguments);
+        void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments);
 
         /// <summary>
         /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
@@ -140,7 +140,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
-        Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeResponseArguments arguments, CancellationToken ct);
+        Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments, CancellationToken ct);
 
         /// <summary>
         /// Method invoked after deserializing a <see cref="Models.V1_2.SoapEnvelope"/> from the server response. 

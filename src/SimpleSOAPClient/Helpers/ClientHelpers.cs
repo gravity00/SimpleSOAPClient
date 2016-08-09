@@ -106,7 +106,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient OnSoapEnvelopeRequest<TSoapClient>(
-            this TSoapClient client, Action<ISoapClient, OnSoapEnvelopeRequestArguments> action, int order = 0)
+            this TSoapClient client, Action<ISoapClient, OnSoapEnvelopeV1Dot1RequestArguments> action, int order = 0)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -131,7 +131,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient OnSoapEnvelopeRequest<TSoapClient>(
-            this TSoapClient client, Action<OnSoapEnvelopeRequestArguments> action, int order = 0)
+            this TSoapClient client, Action<OnSoapEnvelopeV1Dot1RequestArguments> action, int order = 0)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -156,7 +156,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient OnSoapEnvelopeRequest<TSoapClient>(
-            this TSoapClient client, Func<ISoapClient, OnSoapEnvelopeRequestArguments, CancellationToken, Task> action, int order = 0)
+            this TSoapClient client, Func<ISoapClient, OnSoapEnvelopeV1Dot1RequestArguments, CancellationToken, Task> action, int order = 0)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -181,7 +181,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient OnSoapEnvelopeRequest<TSoapClient>(
-            this TSoapClient client, Func<OnSoapEnvelopeRequestArguments, CancellationToken, Task> action, int order = 0)
+            this TSoapClient client, Func<OnSoapEnvelopeV1Dot1RequestArguments, CancellationToken, Task> action, int order = 0)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -518,7 +518,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient OnSoapEnvelopeResponse<TSoapClient>(
-            this TSoapClient client, Action<ISoapClient, OnSoapEnvelopeResponseArguments> action, int order = 0)
+            this TSoapClient client, Action<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments> action, int order = 0)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -543,7 +543,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient OnSoapEnvelopeResponse<TSoapClient>(
-            this TSoapClient client, Action<OnSoapEnvelopeResponseArguments> action, int order = 0)
+            this TSoapClient client, Action<OnSoapEnvelopeV1Dot1ResponseArguments> action, int order = 0)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -568,7 +568,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient OnSoapEnvelopeResponse<TSoapClient>(
-            this TSoapClient client, Func<ISoapClient, OnSoapEnvelopeResponseArguments, CancellationToken, Task> action, int order = 0)
+            this TSoapClient client, Func<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments, CancellationToken, Task> action, int order = 0)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -593,7 +593,7 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static TSoapClient OnSoapEnvelopeResponse<TSoapClient>(
-            this TSoapClient client, Func<OnSoapEnvelopeResponseArguments, CancellationToken, Task> action, int order = 0)
+            this TSoapClient client, Func<OnSoapEnvelopeV1Dot1ResponseArguments, CancellationToken, Task> action, int order = 0)
             where TSoapClient : ISoapClient
         {
             if (client == null) throw new ArgumentNullException(nameof(client));

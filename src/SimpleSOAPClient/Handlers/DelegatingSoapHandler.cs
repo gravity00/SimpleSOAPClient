@@ -39,12 +39,12 @@ namespace SimpleSOAPClient.Handlers
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeRequest"/> method.
         /// </summary>
-        public Action<ISoapClient, OnSoapEnvelopeRequestArguments> OnSoapEnvelopeRequestAction { get; set; }
+        public Action<ISoapClient, OnSoapEnvelopeV1Dot1RequestArguments> OnSoapEnvelopeRequestAction { get; set; }
 
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeRequestAsync"/> method.
         /// </summary>
-        public Func<ISoapClient, OnSoapEnvelopeRequestArguments, CancellationToken, Task> OnSoapEnvelopeRequestAsyncAction { get; set; }
+        public Func<ISoapClient, OnSoapEnvelopeV1Dot1RequestArguments, CancellationToken, Task> OnSoapEnvelopeRequestAsyncAction { get; set; }
 
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot2Request"/> method.
@@ -91,12 +91,12 @@ namespace SimpleSOAPClient.Handlers
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeResponse"/> method.
         /// </summary>
-        public Action<ISoapClient, OnSoapEnvelopeResponseArguments> OnSoapEnvelopeResponseAction { get; set; }
+        public Action<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments> OnSoapEnvelopeResponseAction { get; set; }
 
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeResponseAsync"/> method.
         /// </summary>
-        public Func<ISoapClient, OnSoapEnvelopeResponseArguments, CancellationToken, Task> OnSoapEnvelopeResponseAsyncAction { get; set; }
+        public Func<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments, CancellationToken, Task> OnSoapEnvelopeResponseAsyncAction { get; set; }
 
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot2Response"/> method.
@@ -125,7 +125,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeRequestArguments arguments)
+        public void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments)
         {
             OnSoapEnvelopeRequestAction?.Invoke(client, arguments);
         }
@@ -138,7 +138,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
-        public async Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeRequestArguments arguments, CancellationToken ct)
+        public async Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments, CancellationToken ct)
         {
             if (OnSoapEnvelopeRequestAsyncAction != null)
                 await OnSoapEnvelopeRequestAsyncAction(client, arguments, ct);
@@ -237,7 +237,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeResponseArguments arguments)
+        public void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments)
         {
             OnSoapEnvelopeResponseAction?.Invoke(client, arguments);
         }
@@ -250,7 +250,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
-        public async Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeResponseArguments arguments, CancellationToken ct)
+        public async Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments, CancellationToken ct)
         {
             if (OnSoapEnvelopeResponseAsyncAction != null)
                 await OnSoapEnvelopeResponseAsyncAction(client, arguments, ct);

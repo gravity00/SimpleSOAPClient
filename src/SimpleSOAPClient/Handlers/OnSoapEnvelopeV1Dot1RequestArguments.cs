@@ -27,22 +27,22 @@ namespace SimpleSOAPClient.Handlers
     using Models;
 
     /// <summary>
-    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnSoapEnvelopeResponse"/> method.
+    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnSoapEnvelopeRequest"/> method.
     /// </summary>
-    public sealed class OnSoapEnvelopeResponseArguments : SoapHandlerArguments
+    public sealed class OnSoapEnvelopeV1Dot1RequestArguments : SoapHandlerArguments
     {
         private SoapEnvelope _envelope;
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        /// <param name="envelope">The SOAP envelope</param>
+        /// <param name="envelope">The SOAP envelope version 1.1</param>
         /// <param name="url">The SOAP service url</param>
         /// <param name="action">The SOAP action</param>
         /// <param name="trackingId">An optional tracking id</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public OnSoapEnvelopeResponseArguments(SoapEnvelope envelope, string url, string action, Guid? trackingId = null) 
+        public OnSoapEnvelopeV1Dot1RequestArguments(SoapEnvelope envelope, string url, string action, Guid? trackingId = null)
             : base(url, action, trackingId)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
@@ -51,7 +51,7 @@ namespace SimpleSOAPClient.Handlers
         }
 
         /// <summary>
-        /// The SOAP Envelope that was deserialized
+        /// The SOAP Envelope to be serialized
         /// </summary>
         public SoapEnvelope Envelope
         {
