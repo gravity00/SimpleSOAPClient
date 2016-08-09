@@ -99,7 +99,7 @@ namespace SimpleSOAPClient
             }
             catch (Exception e)
             {
-                throw new SoapEnvelopeSerializationException(envelope, e);
+                throw new SoapEnvelopeV1Dot1SerializationException(envelope, e);
             }
         }
 
@@ -116,7 +116,7 @@ namespace SimpleSOAPClient
             }
             catch (Exception e)
             {
-                throw new SoapEnvelopeDeserializationException(xml, e);
+                throw new SoapEnvelopeV1Dot1DeserializationException(xml, e);
             }
         }
 

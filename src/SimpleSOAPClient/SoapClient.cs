@@ -163,8 +163,8 @@ namespace SimpleSOAPClient
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>A task to be awaited for the result</returns>
-        /// <exception cref="SoapEnvelopeSerializationException"></exception>
-        /// <exception cref="SoapEnvelopeDeserializationException"></exception>
+        /// <exception cref="SoapEnvelopeV1Dot1SerializationException"></exception>
+        /// <exception cref="SoapEnvelopeV1Dot1DeserializationException"></exception>
         public virtual async Task<SoapEnvelope> SendAsync(
             string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
         {
@@ -181,13 +181,13 @@ namespace SimpleSOAPClient
                 requestXml =
                     Settings.SerializationProvider.ToXmlString(beforeSoapEnvelopeSerializationHandlersResult.Envelope);
             }
-            catch (SoapEnvelopeSerializationException)
+            catch (SoapEnvelopeV1Dot1SerializationException)
             {
                 throw;
             }
             catch (Exception e)
             {
-                throw new SoapEnvelopeSerializationException(requestEnvelope, e);
+                throw new SoapEnvelopeV1Dot1SerializationException(requestEnvelope, e);
             }
 
             var beforeHttpRequestHandlersResult =
@@ -206,20 +206,20 @@ namespace SimpleSOAPClient
                 await afterHttpResponseHandlersResult.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(responseXml))
-                throw new SoapEnvelopeDeserializationException(responseXml, "The response content is empty.");
+                throw new SoapEnvelopeV1Dot1DeserializationException(responseXml, "The response content is empty.");
             SoapEnvelope responseEnvelope;
             try
             {
                 responseEnvelope = 
                     Settings.SerializationProvider.ToSoapEnvelope(responseXml);
             }
-            catch (SoapEnvelopeDeserializationException)
+            catch (SoapEnvelopeV1Dot1DeserializationException)
             {
                 throw;
             }
             catch (Exception e)
             {
-                throw new SoapEnvelopeDeserializationException(responseXml, e);
+                throw new SoapEnvelopeV1Dot1DeserializationException(responseXml, e);
             }
 
             var afterSoapEnvelopeDeserializationHandlerResult =
@@ -311,8 +311,8 @@ namespace SimpleSOAPClient
         /// <param name="action">The SOAP action beeing performed</param>
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
-        /// <exception cref="SoapEnvelopeSerializationException"></exception>
-        /// <exception cref="SoapEnvelopeDeserializationException"></exception>
+        /// <exception cref="SoapEnvelopeV1Dot1SerializationException"></exception>
+        /// <exception cref="SoapEnvelopeV1Dot1DeserializationException"></exception>
         public virtual SoapEnvelope Send(string url, string action, SoapEnvelope requestEnvelope)
         {
             return SendAsync(url, action, requestEnvelope).ConfigureAwait(false).GetAwaiter().GetResult();

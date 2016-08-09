@@ -30,7 +30,7 @@ namespace SimpleSOAPClient.Exceptions
     /// Exception thrown when an exception is thrown when deserializing
     /// a given XML string to a <see cref="SoapEnvelope"/>.
     /// </summary>
-    public class SoapEnvelopeDeserializationException : SoapClientException
+    public class SoapEnvelopeV1Dot1DeserializationException : SoapClientException
     {
         private const string DefaultErrorMessage = "Failed to deserialize the XML string to a SOAP V1.1 Envelope";
 
@@ -41,22 +41,22 @@ namespace SimpleSOAPClient.Exceptions
         public string XmlValue { get; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SoapEnvelopeDeserializationException"/>
+        /// Initializes a new instance of <see cref="SoapEnvelopeV1Dot1DeserializationException"/>
         /// </summary>
         /// <param name="xmlValue">The XML string that was beeing deserialized</param>
         /// <exception cref="ArgumentNullException"/>
-        public SoapEnvelopeDeserializationException(string xmlValue) : this(xmlValue, DefaultErrorMessage)
+        public SoapEnvelopeV1Dot1DeserializationException(string xmlValue) : this(xmlValue, DefaultErrorMessage)
         {
 
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SoapEnvelopeDeserializationException"/>
+        /// Initializes a new instance of <see cref="SoapEnvelopeV1Dot1DeserializationException"/>
         /// </summary>
         /// <param name="xmlValue">The XML string that was beeing deserialized</param>
         /// <param name="message">The message to be used</param>
         /// <exception cref="ArgumentNullException"/>
-        public SoapEnvelopeDeserializationException(string xmlValue, string message) : base(message)
+        public SoapEnvelopeV1Dot1DeserializationException(string xmlValue, string message) : base(message)
         {
             if (xmlValue == null) throw new ArgumentNullException(nameof(xmlValue));
 
@@ -64,13 +64,13 @@ namespace SimpleSOAPClient.Exceptions
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SoapEnvelopeDeserializationException"/>
+        /// Initializes a new instance of <see cref="SoapEnvelopeV1Dot1DeserializationException"/>
         /// </summary>
         /// <param name="xmlValue">The XML string that was beeing deserialized</param>
         /// <param name="message">The message to be used</param>
         /// <param name="innerException">The inner exception</param>
         /// <exception cref="ArgumentNullException"/>
-        public SoapEnvelopeDeserializationException(string xmlValue, string message, Exception innerException) : base(message, innerException)
+        public SoapEnvelopeV1Dot1DeserializationException(string xmlValue, string message, Exception innerException) : base(message, innerException)
         {
             if (xmlValue == null) throw new ArgumentNullException(nameof(xmlValue));
 
@@ -78,12 +78,12 @@ namespace SimpleSOAPClient.Exceptions
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SoapEnvelopeDeserializationException"/>
+        /// Initializes a new instance of <see cref="SoapEnvelopeV1Dot1DeserializationException"/>
         /// </summary>
         /// <param name="xmlValue">The XML string that was beeing deserialized</param>
         /// <param name="innerException">The inner exception</param>
         /// <exception cref="ArgumentNullException"/>
-        public SoapEnvelopeDeserializationException(string xmlValue, Exception innerException) : this(xmlValue, DefaultErrorMessage, innerException)
+        public SoapEnvelopeV1Dot1DeserializationException(string xmlValue, Exception innerException) : this(xmlValue, DefaultErrorMessage, innerException)
         {
 
         }
