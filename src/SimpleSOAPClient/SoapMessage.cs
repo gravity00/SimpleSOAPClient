@@ -23,8 +23,6 @@
 #endregion
 namespace SimpleSOAPClient
 {
-    using Models.V1Dot2;
-
     /// <summary>
     /// Helper class to prepare SOAP messages
     /// </summary>
@@ -39,7 +37,7 @@ namespace SimpleSOAPClient
             /// Prepares a SOAP Version 1.1 Envelope
             /// </summary>
             /// <returns>The SOAP Envelope</returns>
-            public static Models.V1Dot1.SoapEnvelope PrepareSoapEnvelope()
+            public static Models.V1Dot1.SoapEnvelope PrepareEnvelope()
             {
                 return new Models.V1Dot1.SoapEnvelope();
             }
@@ -54,9 +52,9 @@ namespace SimpleSOAPClient
             /// Prepares a SOAP Version 1.2 Envelope
             /// </summary>
             /// <returns>The SOAP Envelope</returns>
-            public static SoapEnvelope PrepareSoapEnvelope()
+            public static Models.V1Dot2.SoapEnvelope PrepareEnvelope()
             {
-                return new SoapEnvelope();
+                return new Models.V1Dot2.SoapEnvelope();
             }
         }
     }
