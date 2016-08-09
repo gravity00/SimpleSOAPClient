@@ -89,12 +89,12 @@ namespace SimpleSOAPClient.Handlers
         #region OnSoapEnvelopeResponseAction
 
         /// <summary>
-        /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeResponse"/> method.
+        /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1Response"/> method.
         /// </summary>
         public Action<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments> OnSoapEnvelopeResponseAction { get; set; }
 
         /// <summary>
-        /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeResponseAsync"/> method.
+        /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1ResponseAsync"/> method.
         /// </summary>
         public Func<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments, CancellationToken, Task> OnSoapEnvelopeResponseAsyncAction { get; set; }
 
@@ -237,7 +237,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments)
+        public void OnSoapEnvelopeV1Dot1Response(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments)
         {
             OnSoapEnvelopeResponseAction?.Invoke(client, arguments);
         }
@@ -250,7 +250,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
-        public async Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments, CancellationToken ct)
+        public async Task OnSoapEnvelopeV1Dot1ResponseAsync(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments, CancellationToken ct)
         {
             if (OnSoapEnvelopeResponseAsyncAction != null)
                 await OnSoapEnvelopeResponseAsyncAction(client, arguments, ct);

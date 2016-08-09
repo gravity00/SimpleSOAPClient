@@ -496,8 +496,8 @@ namespace SimpleSOAPClient
             for (var index = orderedHandlers.Length - 1; index >= 0; index--)
             {
                 var handler = orderedHandlers[index];
-                await handler.OnSoapEnvelopeResponseAsync(this, afterSoapEnvelopeDeserializationArguments, ct);
-                handler.OnSoapEnvelopeResponse(this, afterSoapEnvelopeDeserializationArguments);
+                await handler.OnSoapEnvelopeV1Dot1ResponseAsync(this, afterSoapEnvelopeDeserializationArguments, ct);
+                handler.OnSoapEnvelopeV1Dot1Response(this, afterSoapEnvelopeDeserializationArguments);
             }
 
             return afterSoapEnvelopeDeserializationArguments;

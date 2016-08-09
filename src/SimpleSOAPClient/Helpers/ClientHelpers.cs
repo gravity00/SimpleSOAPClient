@@ -105,7 +105,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="order">The handler order</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static TSoapClient OnSoapEnvelopeRequest<TSoapClient>(
+        public static TSoapClient OnSoapEnvelopeV1Dot1Request<TSoapClient>(
             this TSoapClient client, Action<ISoapClient, OnSoapEnvelopeV1Dot1RequestArguments> action, int order = 0)
             where TSoapClient : ISoapClient
         {
@@ -130,7 +130,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="order">The handler order</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static TSoapClient OnSoapEnvelopeRequest<TSoapClient>(
+        public static TSoapClient OnSoapEnvelopeV1Dot1Request<TSoapClient>(
             this TSoapClient client, Action<OnSoapEnvelopeV1Dot1RequestArguments> action, int order = 0)
             where TSoapClient : ISoapClient
         {
@@ -155,7 +155,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="order">The handler order</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static TSoapClient OnSoapEnvelopeRequest<TSoapClient>(
+        public static TSoapClient OnSoapEnvelopeV1Dot1Request<TSoapClient>(
             this TSoapClient client, Func<ISoapClient, OnSoapEnvelopeV1Dot1RequestArguments, CancellationToken, Task> action, int order = 0)
             where TSoapClient : ISoapClient
         {
@@ -180,7 +180,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="order">The handler order</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static TSoapClient OnSoapEnvelopeRequest<TSoapClient>(
+        public static TSoapClient OnSoapEnvelopeV1Dot1Request<TSoapClient>(
             this TSoapClient client, Func<OnSoapEnvelopeV1Dot1RequestArguments, CancellationToken, Task> action, int order = 0)
             where TSoapClient : ISoapClient
         {
@@ -508,7 +508,7 @@ namespace SimpleSOAPClient.Helpers
         #region OnSoapEnvelopeResponse
 
         /// <summary>
-        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeResponse"/>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1Response"/>
         /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
         /// </summary>
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
@@ -517,7 +517,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="order">The handler order</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static TSoapClient OnSoapEnvelopeResponse<TSoapClient>(
+        public static TSoapClient OnSoapEnvelopeV1Dot1Response<TSoapClient>(
             this TSoapClient client, Action<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments> action, int order = 0)
             where TSoapClient : ISoapClient
         {
@@ -533,7 +533,7 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
-        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeResponse"/>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1Response"/>
         /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
         /// </summary>
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
@@ -542,7 +542,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="order">The handler order</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static TSoapClient OnSoapEnvelopeResponse<TSoapClient>(
+        public static TSoapClient OnSoapEnvelopeV1Dot1Response<TSoapClient>(
             this TSoapClient client, Action<OnSoapEnvelopeV1Dot1ResponseArguments> action, int order = 0)
             where TSoapClient : ISoapClient
         {
@@ -558,7 +558,7 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
-        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeResponseAsync"/>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1ResponseAsync"/>
         /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
         /// </summary>
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
@@ -567,7 +567,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="order">The handler order</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static TSoapClient OnSoapEnvelopeResponse<TSoapClient>(
+        public static TSoapClient OnSoapEnvelopeV1Dot1Response<TSoapClient>(
             this TSoapClient client, Func<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments, CancellationToken, Task> action, int order = 0)
             where TSoapClient : ISoapClient
         {
@@ -583,7 +583,7 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
-        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeResponseAsync"/>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1ResponseAsync"/>
         /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
         /// </summary>
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
@@ -592,7 +592,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="order">The handler order</param>
         /// <returns>The SOAP client after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static TSoapClient OnSoapEnvelopeResponse<TSoapClient>(
+        public static TSoapClient OnSoapEnvelopeV1Dot1Response<TSoapClient>(
             this TSoapClient client, Func<OnSoapEnvelopeV1Dot1ResponseArguments, CancellationToken, Task> action, int order = 0)
             where TSoapClient : ISoapClient
         {
