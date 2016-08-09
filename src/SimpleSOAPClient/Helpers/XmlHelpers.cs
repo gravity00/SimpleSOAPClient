@@ -44,43 +44,6 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
-        /// Serializes the given object to a XML string
-        /// </summary>
-        /// <typeparam name="T">The object type</typeparam>
-        /// <param name="item">The item to serialize</param>
-        /// <param name="removeXmlDeclaration">Remove the XML declaration</param>
-        /// <returns>The XML string</returns>
-        public static string ToXmlString<T>(this T item, bool removeXmlDeclaration)
-        {
-            if (item == null) return null;
-
-            using (var textWriter = new StringWriter())
-            using (var xmlWriter = XmlWriter.Create(textWriter, new XmlWriterSettings
-            {
-                OmitXmlDeclaration = removeXmlDeclaration,
-                Indent = false,
-                NamespaceHandling = NamespaceHandling.OmitDuplicates
-            }))
-            {
-                new XmlSerializer(item.GetType())
-                    .Serialize(xmlWriter, item, EmptyXmlSerializerNamespaces);
-                return textWriter.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Serializes a given object to XML and returns the <see cref="XElement"/> representation.
-        /// </summary>
-        /// <typeparam name="T">The object type</typeparam>
-        /// <param name="item">The item to convert</param>
-        /// <param name="removeXmlDeclaration">Remove the XML declaration</param>
-        /// <returns>The object as a <see cref="XElement"/></returns>
-        public static XElement ToXElement<T>(this T item, bool removeXmlDeclaration)
-        {
-            return item == null ? null : XElement.Parse(item.ToXmlString(removeXmlDeclaration));
-        }
-
-        /// <summary>
         /// Serializes a given object to XML and returns the <see cref="XElement"/> representation.
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
@@ -88,25 +51,20 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The object as a <see cref="XElement"/></returns>
         public static XElement ToXElement<T>(this T item)
         {
-            return item.ToXElement(false);
-        }
+            if (item == null)
+                return null;
 
-        /// <summary>
-        /// Deserializes a given XML string to a new object of the expected type.
-        /// If null or white spaces the default(T) will be returned;
-        /// </summary>
-        /// <typeparam name="T">The type to be deserializable</typeparam>
-        /// <param name="xml">The XML string to deserialize</param>
-        /// <returns>The deserialized object</returns>
-        public static T ToObject<T>(this string xml)
-        {
-            if (string.IsNullOrWhiteSpace(xml)) return default(T);
-
-            using (var textWriter = new StringReader(xml))
+            using (var textWriter = new StringWriter())
+            using (var xmlWriter = XmlWriter.Create(textWriter, new XmlWriterSettings
             {
-                var result = (T)new XmlSerializer(typeof(T)).Deserialize(textWriter);
-
-                return result;
+                OmitXmlDeclaration = false,
+                Indent = false,
+                NamespaceHandling = NamespaceHandling.OmitDuplicates
+            }))
+            {
+                new XmlSerializer(item.GetType())
+                    .Serialize(xmlWriter, item, EmptyXmlSerializerNamespaces);
+                return XElement.Parse(textWriter.ToString());
             }
         }
 
@@ -119,7 +77,15 @@ namespace SimpleSOAPClient.Helpers
         /// <returns>The deserialized object</returns>
         public static T ToObject<T>(this XElement xml)
         {
-            return xml == null ? default(T) : xml.ToString().ToObject<T>();
+            if (xml == null)
+                return default(T);
+
+            using (var textWriter = new StringReader(xml.ToString()))
+            {
+                var result = (T)new XmlSerializer(typeof(T)).Deserialize(textWriter);
+
+                return result;
+            }
         }
     }
 }
