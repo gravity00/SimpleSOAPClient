@@ -32,7 +32,7 @@ namespace SimpleSOAPClient.Handlers
     /// Base SOAP Handler that extending classes can use to override
     /// only specific operations.
     /// </summary>
-    public class SoapHandler : ISoapHandler
+    public abstract class SoapHandler : ISoapHandler
     {
         #region Implementation of ISoapHandler
 
@@ -40,6 +40,8 @@ namespace SimpleSOAPClient.Handlers
         /// The order for which the handler will be executed
         /// </summary>
         public int Order { get; set; }
+
+        #region OnSoapEnvelopeRequest
 
         /// <summary>
         /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
@@ -66,6 +68,34 @@ namespace SimpleSOAPClient.Handlers
         }
 
         /// <summary>
+        /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
+        /// Useful to add properties like <see cref="SoapHeader"/>.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        public virtual void OnSoapEnvelopeV1Dot2Request(ISoapClient client, OnSoapEnvelopeV1Dot2RequestArguments arguments)
+        {
+
+        }
+
+        /// <summary>
+        /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
+        /// Useful to add properties like <see cref="SoapHeader"/>.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>Task to be awaited</returns>
+        public virtual Task OnSoapEnvelopeV1Dot2RequestAsync(ISoapClient client, OnSoapEnvelopeV1Dot2RequestArguments arguments, CancellationToken ct)
+        {
+            return Task.FromResult(true);
+        }
+
+        #endregion
+
+        #region OnHttpRequest
+
+        /// <summary>
         /// Method invoked before sending the <see cref="HttpRequestMessage"/> to the server.
         /// Useful to log the request or change properties like HTTP headers.
         /// </summary>
@@ -88,6 +118,10 @@ namespace SimpleSOAPClient.Handlers
         {
             return Task.FromResult(true);
         }
+
+        #endregion
+
+        #region OnHttpResponse
 
         /// <summary>
         /// Method invoked after receiving a <see cref="HttpResponseMessage"/> from the server.
@@ -113,6 +147,10 @@ namespace SimpleSOAPClient.Handlers
             return Task.FromResult(true);
         }
 
+        #endregion
+
+        #region OnSoapEnvelopeResponse
+
         /// <summary>
         /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
         /// Useful to validate properties like <see cref="SoapHeader"/>.
@@ -136,6 +174,32 @@ namespace SimpleSOAPClient.Handlers
         {
             return Task.FromResult(true);
         }
+
+        /// <summary>
+        /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
+        /// Useful to validate properties like <see cref="SoapHeader"/>.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        public virtual void OnSoapEnvelopeV1Dot2Response(ISoapClient client, OnSoapEnvelopeV1Dot2ResponseArguments arguments)
+        {
+
+        }
+
+        /// <summary>
+        /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
+        /// Useful to validate properties like <see cref="SoapHeader"/>.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>Task to be awaited</returns>
+        public virtual Task OnSoapEnvelopeV1Dot2ResponseAsync(ISoapClient client, OnSoapEnvelopeV1Dot2ResponseArguments arguments, CancellationToken ct)
+        {
+            return Task.FromResult(true);
+        }
+
+        #endregion
 
         #endregion
     }

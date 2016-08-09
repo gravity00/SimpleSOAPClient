@@ -34,6 +34,8 @@ namespace SimpleSOAPClient.Handlers
     /// </summary>
     public sealed class DelegatingSoapHandler : ISoapHandler
     {
+        #region OnSoapEnvelopeRequestAction
+
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeRequest"/> method.
         /// </summary>
@@ -45,6 +47,20 @@ namespace SimpleSOAPClient.Handlers
         public Func<ISoapClient, OnSoapEnvelopeRequestArguments, CancellationToken, Task> OnSoapEnvelopeRequestAsyncAction { get; set; }
 
         /// <summary>
+        /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot2Request"/> method.
+        /// </summary>
+        public Action<ISoapClient, OnSoapEnvelopeV1Dot2RequestArguments> OnSoapEnvelopeV1Dot2RequestAction { get; set; }
+
+        /// <summary>
+        /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeRequestAsync"/> method.
+        /// </summary>
+        public Func<ISoapClient, OnSoapEnvelopeV1Dot2RequestArguments, CancellationToken, Task> OnSoapEnvelopeV1Dot2RequestAsyncAction { get; set; }
+
+        #endregion
+
+        #region OnHttpRequestAction
+
+        /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnHttpRequest"/> method.
         /// </summary>
         public Action<ISoapClient, OnHttpRequestArguments> OnHttpRequestAction { get; set; }
@@ -53,6 +69,10 @@ namespace SimpleSOAPClient.Handlers
         /// Delegate for <see cref="ISoapHandler.OnHttpRequestAsync"/> method.
         /// </summary>
         public Func<ISoapClient, OnHttpRequestArguments, CancellationToken, Task> OnHttpRequestAsyncAction { get; set; }
+
+        #endregion
+
+        #region OnHttpResponseAction
 
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnHttpResponse"/> method.
@@ -64,6 +84,10 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         public Func<ISoapClient, OnHttpResponseArguments, CancellationToken, Task> OnHttpResponseAsyncAction { get; set; }
 
+        #endregion
+
+        #region OnSoapEnvelopeResponseAction
+
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeResponse"/> method.
         /// </summary>
@@ -74,12 +98,26 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         public Func<ISoapClient, OnSoapEnvelopeResponseArguments, CancellationToken, Task> OnSoapEnvelopeResponseAsyncAction { get; set; }
 
+        /// <summary>
+        /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot2Response"/> method.
+        /// </summary>
+        public Action<ISoapClient, OnSoapEnvelopeV1Dot2ResponseArguments> OnSoapEnvelopeV1Dot2ResponseAction { get; set; }
+
+        /// <summary>
+        /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot2ResponseAsync"/> method.
+        /// </summary>
+        public Func<ISoapClient, OnSoapEnvelopeV1Dot2ResponseArguments, CancellationToken, Task> OnSoapEnvelopeV1Dot2ResponseAsyncAction { get; set; }
+
+        #endregion
+
         #region Implementation of ISoapHandler
 
         /// <summary>
         /// The order for which the handler will be executed
         /// </summary>
         public int Order { get; set; }
+
+        #region OnSoapEnvelopeRequest
 
         /// <summary>
         /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
@@ -107,6 +145,35 @@ namespace SimpleSOAPClient.Handlers
         }
 
         /// <summary>
+        /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
+        /// Useful to add properties like <see cref="SoapHeader"/>.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        public void OnSoapEnvelopeV1Dot2Request(ISoapClient client, OnSoapEnvelopeV1Dot2RequestArguments arguments)
+        {
+            OnSoapEnvelopeV1Dot2RequestAction?.Invoke(client, arguments);
+        }
+
+        /// <summary>
+        /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
+        /// Useful to add properties like <see cref="SoapHeader"/>.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>Task to be awaited</returns>
+        public async Task OnSoapEnvelopeV1Dot2RequestAsync(ISoapClient client, OnSoapEnvelopeV1Dot2RequestArguments arguments, CancellationToken ct)
+        {
+            if (OnSoapEnvelopeV1Dot2RequestAsyncAction != null)
+                await OnSoapEnvelopeV1Dot2RequestAsyncAction(client, arguments, ct);
+        }
+
+        #endregion
+
+        #region OnHttpRequest
+
+        /// <summary>
         /// Method invoked before sending the <see cref="HttpRequestMessage"/> to the server.
         /// Useful to log the request or change properties like HTTP headers.
         /// </summary>
@@ -130,6 +197,10 @@ namespace SimpleSOAPClient.Handlers
             if (OnHttpRequestAsyncAction != null)
                 await OnHttpRequestAsyncAction(client, arguments, ct);
         }
+
+        #endregion
+
+        #region OnHttpResponse
 
         /// <summary>
         /// Method invoked after receiving a <see cref="HttpResponseMessage"/> from the server.
@@ -156,6 +227,10 @@ namespace SimpleSOAPClient.Handlers
                 await OnHttpResponseAsyncAction(client, arguments, ct);
         }
 
+        #endregion
+
+        #region OnSoapEnvelopeResponse
+
         /// <summary>
         /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
         /// Useful to validate properties like <see cref="SoapHeader"/>.
@@ -180,6 +255,33 @@ namespace SimpleSOAPClient.Handlers
             if (OnSoapEnvelopeResponseAsyncAction != null)
                 await OnSoapEnvelopeResponseAsyncAction(client, arguments, ct);
         }
+
+        /// <summary>
+        /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
+        /// Useful to validate properties like <see cref="SoapHeader"/>.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        public void OnSoapEnvelopeV1Dot2Response(ISoapClient client, OnSoapEnvelopeV1Dot2ResponseArguments arguments)
+        {
+            OnSoapEnvelopeV1Dot2ResponseAction?.Invoke(client, arguments);
+        }
+
+        /// <summary>
+        /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
+        /// Useful to validate properties like <see cref="SoapHeader"/>.
+        /// </summary>
+        /// <param name="client">The client sending the request</param>
+        /// <param name="arguments">The method arguments</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>Task to be awaited</returns>
+        public async Task OnSoapEnvelopeV1Dot2ResponseAsync(ISoapClient client, OnSoapEnvelopeV1Dot2ResponseArguments arguments, CancellationToken ct)
+        {
+            if (OnSoapEnvelopeV1Dot2ResponseAsyncAction != null)
+                await OnSoapEnvelopeV1Dot2ResponseAsyncAction(client, arguments, ct);
+        }
+
+        #endregion
 
         #endregion
     }
