@@ -32,7 +32,7 @@ namespace SimpleSOAPClient.Exceptions
     /// </summary>
     public class SoapEnvelopeV1Dot2DeserializationException : SoapClientException
     {
-        private const string DefaultErrorMessage = "Failed to deserialize the XML string to a SOAP Envelope";
+        private const string DefaultErrorMessage = "Failed to deserialize the XML string to a SOAP V1.2 Envelope";
 
         /// <summary>
         /// The XML string that was beeing deserialized

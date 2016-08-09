@@ -31,7 +31,7 @@ namespace SimpleSOAPClient.Exceptions
     /// </summary>
     public class SoapEnvelopeV1Dot2SerializationException : SoapClientException
     {
-        private const string DefaultErrorMessage = "Failed to serialize the SOAP Envelope";
+        private const string DefaultErrorMessage = "Failed to serialize the SOAP V1.2 Envelope";
 
         /// <summary>
         /// The <see cref="Models.V1_2.SoapEnvelope"/> that failed to be serialized
