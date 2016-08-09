@@ -26,7 +26,7 @@ namespace SimpleSOAPClient.Handlers
     using System;
 
     /// <summary>
-    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnSoapEnvelopeResponse"/> method.
+    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot2Response"/> method.
     /// </summary>
     public sealed class OnSoapEnvelopeV1Dot2ResponseArguments : SoapHandlerArguments
     {
