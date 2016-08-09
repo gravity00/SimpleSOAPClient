@@ -31,7 +31,8 @@ namespace SimpleSOAPClient.Handlers
     /// </summary>
     public sealed class OnSoapEnvelopeResponseArguments : SoapHandlerArguments
     {
-        private SoapEnvelope _envelope;
+        private SoapEnvelope _envelopeV1Dot1;
+        private Models.V1_2.SoapEnvelope _envelopeV1Dot2;
 
         /// <summary>
         /// Creates a new instance
@@ -47,24 +48,50 @@ namespace SimpleSOAPClient.Handlers
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
-            _envelope = envelope;
+            _envelopeV1Dot1 = envelope;
         }
 
-        #region Implementation of IAfterSoapEnvelopeDeserializationArguments
+        /// <summary>
+        /// Creates a new instance
+        /// </summary>
+        /// <param name="envelope">The SOAP envelope</param>
+        /// <param name="url">The SOAP service url</param>
+        /// <param name="action">The SOAP action</param>
+        /// <param name="trackingId">An optional tracking id</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public OnSoapEnvelopeResponseArguments(Models.V1_2.SoapEnvelope envelope, string url, string action, Guid? trackingId = null) 
+            : base(url, action, trackingId)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
+            _envelopeV1Dot2 = envelope;
+        }
 
         /// <summary>
         /// The SOAP Envelope that was deserialized
         /// </summary>
         public SoapEnvelope Envelope
         {
-            get { return _envelope; }
+            get { return _envelopeV1Dot1; }
             set
             {
                 if (value == null) throw new ArgumentNullException(nameof(value));
-                _envelope = value;
+                _envelopeV1Dot1 = value;
             }
         }
 
-        #endregion
+        /// <summary>
+        /// The SOAP Envelope version 1.2 to be serialized
+        /// </summary>
+        public Models.V1_2.SoapEnvelope EnvelopeV1Dot2
+        {
+            get { return _envelopeV1Dot2; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                _envelopeV1Dot2 = value;
+            }
+        }
     }
 }
