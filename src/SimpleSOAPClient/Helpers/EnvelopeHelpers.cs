@@ -114,7 +114,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="envelope">The <see cref="SoapEnvelope"/></param>
         /// <returns>The deserialized object</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="FaultException">Thrown if the body contains a fault</exception>
+        /// <exception cref="FaultV1Dot1Exception">Thrown if the body contains a fault</exception>
         public static T Body<T>(this SoapEnvelope envelope)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
@@ -131,7 +131,7 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/></param>
         /// <returns>The deserialized object</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="FaultException">Thrown if the body contains a fault</exception>
+        /// <exception cref="FaultV1Dot1Exception">Thrown if the body contains a fault</exception>
         public static T Body<T>(this Models.V1_2.SoapEnvelope envelope)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
@@ -493,11 +493,11 @@ namespace SimpleSOAPClient.Helpers
 
         /// <summary>
         /// Checks if the <see cref="SoapEnvelope.Body"/> contains a fault 
-        /// and throws an <see cref="FaultException"/> if true.
+        /// and throws an <see cref="FaultV1Dot1Exception"/> if true.
         /// </summary>
         /// <param name="envelope">The <see cref="SoapEnvelope"/> to validate.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="FaultException">Thrown if the body contains a fault</exception>
+        /// <exception cref="FaultV1Dot1Exception">Thrown if the body contains a fault</exception>
         public static void ThrowIfFaulted(this SoapEnvelope envelope)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
@@ -505,7 +505,7 @@ namespace SimpleSOAPClient.Helpers
             if (!envelope.IsFaulted()) return;
 
             var fault = envelope.Fault();
-            throw new FaultException
+            throw new FaultV1Dot1Exception
             {
                 Code = fault.Code,
                 String = fault.String,

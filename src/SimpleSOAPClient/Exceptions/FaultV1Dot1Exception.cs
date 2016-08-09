@@ -25,34 +25,28 @@ namespace SimpleSOAPClient.Exceptions
 {
     using System;
     using System.Xml.Linq;
-    using Models.V1_2;
 
     /// <summary>
     /// Exception representing a fault returned by the server
     /// </summary>
-    public class FaultV1Dot2Exception : FaultException
+    public class FaultV1Dot1Exception : FaultException
     {
-        private const string DefaultErrorMessage = "A SOAP 1.2 Fault was returned by the server";
+        private const string DefaultErrorMessage = "A SOAP 1.1 Fault was returned by the server";
 
         /// <summary>
         /// The fault code
         /// </summary>
-        public SoapFaultCode Code { get; set; }
+        public string Code { get; set; }
 
         /// <summary>
-        /// The fault reason
+        /// The fault string
         /// </summary>
-        public SoapFaultReason Reason { get; set; }
+        public string String { get; set; }
 
         /// <summary>
-        /// The fault node
+        /// The fault actor
         /// </summary>
-        public string Node { get; set; }
-
-        /// <summary>
-        /// The fault role
-        /// </summary>
-        public string Role { get; set; }
+        public string Actor { get; set; }
 
         /// <summary>
         /// The fault detail
@@ -60,41 +54,41 @@ namespace SimpleSOAPClient.Exceptions
         public XElement Detail { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FaultV1Dot2Exception"/> with 
+        /// Initializes a new instance of <see cref="FaultV1Dot1Exception"/> with 
         /// a default error message
         /// </summary>
-        public FaultV1Dot2Exception() : base(DefaultErrorMessage)
+        public FaultV1Dot1Exception() : base(DefaultErrorMessage)
         {
 
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FaultV1Dot2Exception"/> with 
+        /// Initializes a new instance of <see cref="FaultV1Dot1Exception"/> with 
         /// a specified error message
         /// </summary>
         /// <param name="message">The error message</param>
-        public FaultV1Dot2Exception(string message) : base(message)
+        public FaultV1Dot1Exception(string message) : base(message)
         {
 
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FaultV1Dot2Exception"/> with 
+        /// Initializes a new instance of <see cref="FaultV1Dot1Exception"/> with 
         /// a specified error message and a reference to the inner exception
         /// </summary>
         /// <param name="message">The error message</param>
         /// <param name="innerException">The inner exception</param>
-        public FaultV1Dot2Exception(string message, Exception innerException) : base(message, innerException)
+        public FaultV1Dot1Exception(string message, Exception innerException) : base(message, innerException)
         {
 
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="FaultV1Dot2Exception"/> with 
+        /// Initializes a new instance of <see cref="FaultV1Dot1Exception"/> with 
         /// a specified error message and a reference to the inner exception
         /// </summary>
         /// <param name="innerException">The inner exception</param>
-        public FaultV1Dot2Exception(Exception innerException) : base(DefaultErrorMessage, innerException)
+        public FaultV1Dot1Exception(Exception innerException) : base(DefaultErrorMessage, innerException)
         {
 
         }
