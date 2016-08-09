@@ -96,7 +96,7 @@ namespace SimpleSOAPClient.Helpers
         #region OnSoapEnvelopeRequest
 
         /// <summary>
-        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeRequest"/>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1Request"/>
         /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
         /// </summary>
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
@@ -115,13 +115,13 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnSoapEnvelopeRequestAction = action
+                OnSoapEnvelopeV1Dot1RequestAction = action
             });
             return client;
         }
 
         /// <summary>
-        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeRequest"/>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1Request"/>
         /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
         /// </summary>
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
@@ -140,13 +140,13 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnSoapEnvelopeRequestAction = (c, args) => action(args)
+                OnSoapEnvelopeV1Dot1RequestAction = (c, args) => action(args)
             });
             return client;
         }
 
         /// <summary>
-        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeRequestAsync"/>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1RequestAsync"/>
         /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
         /// </summary>
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
@@ -165,13 +165,13 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnSoapEnvelopeRequestAsyncAction = action
+                OnSoapEnvelopeV1Dot1RequestAsyncAction = action
             });
             return client;
         }
 
         /// <summary>
-        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeRequestAsync"/>
+        /// Assigns the given delegate has an handler for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1RequestAsync"/>
         /// operations using a <see cref="DelegatingSoapHandler"/> as a wrapper.
         /// </summary>
         /// <typeparam name="TSoapClient">The SOAP client type</typeparam>
@@ -190,7 +190,7 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnSoapEnvelopeRequestAsyncAction = async (c, args, ct) => await action(args, ct)
+                OnSoapEnvelopeV1Dot1RequestAsyncAction = async (c, args, ct) => await action(args, ct)
             });
             return client;
         }

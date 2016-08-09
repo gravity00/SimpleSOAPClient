@@ -49,7 +49,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public virtual void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments)
+        public virtual void OnSoapEnvelopeV1Dot1Request(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments)
         {
             
         }
@@ -62,7 +62,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
-        public virtual Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments, CancellationToken ct)
+        public virtual Task OnSoapEnvelopeV1Dot1RequestAsync(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments, CancellationToken ct)
         {
             return Task.FromResult(true);
         }

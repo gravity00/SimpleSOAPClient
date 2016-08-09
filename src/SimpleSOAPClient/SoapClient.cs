@@ -411,8 +411,8 @@ namespace SimpleSOAPClient
                 new OnSoapEnvelopeV1Dot1RequestArguments(envelope, url, action, trackingId);
             foreach (var handler in orderedHandlers)
             {
-                await handler.OnSoapEnvelopeRequestAsync(this, beforeSoapEnvelopeSerializationArg, ct);
-                handler.OnSoapEnvelopeRequest(this, beforeSoapEnvelopeSerializationArg);
+                await handler.OnSoapEnvelopeV1Dot1RequestAsync(this, beforeSoapEnvelopeSerializationArg, ct);
+                handler.OnSoapEnvelopeV1Dot1Request(this, beforeSoapEnvelopeSerializationArg);
             }
 
             return beforeSoapEnvelopeSerializationArg;

@@ -46,7 +46,7 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments);
+        void OnSoapEnvelopeV1Dot1Request(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments);
 
         /// <summary>
         /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
@@ -56,7 +56,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
-        Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments, CancellationToken ct);
+        Task OnSoapEnvelopeV1Dot1RequestAsync(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments, CancellationToken ct);
 
         /// <summary>
         /// Method invoked before serializing a <see cref="Models.V1_2.SoapEnvelope"/>. 
