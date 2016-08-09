@@ -35,8 +35,11 @@ namespace SimpleSOAPClient.Helpers
     /// </summary>
     public static class EnvelopeHelpers
     {
-        private static readonly XName SoapFaultXName =
+        private static readonly XName SoapV1Dot1FaultXName =
             XName.Get("Fault", Constant.Namespace.OrgXmlSoapSchemasSoapEnvelope);
+
+        private static readonly XName SoapV1Dot2FaultXName =
+            XName.Get("Fault", Constant.Namespace.OrgW3Www200305SoapEnvelope);
 
         #region Body
 
@@ -60,6 +63,25 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
+        /// Sets the given <see cref="XElement"/> as the envelope body.
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> to be used.</param>
+        /// <param name="body">The <see cref="XElement"/> to set as the body.</param>
+        /// <returns>The <see cref="Models.V1_2.SoapEnvelope"/> after changes.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Models.V1_2.SoapEnvelope Body(this Models.V1_2.SoapEnvelope envelope, XElement body)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
+            if (envelope.Body == null)
+                envelope.Body = new Models.V1_2.SoapEnvelopeBody();
+
+            envelope.Body.Value = body;
+
+            return envelope;
+        }
+
+        /// <summary>
         /// Sets the given entity as the envelope body.
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
@@ -73,6 +95,19 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
+        /// Sets the given entity as the envelope body.
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> to be used.</param>
+        /// <param name="body">The entity to set as the body.</param>
+        /// <returns>The <see cref="Models.V1_2.SoapEnvelope"/> after changes.</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Models.V1_2.SoapEnvelope Body<T>(this Models.V1_2.SoapEnvelope envelope, T body)
+        {
+            return envelope.Body(body.ToXElement());
+        }
+
+        /// <summary>
         /// Extracts the <see cref="SoapEnvelope.Body"/> as an object of the given type.
         /// </summary>
         /// <typeparam name="T">The type do be deserialized.</typeparam>
@@ -81,6 +116,23 @@ namespace SimpleSOAPClient.Helpers
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="FaultException">Thrown if the body contains a fault</exception>
         public static T Body<T>(this SoapEnvelope envelope)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
+            envelope.ThrowIfFaulted();
+
+            return envelope.Body.Value.ToObject<T>();
+        }
+
+        /// <summary>
+        /// Extracts the <see cref="Models.V1_2.SoapEnvelope.Body"/> as an object of the given type.
+        /// </summary>
+        /// <typeparam name="T">The type do be deserialized.</typeparam>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/></param>
+        /// <returns>The deserialized object</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="FaultException">Thrown if the body contains a fault</exception>
+        public static T Body<T>(this Models.V1_2.SoapEnvelope envelope)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
@@ -128,6 +180,39 @@ namespace SimpleSOAPClient.Helpers
 
         /// <summary>
         /// Appends the received <see cref="XElement"/> collection to the existing
+        /// ones in the received <see cref="Models.V1_2.SoapEnvelope"/>.
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> to append the headers</param>
+        /// <param name="headers">The <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/> collection to append</param>
+        /// <returns>The <see cref="Models.V1_2.SoapEnvelope"/> after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Models.V1_2.SoapEnvelope WithHeaders(
+            this Models.V1_2.SoapEnvelope envelope, params XElement[] headers)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+            if (headers == null) throw new ArgumentNullException(nameof(headers));
+
+            if (headers.Length == 0) return envelope;
+
+            if (envelope.Header == null)
+            {
+                envelope.Header = new Models.V1_2.SoapEnvelopeHeader
+                {
+                    Headers = headers
+                };
+            }
+            else
+            {
+                var envelopeHeaders = new List<XElement>(envelope.Header.Headers);
+                envelopeHeaders.AddRange(headers);
+                envelope.Header.Headers = envelopeHeaders.ToArray();
+            }
+
+            return envelope;
+        }
+
+        /// <summary>
+        /// Appends the received <see cref="XElement"/> collection to the existing
         /// ones in the received <see cref="SoapEnvelope"/>.
         /// </summary>
         /// <param name="envelope">The <see cref="SoapEnvelope"/> to append the headers</param>
@@ -137,7 +222,21 @@ namespace SimpleSOAPClient.Helpers
         public static SoapEnvelope WithHeaders(
             this SoapEnvelope envelope, IEnumerable<XElement> headers)
         {
-            return envelope.WithHeaders(headers.ToArray());
+            return envelope.WithHeaders(headers as XElement[] ?? headers.ToArray());
+        }
+
+        /// <summary>
+        /// Appends the received <see cref="XElement"/> collection to the existing
+        /// ones in the received <see cref="Models.V1_2.SoapEnvelope"/>.
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> to append the headers</param>
+        /// <param name="headers">The <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/> collection to append</param>
+        /// <returns>The <see cref="Models.V1_2.SoapEnvelope"/> after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Models.V1_2.SoapEnvelope WithHeaders(
+            this Models.V1_2.SoapEnvelope envelope, IEnumerable<XElement> headers)
+        {
+            return envelope.WithHeaders(headers as XElement[] ?? headers.ToArray());
         }
 
         /// <summary>
@@ -164,6 +263,29 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
+        /// Appends the received <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/> collection to the existing
+        /// ones in the received <see cref="Models.V1_2.SoapEnvelope"/>.
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> to append the headers</param>
+        /// <param name="headers">The <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/> collection to append</param>
+        /// <returns>The <see cref="Models.V1_2.SoapEnvelope"/> after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Models.V1_2.SoapEnvelope WithHeaders(
+            this Models.V1_2.SoapEnvelope envelope, params Models.V1_2.SoapEnvelopeHeaderBlock[] headers)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+            if (headers == null) throw new ArgumentNullException(nameof(headers));
+
+            if (headers.Length == 0) return envelope;
+
+            var xElementHeaders = new XElement[headers.Length];
+            for (var i = 0; i < headers.Length; i++)
+                xElementHeaders[i] = headers[i].ToXElement();
+
+            return envelope.WithHeaders(xElementHeaders);
+        }
+
+        /// <summary>
         /// Appends the received <see cref="SoapHeader"/> collection to the existing
         /// ones in the received <see cref="SoapEnvelope"/>.
         /// </summary>
@@ -174,17 +296,80 @@ namespace SimpleSOAPClient.Helpers
         public static SoapEnvelope WithHeaders(
             this SoapEnvelope envelope, IEnumerable<SoapHeader> headers)
         {
-            return envelope.WithHeaders(headers.ToArray());
+            return envelope.WithHeaders(headers as SoapHeader[] ?? headers.ToArray());
         }
 
         /// <summary>
-        /// Gets a given <see cref="XElement"/> by its <see cref="XName"/>.
+        /// Appends the received <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/> collection to the existing
+        /// ones in the received <see cref="Models.V1_2.SoapEnvelope"/>.
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> to append the headers</param>
+        /// <param name="headers">The <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/> collection to append</param>
+        /// <returns>The <see cref="Models.V1_2.SoapEnvelope"/> after changes</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Models.V1_2.SoapEnvelope WithHeaders(
+            this Models.V1_2.SoapEnvelope envelope, IEnumerable<Models.V1_2.SoapEnvelopeHeaderBlock> headers)
+        {
+            return envelope.WithHeaders(headers as Models.V1_2.SoapEnvelopeHeaderBlock[] ?? headers.ToArray());
+        }
+
+        /// <summary>
+        /// Gets a collection of <see cref="XElement"/> headers by its <see cref="XName"/>.
         /// </summary>
         /// <param name="envelope">The <see cref="SoapEnvelope"/> with the headers.</param>
         /// <param name="name">The <see cref="XName"/> to search.</param>
         /// <returns>The <see cref="XElement"/> or null if not match is found</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static XElement Header(this SoapEnvelope envelope, XName name)
+        public static IEnumerable<XElement> HeadersWithName(this SoapEnvelope envelope, XName name)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
+            return envelope.Header == null
+                ? Enumerable.Empty<XElement>()
+                : envelope.Header.Headers.Where(xElement => xElement.Name == name);
+        }
+
+        /// <summary>
+        /// Gets the first <see cref="XElement"/> header by its <see cref="XName"/>.
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> with the headers.</param>
+        /// <param name="name">The <see cref="XName"/> to search.</param>
+        /// <returns>The <see cref="XElement"/> or null if not match is found</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IEnumerable<XElement> HeadersWithName(this Models.V1_2.SoapEnvelope envelope, XName name)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
+            return envelope.Header == null
+                ? Enumerable.Empty<XElement>()
+                : envelope.Header.Headers.Where(xElement => xElement.Name == name);
+        }
+
+        /// <summary>
+        /// Gets the first <see cref="XElement"/> header by its <see cref="XName"/>.
+        /// </summary>
+        /// <param name="envelope">The <see cref="SoapEnvelope"/> with the headers.</param>
+        /// <param name="name">The <see cref="XName"/> to search.</param>
+        /// <returns>The <see cref="XElement"/> or null if not match is found</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static XElement HeaderWithName(this SoapEnvelope envelope, XName name)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
+            if (envelope.Header == null || envelope.Header.Headers.Length == 0)
+                return null;
+
+            return envelope.Header.Headers.FirstOrDefault(xElement => xElement.Name == name);
+        }
+
+        /// <summary>
+        /// Gets the first <see cref="XElement"/> header by its <see cref="XName"/>.
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> with the headers.</param>
+        /// <param name="name">The <see cref="XName"/> to search.</param>
+        /// <returns>The <see cref="XElement"/> or null if not match is found</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static XElement HeaderWithName(this Models.V1_2.SoapEnvelope envelope, XName name)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
@@ -201,10 +386,49 @@ namespace SimpleSOAPClient.Helpers
         /// <param name="name">The <see cref="XName"/> to search.</param>
         /// <returns>The <see cref="SoapHeader"/> or null if not match is found</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T Header<T>(this SoapEnvelope envelope, XName name)
+        public static IEnumerable<T> HeadersWithName<T>(this SoapEnvelope envelope, XName name)
+            where T : SoapHeader
+        {
+            return envelope.HeadersWithName(name).Select(e => e.ToObject<T>());
+        }
+
+        /// <summary>
+        /// Gets a given <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/> by its <see cref="XName"/>.
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> with the headers.</param>
+        /// <param name="name">The <see cref="XName"/> to search.</param>
+        /// <returns>The <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/> or null if not match is found</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IEnumerable<T> HeadersWithName<T>(this Models.V1_2.SoapEnvelope envelope, XName name)
+            where T : Models.V1_2.SoapEnvelopeHeaderBlock
+        {
+            return envelope.HeadersWithName(name).Select(e => e.ToObject<T>());
+        }
+
+        /// <summary>
+        /// Gets a given <see cref="SoapHeader"/> by its <see cref="XName"/>.
+        /// </summary>
+        /// <param name="envelope">The <see cref="SoapEnvelope"/> with the headers.</param>
+        /// <param name="name">The <see cref="XName"/> to search.</param>
+        /// <returns>The <see cref="SoapHeader"/> or null if not match is found</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static T HeaderWithName<T>(this SoapEnvelope envelope, XName name)
             where T: SoapHeader
         {
-            return envelope.Header(name).ToObject<T>();
+            return envelope.HeaderWithName(name).ToObject<T>();
+        }
+
+        /// <summary>
+        /// Gets a given <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/> by its <see cref="XName"/>.
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> with the headers.</param>
+        /// <param name="name">The <see cref="XName"/> to search.</param>
+        /// <returns>The <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/> or null if not match is found</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static T HeaderWithName<T>(this Models.V1_2.SoapEnvelope envelope, XName name)
+            where T: Models.V1_2.SoapEnvelopeHeaderBlock
+        {
+            return envelope.HeaderWithName(name).ToObject<T>();
         }
 
         #endregion
@@ -221,7 +445,50 @@ namespace SimpleSOAPClient.Helpers
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
-            return envelope.Body?.Value != null && envelope.Body.Value.Name == SoapFaultXName;
+            return envelope.Body?.Value != null && envelope.Body.Value.Name == SoapV1Dot1FaultXName;
+        }
+
+        /// <summary>
+        /// Does the <see cref="Models.V1_2.SoapEnvelope.Body"/> contains a fault?
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> to validate</param>
+        /// <returns>True if a fault exists</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static bool IsFaulted(this Models.V1_2.SoapEnvelope envelope)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
+            return envelope.Body?.Value != null && envelope.Body.Value.Name == SoapV1Dot2FaultXName;
+        }
+
+        /// <summary>
+        /// Extracts the <see cref="SoapEnvelope.Body"/> as a <see cref="SoapFault"/>.
+        /// It will fail to deserialize if the body is not a fault. Consider to
+        /// use <see cref="IsFaulted(SoapEnvelope)"/> first.
+        /// </summary>
+        /// <param name="envelope">The <see cref="SoapEnvelope"/> to be used</param>
+        /// <returns>The <see cref="SoapFault"/></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static SoapFault Fault(this SoapEnvelope envelope)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
+            return envelope.Body?.Value.ToObject<SoapFault>();
+        }
+
+        /// <summary>
+        /// Extracts the <see cref="Models.V1_2.SoapEnvelope.Body"/> as a <see cref="Models.V1_2.SoapFault"/>.
+        /// It will fail to deserialize if the body is not a fault. Consider to
+        /// use <see cref="IsFaulted(Models.V1_2.SoapEnvelope)"/> first.
+        /// </summary>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> to be used</param>
+        /// <returns>The <see cref="SoapFault"/></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static Models.V1_2.SoapFault Fault(this Models.V1_2.SoapEnvelope envelope)
+        {
+            if (envelope == null) throw new ArgumentNullException(nameof(envelope));
+
+            return envelope.Body?.Value.ToObject<Models.V1_2.SoapFault>();
         }
 
         /// <summary>
@@ -248,18 +515,27 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
-        /// Extracts the <see cref="SoapEnvelope.Body"/> as a <see cref="SoapFault"/>.
-        /// It will fail to deserialize if the body is not a fault. Consider to
-        /// use <see cref="IsFaulted"/> first.
+        /// Checks if the <see cref="Models.V1_2.SoapEnvelope.Body"/> contains a fault 
+        /// and throws an <see cref="FaultV1Dot2Exception"/> if true.
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> to be used</param>
-        /// <returns>The <see cref="SoapFault"/></returns>
+        /// <param name="envelope">The <see cref="Models.V1_2.SoapEnvelope"/> to validate.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public static SoapFault Fault(this SoapEnvelope envelope)
+        /// <exception cref="FaultV1Dot2Exception">Thrown if the body contains a fault</exception>
+        public static void ThrowIfFaulted(this Models.V1_2.SoapEnvelope envelope)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
-            return envelope.Body?.Value.ToObject<SoapFault>();
+            if (!envelope.IsFaulted()) return;
+
+            var fault = envelope.Fault();
+            throw new FaultV1Dot2Exception
+            {
+                Code = fault.Code,
+                Reason = fault.Reason,
+                Node = fault.Node,
+                Role = fault.Role,
+                Detail = fault.Detail
+            };
         }
 
         #endregion
