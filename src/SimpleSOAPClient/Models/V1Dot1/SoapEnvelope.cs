@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models
+namespace SimpleSOAPClient.Models.V1Dot1
 {
     using System.Xml.Serialization;
 

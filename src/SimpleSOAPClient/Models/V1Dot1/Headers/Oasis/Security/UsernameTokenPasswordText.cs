@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 // The MIT License (MIT)
 // 
 // Copyright (c) 2016 João Simões
@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.Headers.Oasis.Security
+namespace SimpleSOAPClient.Models.V1Dot1.Headers.Oasis.Security
 {
     using System.Xml.Serialization;
 

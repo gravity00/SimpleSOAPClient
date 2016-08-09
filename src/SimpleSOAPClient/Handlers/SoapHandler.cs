@@ -27,6 +27,7 @@ namespace SimpleSOAPClient.Handlers
     using System.Threading;
     using System.Threading.Tasks;
     using Models;
+    using Models.V1Dot1;
 
     /// <summary>
     /// Base SOAP Handler that extending classes can use to override

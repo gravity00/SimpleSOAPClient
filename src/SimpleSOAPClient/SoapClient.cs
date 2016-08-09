@@ -33,6 +33,7 @@ namespace SimpleSOAPClient
     using Exceptions;
     using Handlers;
     using Models;
+    using Models.V1Dot1;
 
     /// <summary>
     /// The SOAP client that can be used to invoke SOAP Endpoints

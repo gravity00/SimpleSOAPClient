@@ -28,6 +28,7 @@ namespace SimpleSOAPClient.Handlers
     using System.Threading;
     using System.Threading.Tasks;
     using Models;
+    using Models.V1Dot1;
 
     /// <summary>
     /// SOAP Handler that exposes delegates for each handling operation.

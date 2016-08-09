@@ -25,6 +25,7 @@ namespace SimpleSOAPClient.Exceptions
 {
     using System;
     using Models;
+    using Models.V1Dot1;
 
     /// <summary>
     /// Exception thrown when an exception is thrown when serializing

@@ -39,9 +39,9 @@ namespace SimpleSOAPClient
             /// Prepares a SOAP Version 1.1 Envelope
             /// </summary>
             /// <returns>The SOAP Envelope</returns>
-            public static Models.SoapEnvelope PrepareSoapEnvelope()
+            public static Models.V1Dot1.SoapEnvelope PrepareSoapEnvelope()
             {
-                return new Models.SoapEnvelope();
+                return new Models.V1Dot1.SoapEnvelope();
             }
         }
 

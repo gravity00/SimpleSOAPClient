@@ -29,14 +29,15 @@ namespace SimpleSOAPClient.Helpers
     using System.Xml.Linq;
     using Exceptions;
     using Models;
+    using Models.V1Dot1;
     using Models.V1Dot2;
-    using SoapEnvelope = Models.SoapEnvelope;
-    using SoapEnvelopeBody = Models.SoapEnvelopeBody;
-    using SoapEnvelopeHeader = Models.SoapEnvelopeHeader;
-    using SoapFault = Models.SoapFault;
+    using SoapEnvelope = Models.V1Dot1.SoapEnvelope;
+    using SoapEnvelopeBody = Models.V1Dot1.SoapEnvelopeBody;
+    using SoapEnvelopeHeader = Models.V1Dot1.SoapEnvelopeHeader;
+    using SoapFault = Models.V1Dot1.SoapFault;
 
     /// <summary>
-    /// Helper methods for working with <see cref="Models.SoapEnvelope"/> instances.
+    /// Helper methods for working with <see cref="SoapEnvelope"/> instances.
     /// </summary>
     public static class EnvelopeHelpers
     {
@@ -51,9 +52,9 @@ namespace SimpleSOAPClient.Helpers
         /// <summary>
         /// Sets the given <see cref="XElement"/> as the envelope body.
         /// </summary>
-        /// <param name="envelope">The <see cref="Models.SoapEnvelope"/> to be used.</param>
+        /// <param name="envelope">The <see cref="SoapEnvelope"/> to be used.</param>
         /// <param name="body">The <see cref="XElement"/> to set as the body.</param>
-        /// <returns>The <see cref="Models.SoapEnvelope"/> after changes.</returns>
+        /// <returns>The <see cref="SoapEnvelope"/> after changes.</returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static SoapEnvelope Body(this SoapEnvelope envelope, XElement body)
         {
@@ -473,12 +474,12 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
-        /// Extracts the <see cref="SoapEnvelope.Body"/> as a <see cref="Models.SoapFault"/>.
+        /// Extracts the <see cref="SoapEnvelope.Body"/> as a <see cref="SoapFault"/>.
         /// It will fail to deserialize if the body is not a fault. Consider to
         /// use <see cref="IsFaulted(SoapEnvelope)"/> first.
         /// </summary>
         /// <param name="envelope">The <see cref="SoapEnvelope"/> to be used</param>
-        /// <returns>The <see cref="Models.SoapFault"/></returns>
+        /// <returns>The <see cref="SoapFault"/></returns>
         /// <exception cref="ArgumentNullException"></exception>
         public static SoapFault Fault(this SoapEnvelope envelope)
         {

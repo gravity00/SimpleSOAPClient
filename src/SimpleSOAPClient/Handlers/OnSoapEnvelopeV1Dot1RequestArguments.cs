@@ -25,6 +25,7 @@ namespace SimpleSOAPClient.Handlers
 {
     using System;
     using Models;
+    using Models.V1Dot1;
 
     /// <summary>
     /// The SOAP Handler arguments for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1Request"/> method.

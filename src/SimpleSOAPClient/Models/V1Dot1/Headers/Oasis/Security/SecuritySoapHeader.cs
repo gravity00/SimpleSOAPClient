@@ -1,4 +1,4 @@
-﻿namespace SimpleSOAPClient.Models.Headers.Oasis.Security
+﻿namespace SimpleSOAPClient.Models.V1Dot1.Headers.Oasis.Security
 {
     using System.Xml.Serialization;
 

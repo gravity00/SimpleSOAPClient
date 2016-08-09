@@ -30,6 +30,7 @@ namespace SimpleSOAPClient
     using System.Xml.Serialization;
     using Exceptions;
     using Models;
+    using Models.V1Dot1;
 
     /// <summary>
     /// Provider for serialization and deserialization of <see cref="SoapEnvelope"/> instances.
