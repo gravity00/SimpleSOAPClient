@@ -92,12 +92,12 @@ namespace SimpleSOAPClient.Handlers
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1Response"/> method.
         /// </summary>
-        public Action<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments> OnSoapEnvelopeResponseAction { get; set; }
+        public Action<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments> OnSoapEnvelopeV1Dot1ResponseAction { get; set; }
 
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot1ResponseAsync"/> method.
         /// </summary>
-        public Func<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments, CancellationToken, Task> OnSoapEnvelopeResponseAsyncAction { get; set; }
+        public Func<ISoapClient, OnSoapEnvelopeV1Dot1ResponseArguments, CancellationToken, Task> OnSoapEnvelopeV1Dot1ResponseAsyncAction { get; set; }
 
         /// <summary>
         /// Delegate for <see cref="ISoapHandler.OnSoapEnvelopeV1Dot2Response"/> method.
@@ -240,7 +240,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="arguments">The method arguments</param>
         public void OnSoapEnvelopeV1Dot1Response(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments)
         {
-            OnSoapEnvelopeResponseAction?.Invoke(client, arguments);
+            OnSoapEnvelopeV1Dot1ResponseAction?.Invoke(client, arguments);
         }
 
         /// <summary>
@@ -253,8 +253,8 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public async Task OnSoapEnvelopeV1Dot1ResponseAsync(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments, CancellationToken ct)
         {
-            if (OnSoapEnvelopeResponseAsyncAction != null)
-                await OnSoapEnvelopeResponseAsyncAction(client, arguments, ct);
+            if (OnSoapEnvelopeV1Dot1ResponseAsyncAction != null)
+                await OnSoapEnvelopeV1Dot1ResponseAsyncAction(client, arguments, ct);
         }
 
         /// <summary>

@@ -527,7 +527,7 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnSoapEnvelopeResponseAction = action
+                OnSoapEnvelopeV1Dot1ResponseAction = action
             });
             return client;
         }
@@ -552,7 +552,7 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnSoapEnvelopeResponseAction = (c, args) => action(args)
+                OnSoapEnvelopeV1Dot1ResponseAction = (c, args) => action(args)
             });
             return client;
         }
@@ -577,7 +577,7 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnSoapEnvelopeResponseAsyncAction = action
+                OnSoapEnvelopeV1Dot1ResponseAsyncAction = action
             });
             return client;
         }
@@ -602,7 +602,7 @@ namespace SimpleSOAPClient.Helpers
             client.AddHandler(new DelegatingSoapHandler
             {
                 Order = order,
-                OnSoapEnvelopeResponseAsyncAction = async (c, args, ct) => await action(args, ct)
+                OnSoapEnvelopeV1Dot1ResponseAsyncAction = async (c, args, ct) => await action(args, ct)
             });
             return client;
         }
