@@ -108,7 +108,7 @@ namespace SimpleSOAPClient
         /// </summary>
         /// <param name="xml">The XML string do deserialize</param>
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
-        public SoapEnvelope ToSoapEnvelope(string xml)
+        public SoapEnvelope ToSoapEnvelopeV1Dot1(string xml)
         {
             try
             {

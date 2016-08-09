@@ -42,7 +42,7 @@ namespace SimpleSOAPClient
         /// </summary>
         /// <param name="xml">The XML string do deserialize</param>
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
-        SoapEnvelope ToSoapEnvelope(string xml);
+        SoapEnvelope ToSoapEnvelopeV1Dot1(string xml);
 
         /// <summary>
         /// Serializes a given <see cref="Models.V1_2.SoapEnvelope"/> instance into a XML string.

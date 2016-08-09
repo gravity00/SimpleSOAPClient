@@ -211,7 +211,7 @@ namespace SimpleSOAPClient
             try
             {
                 responseEnvelope = 
-                    Settings.SerializationProvider.ToSoapEnvelope(responseXml);
+                    Settings.SerializationProvider.ToSoapEnvelopeV1Dot1(responseXml);
             }
             catch (SoapEnvelopeV1Dot1DeserializationException)
             {
