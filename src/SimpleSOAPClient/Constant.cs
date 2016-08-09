@@ -82,5 +82,24 @@ namespace SimpleSOAPClient
             public const string OrgOpenOasisDocsWss200401Oasis200401WssUsernameTokenProfile10PasswordText =
                 "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText";
         }
+
+        /// <summary>
+        /// SOAP Envelope Version
+        /// </summary>
+        public enum SoapEnvelopeVersion
+        {
+            /// <summary>
+            /// Undefined
+            /// </summary>
+            Undefined,
+            /// <summary>
+            /// SOAP Envelope Version 1.1
+            /// </summary>
+            V1Dot1 = 0101,
+            /// <summary>
+            /// SOAP Envelope Version 1.2
+            /// </summary>
+            V1Dot2 = 0102
+        }
     }
 }

@@ -192,8 +192,8 @@ namespace SimpleSOAPClient
 
             var beforeHttpRequestHandlersResult =
                 await RunBeforeHttpRequestHandlers(
-                    requestXml, url, action, trackingId,
-                    beforeSoapEnvelopeSerializationHandlersResult.State, orderedHandlers, ct);
+                    requestXml, url, action, trackingId, beforeSoapEnvelopeSerializationHandlersResult.State,
+                    orderedHandlers, Constant.SoapEnvelopeVersion.V1Dot1, ct);
 
             var response =
                 await HttpClient.SendAsync(beforeHttpRequestHandlersResult.Request, ct).ConfigureAwait(false);
@@ -231,6 +231,80 @@ namespace SimpleSOAPClient
         }
 
         /// <summary>
+        /// Sends the given <see cref="Models.V1_2.SoapEnvelope"/> into the specified url.
+        /// </summary>
+        /// <param name="url">The url that will receive the request</param>
+        /// <param name="action">The SOAP action beeing performed</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <returns>A task to be awaited for the result</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual async Task<Models.V1_2.SoapEnvelope> SendAsync(
+            string url, string action, Models.V1_2.SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
+        {
+            var trackingId = Guid.NewGuid();
+            var orderedHandlers = _handlers.OrderBy(e => e.Order).ToArray();
+
+            var beforeSoapEnvelopeSerializationHandlersResult =
+                await RunBeforeSoapEnvelopeV1Dot2SerializationHandlers(
+                    requestEnvelope, url, action, trackingId, orderedHandlers, ct);
+
+            string requestXml;
+            try
+            {
+                requestXml =
+                    Settings.SerializationProvider.ToXmlString(beforeSoapEnvelopeSerializationHandlersResult.Envelope);
+            }
+            catch (SoapEnvelopeV1Dot2SerializationException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new SoapEnvelopeV1Dot2SerializationException(requestEnvelope, e);
+            }
+
+            var beforeHttpRequestHandlersResult =
+                await RunBeforeHttpRequestHandlers(
+                    requestXml, url, action, trackingId, beforeSoapEnvelopeSerializationHandlersResult.State,
+                    orderedHandlers, Constant.SoapEnvelopeVersion.V1Dot2, ct);
+
+            var response =
+                await HttpClient.SendAsync(beforeHttpRequestHandlersResult.Request, ct).ConfigureAwait(false);
+
+            var afterHttpResponseHandlersResult =
+                await RunAfterHttpResponseHandlers(
+                    response, url, action, trackingId, beforeHttpRequestHandlersResult.State, orderedHandlers, ct);
+
+            var responseXml =
+                await afterHttpResponseHandlersResult.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(responseXml))
+                throw new SoapEnvelopeV1Dot2DeserializationException(responseXml, "The response content is empty.");
+            Models.V1_2.SoapEnvelope responseEnvelope;
+            try
+            {
+                responseEnvelope =
+                    Settings.SerializationProvider.ToSoapEnvelopeV1Dot2(responseXml);
+            }
+            catch (SoapEnvelopeV1Dot2DeserializationException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new SoapEnvelopeV1Dot2DeserializationException(responseXml, e);
+            }
+
+            var afterSoapEnvelopeDeserializationHandlerResult =
+                await RunAfterSoapEnvelopeV1Dot2DeserializationHandler(
+                    responseEnvelope, url, action, trackingId,
+                    afterHttpResponseHandlersResult.State, orderedHandlers, ct);
+
+            return afterSoapEnvelopeDeserializationHandlerResult.Envelope;
+        }
+
+        /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
@@ -240,6 +314,19 @@ namespace SimpleSOAPClient
         /// <exception cref="SoapEnvelopeSerializationException"></exception>
         /// <exception cref="SoapEnvelopeDeserializationException"></exception>
         public virtual SoapEnvelope Send(string url, string action, SoapEnvelope requestEnvelope)
+        {
+            return SendAsync(url, action, requestEnvelope).ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// Sends the given <see cref="Models.V1_2.SoapEnvelope"/> into the specified url.
+        /// </summary>
+        /// <param name="url">The url that will receive the request</param>
+        /// <param name="action">The SOAP Action beeing performed</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual Models.V1_2.SoapEnvelope Send(string url, string action, Models.V1_2.SoapEnvelope requestEnvelope)
         {
             return SendAsync(url, action, requestEnvelope).ConfigureAwait(false).GetAwaiter().GetResult();
         }
@@ -331,17 +418,50 @@ namespace SimpleSOAPClient
             return beforeSoapEnvelopeSerializationArg;
         }
 
+        private async Task<OnSoapEnvelopeV1Dot2RequestArguments> RunBeforeSoapEnvelopeV1Dot2SerializationHandlers(
+            Models.V1_2.SoapEnvelope envelope, string url, string action, Guid trackingId, ISoapHandler[] orderedHandlers, CancellationToken ct)
+        {
+            var beforeSoapEnvelopeSerializationArg =
+                new OnSoapEnvelopeV1Dot2RequestArguments(envelope, url, action, trackingId);
+            foreach (var handler in orderedHandlers)
+            {
+                await handler.OnSoapEnvelopeV1Dot2RequestAsync(this, beforeSoapEnvelopeSerializationArg, ct);
+                handler.OnSoapEnvelopeV1Dot2Request(this, beforeSoapEnvelopeSerializationArg);
+            }
+
+            return beforeSoapEnvelopeSerializationArg;
+        }
+
         private async Task<OnHttpRequestArguments> RunBeforeHttpRequestHandlers(
-            string xml, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
+            string xml, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, Constant.SoapEnvelopeVersion version, CancellationToken ct)
         {
             var beforeHttpRequestArguments =
-                new OnHttpRequestArguments(new HttpRequestMessage(HttpMethod.Post, url)
-                {
-                    Content = new StringContent(xml, Encoding.UTF8, "text/xml")
-                }, url, action, trackingId)
+                new OnHttpRequestArguments(new HttpRequestMessage(HttpMethod.Post, url), url, action, trackingId)
                 {
                     State = state
                 };
+            switch (version)
+            {
+                case Constant.SoapEnvelopeVersion.Undefined:
+                case Constant.SoapEnvelopeVersion.V1Dot1:
+                    beforeHttpRequestArguments.Request.Content = new StringContent(xml, Encoding.UTF8, "text/xml");
+                    beforeHttpRequestArguments.Request.Headers.Add("SOAPAction", action);
+                    break;
+                case Constant.SoapEnvelopeVersion.V1Dot2:
+                    beforeHttpRequestArguments.Request.Content = new StringContent(xml, Encoding.UTF8);
+
+                    var contentTypeValue = 
+                        string.Concat("application/soap+xml;charset=UTF-8;action=\"", action, "\"");
+                    if (!beforeHttpRequestArguments.Request.Content.Headers.TryAddWithoutValidation(
+                        "Content-Type", contentTypeValue))
+                    {
+                        throw new SoapClientException(
+                            $"Could not assign '{contentTypeValue}' as the 'Content-Type' header value");
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(version), version, null);
+            }
             foreach (var handler in orderedHandlers)
             {
                 await handler.OnHttpRequestAsync(this, beforeHttpRequestArguments, ct);
@@ -351,14 +471,12 @@ namespace SimpleSOAPClient
             return beforeHttpRequestArguments;
         }
 
-        private async Task<OnHttpResponseArguments> RunAfterHttpResponseHandlers(
-            HttpResponseMessage response, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
+        private async Task<OnHttpResponseArguments> RunAfterHttpResponseHandlers(HttpResponseMessage response, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
         {
-            var afterHttpResponseArguments =
-                new OnHttpResponseArguments(response, url, action, trackingId)
-                {
-                    State = state
-                };
+            var afterHttpResponseArguments = new OnHttpResponseArguments(response, url, action, trackingId)
+            {
+                State = state
+            };
             for (var index = orderedHandlers.Length - 1; index >= 0; index--)
             {
                 var handler = orderedHandlers[index];
@@ -369,19 +487,33 @@ namespace SimpleSOAPClient
             return afterHttpResponseArguments;
         }
 
-        private async Task<OnSoapEnvelopeResponseArguments> RunAfterSoapEnvelopeDeserializationHandler(
-            SoapEnvelope envelope, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
+        private async Task<OnSoapEnvelopeResponseArguments> RunAfterSoapEnvelopeDeserializationHandler(SoapEnvelope envelope, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
         {
-            var afterSoapEnvelopeDeserializationArguments =
-                new OnSoapEnvelopeResponseArguments(envelope, url, action, trackingId)
-                {
-                    State = state
-                };
+            var afterSoapEnvelopeDeserializationArguments = new OnSoapEnvelopeResponseArguments(envelope, url, action, trackingId)
+            {
+                State = state
+            };
             for (var index = orderedHandlers.Length - 1; index >= 0; index--)
             {
                 var handler = orderedHandlers[index];
                 await handler.OnSoapEnvelopeResponseAsync(this, afterSoapEnvelopeDeserializationArguments, ct);
                 handler.OnSoapEnvelopeResponse(this, afterSoapEnvelopeDeserializationArguments);
+            }
+
+            return afterSoapEnvelopeDeserializationArguments;
+        }
+
+        private async Task<OnSoapEnvelopeV1Dot2ResponseArguments> RunAfterSoapEnvelopeV1Dot2DeserializationHandler(Models.V1_2.SoapEnvelope envelope, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
+        {
+            var afterSoapEnvelopeDeserializationArguments = new OnSoapEnvelopeV1Dot2ResponseArguments(envelope, url, action, trackingId)
+            {
+                State = state
+            };
+            for (var index = orderedHandlers.Length - 1; index >= 0; index--)
+            {
+                var handler = orderedHandlers[index];
+                await handler.OnSoapEnvelopeV1Dot2ResponseAsync(this, afterSoapEnvelopeDeserializationArguments, ct);
+                handler.OnSoapEnvelopeV1Dot2Response(this, afterSoapEnvelopeDeserializationArguments);
             }
 
             return afterSoapEnvelopeDeserializationArguments;
