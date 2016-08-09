@@ -38,7 +38,9 @@ namespace SimpleSOAPClient.Helpers
         static XmlHelpers()
         {
             EmptyXmlSerializerNamespaces = new XmlSerializerNamespaces();
-            EmptyXmlSerializerNamespaces.Add("", "");
+            EmptyXmlSerializerNamespaces.Add("xs", Constant.Namespace.OrgW3Www2001XmlSchema);
+            EmptyXmlSerializerNamespaces.Add("xml", Constant.Namespace.OrgW3WwwXml1998Namespace);
+            EmptyXmlSerializerNamespaces.Add("env", Constant.Namespace.OrgW3Www200305SoapEnvelope);
         }
 
         /// <summary>
@@ -64,17 +66,6 @@ namespace SimpleSOAPClient.Helpers
                     .Serialize(xmlWriter, item, EmptyXmlSerializerNamespaces);
                 return textWriter.ToString();
             }
-        }
-
-        /// <summary>
-        /// Serializes the given object to a XML string
-        /// </summary>
-        /// <typeparam name="T">The object type</typeparam>
-        /// <param name="item">The item to serialize</param>
-        /// <returns>The XML string</returns>
-        public static string ToXmlString<T>(this T item)
-        {
-            return item.ToXmlString(true);
         }
 
         /// <summary>
