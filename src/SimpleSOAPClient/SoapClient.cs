@@ -231,7 +231,7 @@ namespace SimpleSOAPClient
         }
 
         /// <summary>
-        /// Sends the given <see cref="Models.V1_2.SoapEnvelope"/> into the specified url.
+        /// Sends the given <see cref="Models.V1Dot2.SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
         /// <param name="action">The SOAP action beeing performed</param>
@@ -239,8 +239,8 @@ namespace SimpleSOAPClient
         /// <param name="ct">The cancellation token</param>
         /// <returns>A task to be awaited for the result</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual async Task<Models.V1_2.SoapEnvelope> SendAsync(
-            string url, string action, Models.V1_2.SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
+        public virtual async Task<Models.V1Dot2.SoapEnvelope> SendAsync(
+            string url, string action, Models.V1Dot2.SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
         {
             var trackingId = Guid.NewGuid();
             var orderedHandlers = _handlers.OrderBy(e => e.Order).ToArray();
@@ -281,7 +281,7 @@ namespace SimpleSOAPClient
 
             if (string.IsNullOrWhiteSpace(responseXml))
                 throw new SoapEnvelopeV1Dot2DeserializationException(responseXml, "The response content is empty.");
-            Models.V1_2.SoapEnvelope responseEnvelope;
+            Models.V1Dot2.SoapEnvelope responseEnvelope;
             try
             {
                 responseEnvelope =
@@ -319,14 +319,14 @@ namespace SimpleSOAPClient
         }
 
         /// <summary>
-        /// Sends the given <see cref="Models.V1_2.SoapEnvelope"/> into the specified url.
+        /// Sends the given <see cref="Models.V1Dot2.SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
         /// <param name="action">The SOAP Action beeing performed</param>
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual Models.V1_2.SoapEnvelope Send(string url, string action, Models.V1_2.SoapEnvelope requestEnvelope)
+        public virtual Models.V1Dot2.SoapEnvelope Send(string url, string action, Models.V1Dot2.SoapEnvelope requestEnvelope)
         {
             return SendAsync(url, action, requestEnvelope).ConfigureAwait(false).GetAwaiter().GetResult();
         }
@@ -419,7 +419,7 @@ namespace SimpleSOAPClient
         }
 
         private async Task<OnSoapEnvelopeV1Dot2RequestArguments> RunBeforeSoapEnvelopeV1Dot2SerializationHandlers(
-            Models.V1_2.SoapEnvelope envelope, string url, string action, Guid trackingId, ISoapHandler[] orderedHandlers, CancellationToken ct)
+            Models.V1Dot2.SoapEnvelope envelope, string url, string action, Guid trackingId, ISoapHandler[] orderedHandlers, CancellationToken ct)
         {
             var beforeSoapEnvelopeSerializationArg =
                 new OnSoapEnvelopeV1Dot2RequestArguments(envelope, url, action, trackingId);
@@ -503,7 +503,7 @@ namespace SimpleSOAPClient
             return afterSoapEnvelopeDeserializationArguments;
         }
 
-        private async Task<OnSoapEnvelopeV1Dot2ResponseArguments> RunAfterSoapEnvelopeV1Dot2DeserializationHandler(Models.V1_2.SoapEnvelope envelope, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
+        private async Task<OnSoapEnvelopeV1Dot2ResponseArguments> RunAfterSoapEnvelopeV1Dot2DeserializationHandler(Models.V1Dot2.SoapEnvelope envelope, string url, string action, Guid trackingId, object state, ISoapHandler[] orderedHandlers, CancellationToken ct)
         {
             var afterSoapEnvelopeDeserializationArguments = new OnSoapEnvelopeV1Dot2ResponseArguments(envelope, url, action, trackingId)
             {

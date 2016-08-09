@@ -21,25 +21,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.V1_2
+namespace SimpleSOAPClient.Models.V1Dot2.Headers.W3.Soap
 {
+    using System.Linq;
+    using System.Xml;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents a SOAP Fault Code version 1.2
+    /// The not understood header thrown by MustUnderstand faults
     /// </summary>
-    public class SoapFaultCode
+    [XmlRoot("NotUnderstood", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+    public class NotUnderstoodHeader : SoapEnvelopeHeaderBlock
     {
         /// <summary>
-        /// The fault code value
+        /// The QName for the not understood header
         /// </summary>
-        [XmlElement("Value", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public string Value { get; set; }
+        [XmlAttribute("qname", Namespace = "")]
+        public string QName { get; set; }
 
         /// <summary>
-        /// The fault sub code
+        /// The namespaces declarations
         /// </summary>
-        [XmlElement("Subcode", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public SoapFaultSubCode Subcode { get; set; }
+        [XmlNamespaceDeclarations]
+        public XmlSerializerNamespaces Xmlns { get; set; }
+
+        /// <summary>
+        /// Tries to get the supported envelope namespace based 
+        /// on the <see cref="QName"/> prefix
+        /// </summary>
+        /// <param name="ns">The not understood header namespace or null if not found</param>
+        /// <returns>True if a match namespace is found for the QName prefix</returns>
+        public bool TryGetNotUnderstoodNamespace(out XmlQualifiedName ns)
+        {
+            var idx = QName.IndexOf(':');
+            if (idx > 0)
+            {
+                var nsName = QName.Substring(0, idx);
+                ns = Xmlns.ToArray().FirstOrDefault(e => e.Name == nsName);
+                return ns != null;
+            }
+
+            ns = null;
+            return false;
+        }
     }
 }

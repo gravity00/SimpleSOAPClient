@@ -21,20 +21,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.V1_2.Headers.W3.Soap
+namespace SimpleSOAPClient.Models.V1Dot2
 {
+    using System.Xml.Linq;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// The upgrade header thrown by VersionMismatch faults
+    /// Represents the SOAP Envelope version 1.2 Body section
     /// </summary>
-    [XmlRoot("Upgrade", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-    public class UpgradeHeader : SoapEnvelopeHeaderBlock
+    public class SoapEnvelopeBody
     {
         /// <summary>
-        /// The supported envelopes
+        /// The encoding style attribute
         /// </summary>
-        [XmlElement("SupportedEnvelope", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public UpgradeHeaderSupportedEnvelope[] SupportedEnvelopes { get; set; }
+        [XmlAttribute("encodingStyle", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public string EncodingStyle { get; set; }
+
+        /// <summary>
+        /// The body content
+        /// </summary>
+        [XmlAnyElement]
+        public XElement Value { get; set; }
     }
 }

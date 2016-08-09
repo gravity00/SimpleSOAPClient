@@ -39,11 +39,11 @@ namespace SimpleSOAPClient
         string ToXmlString(SoapEnvelope envelope);
 
         /// <summary>
-        /// Serializes a given <see cref="Models.V1_2.SoapEnvelope"/> instance into a XML string.
+        /// Serializes a given <see cref="Models.V1Dot2.SoapEnvelope"/> instance into a XML string.
         /// </summary>
         /// <param name="envelope">The instance to serialize</param>
         /// <returns>The resulting XML string</returns>
-        string ToXmlString(Models.V1_2.SoapEnvelope envelope);
+        string ToXmlString(Models.V1Dot2.SoapEnvelope envelope);
 
         /// <summary>
         /// Deserializes a given XML string into a <see cref="SoapEnvelope"/>.
@@ -53,11 +53,11 @@ namespace SimpleSOAPClient
         SoapEnvelope ToSoapEnvelopeV1Dot1(string xml);
 
         /// <summary>
-        /// Deserializes a given XML string into a <see cref="Models.V1_2.SoapEnvelope"/>.
+        /// Deserializes a given XML string into a <see cref="Models.V1Dot2.SoapEnvelope"/>.
         /// </summary>
         /// <param name="xml">The XML string do deserialize</param>
-        /// <returns>The resulting <see cref="Models.V1_2.SoapEnvelope"/></returns>
-        Models.V1_2.SoapEnvelope ToSoapEnvelopeV1Dot2(string xml);
+        /// <returns>The resulting <see cref="Models.V1Dot2.SoapEnvelope"/></returns>
+        Models.V1Dot2.SoapEnvelope ToSoapEnvelopeV1Dot2(string xml);
 
         /// <summary>
         /// Converts the given item into a <see cref="XElement"/>.

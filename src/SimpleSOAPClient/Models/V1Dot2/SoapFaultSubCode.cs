@@ -21,45 +21,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.V1_2
+namespace SimpleSOAPClient.Models.V1Dot2
 {
-    using System;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents a SOAP Envelope version 1.2
+    /// Represents a SOAP Fault Code version 1.2
     /// </summary>
-    [XmlRoot("Envelope", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-    public class SoapEnvelope
+    public class SoapFaultSubCode
     {
-        private SoapEnvelopeBody _body;
+        /// <summary>
+        /// The fault code value
+        /// </summary>
+        [XmlElement("Value", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public string Value { get; set; }
 
         /// <summary>
-        /// The SOAP Envelope Header section
+        /// The fault sub code
         /// </summary>
-        [XmlElement("Header", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public SoapEnvelopeHeader Header { get; set; }
-
-        /// <summary>
-        /// The SOAP Envelope Body section
-        /// </summary>
-        [XmlElement("Body", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public SoapEnvelopeBody Body
-        {
-            get { return _body; }
-            set
-            {
-                if (value == null) throw new ArgumentNullException(nameof(value));
-                _body = value;
-            }
-        }
-
-        /// <summary>
-        /// Creates a new instance.
-        /// </summary>
-        public SoapEnvelope()
-        {
-            Body = new SoapEnvelopeBody();
-        }
+        [XmlElement("Subcode", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public SoapFaultSubCode Subcode { get; set; }
     }
 }

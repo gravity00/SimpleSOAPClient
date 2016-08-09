@@ -24,27 +24,28 @@
 namespace SimpleSOAPClient.Exceptions
 {
     using System;
+    using Models.V1Dot2;
 
     /// <summary>
     /// Exception thrown when an exception is thrown when serializing
-    /// a given <see cref="Models.V1_2.SoapEnvelope"/> to a XML string.
+    /// a given <see cref="SoapEnvelope"/> to a XML string.
     /// </summary>
     public class SoapEnvelopeV1Dot2SerializationException : SoapClientException
     {
         private const string DefaultErrorMessage = "Failed to serialize the SOAP V1.2 Envelope";
 
         /// <summary>
-        /// The <see cref="Models.V1_2.SoapEnvelope"/> that failed to be serialized
+        /// The <see cref="SoapEnvelope"/> that failed to be serialized
         /// </summary>
         /// <exception cref="ArgumentNullException"/>
-        public Models.V1_2.SoapEnvelope Envelope { get; }
+        public SoapEnvelope Envelope { get; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="SoapEnvelopeV1Dot2SerializationException"/>
         /// </summary>
         /// <param name="envelope">The envelope that failed to serialize</param>
         /// <exception cref="ArgumentNullException"/>
-        public SoapEnvelopeV1Dot2SerializationException(Models.V1_2.SoapEnvelope envelope) : this(envelope, DefaultErrorMessage)
+        public SoapEnvelopeV1Dot2SerializationException(SoapEnvelope envelope) : this(envelope, DefaultErrorMessage)
         {
 
         }
@@ -55,7 +56,7 @@ namespace SimpleSOAPClient.Exceptions
         /// <param name="envelope">The envelope that failed to serialize</param>
         /// <param name="message">The message to be used</param>
         /// <exception cref="ArgumentNullException"/>
-        public SoapEnvelopeV1Dot2SerializationException(Models.V1_2.SoapEnvelope envelope, string message) : base(message)
+        public SoapEnvelopeV1Dot2SerializationException(SoapEnvelope envelope, string message) : base(message)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
@@ -69,7 +70,7 @@ namespace SimpleSOAPClient.Exceptions
         /// <param name="message">The message to be used</param>
         /// <param name="innerException">The inner exception</param>
         /// <exception cref="ArgumentNullException"/>
-        public SoapEnvelopeV1Dot2SerializationException(Models.V1_2.SoapEnvelope envelope, string message, Exception innerException) : base(message, innerException)
+        public SoapEnvelopeV1Dot2SerializationException(SoapEnvelope envelope, string message, Exception innerException) : base(message, innerException)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
@@ -82,7 +83,7 @@ namespace SimpleSOAPClient.Exceptions
         /// <param name="envelope">The envelope that failed to serialize</param>
         /// <param name="innerException">The inner exception</param>
         /// <exception cref="ArgumentNullException"/>
-        public SoapEnvelopeV1Dot2SerializationException(Models.V1_2.SoapEnvelope envelope, Exception innerException) : this(envelope, DefaultErrorMessage, innerException)
+        public SoapEnvelopeV1Dot2SerializationException(SoapEnvelope envelope, Exception innerException) : this(envelope, DefaultErrorMessage, innerException)
         {
 
         }

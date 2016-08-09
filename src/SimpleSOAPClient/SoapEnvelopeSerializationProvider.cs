@@ -122,15 +122,15 @@ namespace SimpleSOAPClient
         }
 
         /// <summary>
-        /// Serializes a given <see cref="Models.V1_2.SoapEnvelope"/> instance into a XML string.
+        /// Serializes a given <see cref="Models.V1Dot2.SoapEnvelope"/> instance into a XML string.
         /// </summary>
         /// <param name="envelope">The instance to serialize</param>
         /// <returns>The resulting XML string</returns>
-        public string ToXmlString(Models.V1_2.SoapEnvelope envelope)
+        public string ToXmlString(Models.V1Dot2.SoapEnvelope envelope)
         {
             try
             {
-                return ToXmlString<Models.V1_2.SoapEnvelope>(envelope);
+                return ToXmlString<Models.V1Dot2.SoapEnvelope>(envelope);
             }
             catch (Exception e)
             {
@@ -139,15 +139,15 @@ namespace SimpleSOAPClient
         }
 
         /// <summary>
-        /// Deserializes a given XML string into a <see cref="Models.V1_2.SoapEnvelope"/>.
+        /// Deserializes a given XML string into a <see cref="Models.V1Dot2.SoapEnvelope"/>.
         /// </summary>
         /// <param name="xml">The XML string do deserialize</param>
-        /// <returns>The resulting <see cref="Models.V1_2.SoapEnvelope"/></returns>
-        public Models.V1_2.SoapEnvelope ToSoapEnvelopeV1Dot2(string xml)
+        /// <returns>The resulting <see cref="Models.V1Dot2.SoapEnvelope"/></returns>
+        public Models.V1Dot2.SoapEnvelope ToSoapEnvelopeV1Dot2(string xml)
         {
             try
             {
-                return ToObject<Models.V1_2.SoapEnvelope>(xml);
+                return ToObject<Models.V1Dot2.SoapEnvelope>(xml);
             }
             catch (Exception e)
             {

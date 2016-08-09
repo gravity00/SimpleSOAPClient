@@ -21,19 +21,45 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.V1_2
+namespace SimpleSOAPClient.Models.V1Dot2
 {
+    using System.Xml.Linq;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents a SOAP version 1.2 Fault reason
+    /// Represents a SOAP version 1.2 Fault
     /// </summary>
-    public class SoapFaultReason
+    [XmlRoot("Fault", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+    public class SoapFault
     {
         /// <summary>
-        /// The reason texts
+        /// The fault code
         /// </summary>
-        [XmlElement("Text", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public SoapFaultReasonText[] Texts { get; set; }
+        [XmlElement("Code", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public SoapFaultCode Code { get; set; }
+
+        /// <summary>
+        /// The fault reason
+        /// </summary>
+        [XmlElement("Reason", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public SoapFaultReason Reason { get; set; }
+
+        /// <summary>
+        /// The fault node
+        /// </summary>
+        [XmlElement("Node", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public string Node { get; set; }
+
+        /// <summary>
+        /// The fault node
+        /// </summary>
+        [XmlElement("Role", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public string Role { get; set; }
+
+        /// <summary>
+        /// The fault detail
+        /// </summary>
+        [XmlElement("Detail", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public XElement Detail { get; set; }
     }
 }

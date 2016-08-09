@@ -60,7 +60,7 @@ namespace SimpleSOAPClient
             string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
 
         /// <summary>
-        /// Sends the given <see cref="Models.V1_2.SoapEnvelope"/> into the specified url.
+        /// Sends the given <see cref="Models.V1Dot2.SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
         /// <param name="action">The SOAP action beeing performed</param>
@@ -68,8 +68,8 @@ namespace SimpleSOAPClient
         /// <param name="ct">The cancellation token</param>
         /// <returns>A task to be awaited for the result</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task<Models.V1_2.SoapEnvelope> SendAsync(
-            string url, string action, Models.V1_2.SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
+        Task<Models.V1Dot2.SoapEnvelope> SendAsync(
+            string url, string action, Models.V1Dot2.SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
 
         /// <summary>
         /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
@@ -82,14 +82,14 @@ namespace SimpleSOAPClient
         SoapEnvelope Send(string url, string action, SoapEnvelope requestEnvelope);
 
         /// <summary>
-        /// Sends the given <see cref="Models.V1_2.SoapEnvelope"/> into the specified url.
+        /// Sends the given <see cref="Models.V1Dot2.SoapEnvelope"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
         /// <param name="action">The SOAP Action beeing performed</param>
         /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
         /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Models.V1_2.SoapEnvelope Send(string url, string action, Models.V1_2.SoapEnvelope requestEnvelope);
+        Models.V1Dot2.SoapEnvelope Send(string url, string action, Models.V1Dot2.SoapEnvelope requestEnvelope);
 
         #endregion
 

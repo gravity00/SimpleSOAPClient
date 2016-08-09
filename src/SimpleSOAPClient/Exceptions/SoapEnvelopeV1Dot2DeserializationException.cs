@@ -24,10 +24,11 @@
 namespace SimpleSOAPClient.Exceptions
 {
     using System;
+    using Models.V1Dot2;
 
     /// <summary>
     /// Exception thrown when an exception is thrown when deserializing
-    /// a given XML string to a <see cref="Models.V1_2.SoapEnvelope"/>.
+    /// a given XML string to a <see cref="SoapEnvelope"/>.
     /// </summary>
     public class SoapEnvelopeV1Dot2DeserializationException : SoapClientException
     {

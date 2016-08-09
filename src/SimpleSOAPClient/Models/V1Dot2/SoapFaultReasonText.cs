@@ -1,7 +1,7 @@
-Ôªø#region License
+#region License
 // The MIT License (MIT)
 // 
-// Copyright (c) 2016 Jo√£o Sim√µes
+// Copyright (c) 2016 Jo„o Simıes
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,26 +21,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.V1_2
+namespace SimpleSOAPClient.Models.V1Dot2
 {
-    using System.Xml.Linq;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents the SOAP Envelope version 1.2 Body section
+    /// Represents a SOAP version 1.2 Fault reason text
     /// </summary>
-    public class SoapEnvelopeBody
+    public class SoapFaultReasonText
     {
         /// <summary>
-        /// The encoding style attribute
+        /// The text language
         /// </summary>
-        [XmlAttribute("encodingStyle", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public string EncodingStyle { get; set; }
+        [XmlAttribute("lang", Namespace = Constant.Namespace.OrgW3WwwXml1998Namespace)]
+        public string Language { get; set; }
 
         /// <summary>
-        /// The body content
+        /// The text value
         /// </summary>
-        [XmlAnyElement]
-        public XElement Value { get; set; }
+        [XmlText]
+        public string Text { get; set; }
     }
 }

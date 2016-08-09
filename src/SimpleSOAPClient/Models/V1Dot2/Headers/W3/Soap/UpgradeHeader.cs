@@ -21,47 +21,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.V1_2.Headers.W3.Soap
+namespace SimpleSOAPClient.Models.V1Dot2.Headers.W3.Soap
 {
-    using System.Linq;
-    using System.Xml;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// The upgrade header supported envelope element
+    /// The upgrade header thrown by VersionMismatch faults
     /// </summary>
-    public class UpgradeHeaderSupportedEnvelope
+    [XmlRoot("Upgrade", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+    public class UpgradeHeader : SoapEnvelopeHeaderBlock
     {
         /// <summary>
-        /// The QName for the supported envelope
+        /// The supported envelopes
         /// </summary>
-        [XmlAttribute("qname", Namespace = "")]
-        public string QName { get; set; }
-
-        /// <summary>
-        /// The namespaces declarations
-        /// </summary>
-        [XmlNamespaceDeclarations]
-        public XmlSerializerNamespaces Xmlns { get; set; }
-
-        /// <summary>
-        /// Tries to get the supported envelope namespace based 
-        /// on the <see cref="QName"/> prefix
-        /// </summary>
-        /// <param name="ns">The supported envelope namespace or null if not found</param>
-        /// <returns>True if a match namespace is found for the QName prefix</returns>
-        public bool TryGetEnvelopeNamespace(out XmlQualifiedName ns)
-        {
-            var idx = QName.IndexOf(':');
-            if (idx > 0)
-            {
-                var nsName = QName.Substring(0, idx);
-                ns = Xmlns.ToArray().FirstOrDefault(e => e.Name == nsName);
-                return ns != null;
-            }
-
-            ns = null;
-            return false;
-        }
+        [XmlElement("SupportedEnvelope", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public UpgradeHeaderSupportedEnvelope[] SupportedEnvelopes { get; set; }
     }
 }

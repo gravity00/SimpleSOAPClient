@@ -25,7 +25,7 @@ namespace SimpleSOAPClient.Exceptions
 {
     using System;
     using System.Xml.Linq;
-    using Models.V1_2;
+    using Models.V1Dot2;
 
     /// <summary>
     /// Exception representing a fault returned by the server

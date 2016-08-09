@@ -59,16 +59,16 @@ namespace SimpleSOAPClient.Handlers
         Task OnSoapEnvelopeV1Dot1RequestAsync(ISoapClient client, OnSoapEnvelopeV1Dot1RequestArguments arguments, CancellationToken ct);
 
         /// <summary>
-        /// Method invoked before serializing a <see cref="Models.V1_2.SoapEnvelope"/>. 
-        /// Useful to add properties like <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/>.
+        /// Method invoked before serializing a <see cref="Models.V1Dot2.SoapEnvelope"/>. 
+        /// Useful to add properties like <see cref="Models.V1Dot2.SoapEnvelopeHeaderBlock"/>.
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
         void OnSoapEnvelopeV1Dot2Request(ISoapClient client, OnSoapEnvelopeV1Dot2RequestArguments arguments);
 
         /// <summary>
-        /// Method invoked before serializing a <see cref="Models.V1_2.SoapEnvelope"/>. 
-        /// Useful to add properties like <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/>.
+        /// Method invoked before serializing a <see cref="Models.V1Dot2.SoapEnvelope"/>. 
+        /// Useful to add properties like <see cref="Models.V1Dot2.SoapEnvelopeHeaderBlock"/>.
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
@@ -143,16 +143,16 @@ namespace SimpleSOAPClient.Handlers
         Task OnSoapEnvelopeV1Dot1ResponseAsync(ISoapClient client, OnSoapEnvelopeV1Dot1ResponseArguments arguments, CancellationToken ct);
 
         /// <summary>
-        /// Method invoked after deserializing a <see cref="Models.V1_2.SoapEnvelope"/> from the server response. 
-        /// Useful to validate properties like <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/>.
+        /// Method invoked after deserializing a <see cref="Models.V1Dot2.SoapEnvelope"/> from the server response. 
+        /// Useful to validate properties like <see cref="Models.V1Dot2.SoapEnvelopeHeaderBlock"/>.
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
         void OnSoapEnvelopeV1Dot2Response(ISoapClient client, OnSoapEnvelopeV1Dot2ResponseArguments arguments);
 
         /// <summary>
-        /// Method invoked after deserializing a <see cref="Models.V1_2.SoapEnvelope"/> from the server response. 
-        /// Useful to validate properties like <see cref="Models.V1_2.SoapEnvelopeHeaderBlock"/>.
+        /// Method invoked after deserializing a <see cref="Models.V1Dot2.SoapEnvelope"/> from the server response. 
+        /// Useful to validate properties like <see cref="Models.V1Dot2.SoapEnvelopeHeaderBlock"/>.
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>

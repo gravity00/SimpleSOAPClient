@@ -21,48 +21,45 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.V1_2.Headers.W3.Soap
+namespace SimpleSOAPClient.Models.V1Dot2
 {
-    using System.Linq;
-    using System.Xml;
+    using System;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// The not understood header thrown by MustUnderstand faults
+    /// Represents a SOAP Envelope version 1.2
     /// </summary>
-    [XmlRoot("NotUnderstood", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-    public class NotUnderstoodHeader : SoapEnvelopeHeaderBlock
+    [XmlRoot("Envelope", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+    public class SoapEnvelope
     {
-        /// <summary>
-        /// The QName for the not understood header
-        /// </summary>
-        [XmlAttribute("qname", Namespace = "")]
-        public string QName { get; set; }
+        private SoapEnvelopeBody _body;
 
         /// <summary>
-        /// The namespaces declarations
+        /// The SOAP Envelope Header section
         /// </summary>
-        [XmlNamespaceDeclarations]
-        public XmlSerializerNamespaces Xmlns { get; set; }
+        [XmlElement("Header", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public SoapEnvelopeHeader Header { get; set; }
 
         /// <summary>
-        /// Tries to get the supported envelope namespace based 
-        /// on the <see cref="QName"/> prefix
+        /// The SOAP Envelope Body section
         /// </summary>
-        /// <param name="ns">The not understood header namespace or null if not found</param>
-        /// <returns>True if a match namespace is found for the QName prefix</returns>
-        public bool TryGetNotUnderstoodNamespace(out XmlQualifiedName ns)
+        [XmlElement("Body", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public SoapEnvelopeBody Body
         {
-            var idx = QName.IndexOf(':');
-            if (idx > 0)
+            get { return _body; }
+            set
             {
-                var nsName = QName.Substring(0, idx);
-                ns = Xmlns.ToArray().FirstOrDefault(e => e.Name == nsName);
-                return ns != null;
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                _body = value;
             }
+        }
 
-            ns = null;
-            return false;
+        /// <summary>
+        /// Creates a new instance.
+        /// </summary>
+        public SoapEnvelope()
+        {
+            Body = new SoapEnvelopeBody();
         }
     }
 }

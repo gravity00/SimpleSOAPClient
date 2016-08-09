@@ -21,45 +21,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.V1_2
+namespace SimpleSOAPClient.Models.V1Dot2.Headers.W3.Soap
 {
-    using System.Xml.Linq;
+    using System.Linq;
+    using System.Xml;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents a SOAP version 1.2 Fault
+    /// The upgrade header supported envelope element
     /// </summary>
-    [XmlRoot("Fault", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-    public class SoapFault
+    public class UpgradeHeaderSupportedEnvelope
     {
         /// <summary>
-        /// The fault code
+        /// The QName for the supported envelope
         /// </summary>
-        [XmlElement("Code", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public SoapFaultCode Code { get; set; }
+        [XmlAttribute("qname", Namespace = "")]
+        public string QName { get; set; }
 
         /// <summary>
-        /// The fault reason
+        /// The namespaces declarations
         /// </summary>
-        [XmlElement("Reason", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public SoapFaultReason Reason { get; set; }
+        [XmlNamespaceDeclarations]
+        public XmlSerializerNamespaces Xmlns { get; set; }
 
         /// <summary>
-        /// The fault node
+        /// Tries to get the supported envelope namespace based 
+        /// on the <see cref="QName"/> prefix
         /// </summary>
-        [XmlElement("Node", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public string Node { get; set; }
+        /// <param name="ns">The supported envelope namespace or null if not found</param>
+        /// <returns>True if a match namespace is found for the QName prefix</returns>
+        public bool TryGetEnvelopeNamespace(out XmlQualifiedName ns)
+        {
+            var idx = QName.IndexOf(':');
+            if (idx > 0)
+            {
+                var nsName = QName.Substring(0, idx);
+                ns = Xmlns.ToArray().FirstOrDefault(e => e.Name == nsName);
+                return ns != null;
+            }
 
-        /// <summary>
-        /// The fault node
-        /// </summary>
-        [XmlElement("Role", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public string Role { get; set; }
-
-        /// <summary>
-        /// The fault detail
-        /// </summary>
-        [XmlElement("Detail", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public XElement Detail { get; set; }
+            ns = null;
+            return false;
+        }
     }
 }

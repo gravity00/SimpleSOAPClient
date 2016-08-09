@@ -21,25 +21,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleSOAPClient.Models.V1_2
+namespace SimpleSOAPClient.Models.V1Dot2
 {
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents a SOAP Fault Code version 1.2
+    /// Represents a SOAP version 1.2 Fault reason
     /// </summary>
-    public class SoapFaultSubCode
+    public class SoapFaultReason
     {
         /// <summary>
-        /// The fault code value
+        /// The reason texts
         /// </summary>
-        [XmlElement("Value", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public string Value { get; set; }
-
-        /// <summary>
-        /// The fault sub code
-        /// </summary>
-        [XmlElement("Subcode", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
-        public SoapFaultSubCode Subcode { get; set; }
+        [XmlElement("Text", Namespace = Constant.Namespace.OrgW3Www200305SoapEnvelope)]
+        public SoapFaultReasonText[] Texts { get; set; }
     }
 }
