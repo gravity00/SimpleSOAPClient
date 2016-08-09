@@ -26,6 +26,7 @@ namespace SimpleSOAPClient
     using System;
     using System.IO;
     using System.Xml;
+    using System.Xml.Linq;
     using System.Xml.Serialization;
     using Exceptions;
     using Models;
@@ -154,6 +155,28 @@ namespace SimpleSOAPClient
             }
         }
 
+        /// <summary>
+        /// Converts the given item into a <see cref="XElement"/>.
+        /// </summary>
+        /// <typeparam name="T">The item type</typeparam>
+        /// <param name="item">The item to be converted</param>
+        /// <returns>The resulting XElement</returns>
+        public XElement ToXElement<T>(T item)
+        {
+            return item == null ? null : XElement.Parse(ToXmlString(item));
+        }
+
+        /// <summary>
+        /// Converts the given <see cref="XElement"/> into an item of expected type.
+        /// </summary>
+        /// <typeparam name="T">The item type</typeparam>
+        /// <param name="element">The element to be converted</param>
+        /// <returns>The resulting item</returns>
+        public T ToObject<T>(XElement element)
+        {
+            return element == null ? default(T) : ToObject<T>(element.ToString());
+        }
+
         #endregion
 
         private string ToXmlString<T>(T instance)
@@ -169,9 +192,9 @@ namespace SimpleSOAPClient
             }
         }
 
-        private static T ToObject<T>(string xml) where T : class
+        private static T ToObject<T>(string xml)
         {
-            if (string.IsNullOrWhiteSpace(xml)) return null;
+            if (string.IsNullOrWhiteSpace(xml)) return default(T);
 
             using (var textWriter = new StringReader(xml))
             {

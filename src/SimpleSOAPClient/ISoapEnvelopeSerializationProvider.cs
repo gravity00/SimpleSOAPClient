@@ -23,6 +23,7 @@
 #endregion
 namespace SimpleSOAPClient
 {
+    using System.Xml.Linq;
     using Models;
 
     /// <summary>
@@ -57,5 +58,21 @@ namespace SimpleSOAPClient
         /// <param name="xml">The XML string do deserialize</param>
         /// <returns>The resulting <see cref="Models.V1_2.SoapEnvelope"/></returns>
         Models.V1_2.SoapEnvelope ToSoapEnvelopeV1Dot2(string xml);
+
+        /// <summary>
+        /// Converts the given item into a <see cref="XElement"/>.
+        /// </summary>
+        /// <typeparam name="T">The item type</typeparam>
+        /// <param name="item">The item to be converted</param>
+        /// <returns>The resulting XElement</returns>
+        XElement ToXElement<T>(T item);
+
+        /// <summary>
+        /// Converts the given <see cref="XElement"/> into an item of expected type.
+        /// </summary>
+        /// <typeparam name="T">The item type</typeparam>
+        /// <param name="element">The element to be converted</param>
+        /// <returns>The resulting item</returns>
+        T ToObject<T>(XElement element);
     }
 }

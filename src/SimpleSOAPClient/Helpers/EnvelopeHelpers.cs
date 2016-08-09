@@ -91,7 +91,8 @@ namespace SimpleSOAPClient.Helpers
         /// <exception cref="ArgumentNullException"></exception>
         public static SoapEnvelope Body<T>(this SoapEnvelope envelope, T body)
         {
-            return envelope.Body(body.ToXElement());
+            return envelope.Body(
+                SoapClientSettings.Default.SerializationProvider.ToXElement(body));
         }
 
         /// <summary>
@@ -104,7 +105,8 @@ namespace SimpleSOAPClient.Helpers
         /// <exception cref="ArgumentNullException"></exception>
         public static Models.V1_2.SoapEnvelope Body<T>(this Models.V1_2.SoapEnvelope envelope, T body)
         {
-            return envelope.Body(body.ToXElement());
+            return envelope.Body(
+                SoapClientSettings.Default.SerializationProvider.ToXElement(body));
         }
 
         /// <summary>
@@ -121,7 +123,7 @@ namespace SimpleSOAPClient.Helpers
 
             envelope.ThrowIfFaulted();
 
-            return envelope.Body.Value.ToObject<T>();
+            return SoapClientSettings.Default.SerializationProvider.ToObject<T>(envelope.Body.Value);
         }
 
         /// <summary>
@@ -138,7 +140,7 @@ namespace SimpleSOAPClient.Helpers
 
             envelope.ThrowIfFaulted();
 
-            return envelope.Body.Value.ToObject<T>();
+            return SoapClientSettings.Default.SerializationProvider.ToObject<T>(envelope.Body.Value);
         }
 
         #endregion
@@ -254,10 +256,10 @@ namespace SimpleSOAPClient.Helpers
             if (headers == null) throw new ArgumentNullException(nameof(headers));
 
             if (headers.Length == 0) return envelope;
-
+            
             var xElementHeaders = new XElement[headers.Length];
             for (var i = 0; i < headers.Length; i++)
-                xElementHeaders[i] = headers[i].ToXElement();
+                xElementHeaders[i] = SoapClientSettings.Default.SerializationProvider.ToXElement(headers[i]);
 
             return envelope.WithHeaders(xElementHeaders);
         }
@@ -280,7 +282,7 @@ namespace SimpleSOAPClient.Helpers
 
             var xElementHeaders = new XElement[headers.Length];
             for (var i = 0; i < headers.Length; i++)
-                xElementHeaders[i] = headers[i].ToXElement();
+                xElementHeaders[i] = SoapClientSettings.Default.SerializationProvider.ToXElement(headers[i]);
 
             return envelope.WithHeaders(xElementHeaders);
         }
@@ -389,7 +391,9 @@ namespace SimpleSOAPClient.Helpers
         public static IEnumerable<T> HeadersWithName<T>(this SoapEnvelope envelope, XName name)
             where T : SoapHeader
         {
-            return envelope.HeadersWithName(name).Select(e => e.ToObject<T>());
+            return
+                envelope.HeadersWithName(name)
+                    .Select(e => SoapClientSettings.Default.SerializationProvider.ToObject<T>(e));
         }
 
         /// <summary>
@@ -402,7 +406,9 @@ namespace SimpleSOAPClient.Helpers
         public static IEnumerable<T> HeadersWithName<T>(this Models.V1_2.SoapEnvelope envelope, XName name)
             where T : Models.V1_2.SoapEnvelopeHeaderBlock
         {
-            return envelope.HeadersWithName(name).Select(e => e.ToObject<T>());
+            return
+                envelope.HeadersWithName(name)
+                    .Select(e => SoapClientSettings.Default.SerializationProvider.ToObject<T>(e));
         }
 
         /// <summary>
@@ -415,7 +421,7 @@ namespace SimpleSOAPClient.Helpers
         public static T HeaderWithName<T>(this SoapEnvelope envelope, XName name)
             where T: SoapHeader
         {
-            return envelope.HeaderWithName(name).ToObject<T>();
+            return SoapClientSettings.Default.SerializationProvider.ToObject<T>(envelope.HeaderWithName(name));
         }
 
         /// <summary>
@@ -428,7 +434,7 @@ namespace SimpleSOAPClient.Helpers
         public static T HeaderWithName<T>(this Models.V1_2.SoapEnvelope envelope, XName name)
             where T: Models.V1_2.SoapEnvelopeHeaderBlock
         {
-            return envelope.HeaderWithName(name).ToObject<T>();
+            return SoapClientSettings.Default.SerializationProvider.ToObject<T>(envelope.HeaderWithName(name));
         }
 
         #endregion
@@ -473,7 +479,9 @@ namespace SimpleSOAPClient.Helpers
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
-            return envelope.Body?.Value.ToObject<SoapFault>();
+            return envelope.Body == null
+                ? null
+                : SoapClientSettings.Default.SerializationProvider.ToObject<SoapFault>(envelope.Body.Value);
         }
 
         /// <summary>
@@ -488,7 +496,9 @@ namespace SimpleSOAPClient.Helpers
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
-            return envelope.Body?.Value.ToObject<Models.V1_2.SoapFault>();
+            return envelope.Body == null
+                ? null
+                : SoapClientSettings.Default.SerializationProvider.ToObject<Models.V1_2.SoapFault>(envelope.Body.Value);
         }
 
         /// <summary>
