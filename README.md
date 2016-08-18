@@ -52,7 +52,7 @@ public static async Task MainAsync(string[] args, CancellationToken ct)
 				},
 				OnSoapEnvelopeResponseAction = (c, args) =>
 				{
-					// Bug in RC03 - required to prevent a NullReferenceException
+					// Bug: this action is required to prevent a NullReferenceException bug in RC03
 				}
 			})
 			.OnSoapEnvelopeRequest(args =>
