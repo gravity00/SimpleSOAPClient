@@ -49,6 +49,10 @@ public static async Task MainAsync(string[] args, CancellationToken ct)
 						"SOAP Outbound Response [{0}] -> {1}({2}) {3} {4}\n{5}",
 						args.TrackingId, args.Url, args.Action, (int) args.Response.StatusCode,
 						args.Response.StatusCode, await args.Response.Content.ReadAsStringAsync());
+				},
+				OnSoapEnvelopeResponseAction = (c, args) =>
+				{
+					// Bug in RC03 - required to prevent a NullReferenceException
 				}
 			})
 			.OnSoapEnvelopeRequest(args =>
