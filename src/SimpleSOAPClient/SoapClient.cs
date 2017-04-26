@@ -42,11 +42,12 @@ namespace SimpleSOAPClient
         private readonly bool _disposeHttpClient = true;
         private readonly List<ISoapHandler> _handlers = new List<ISoapHandler>();
         private SoapClientSettings _settings;
+        private bool _disposed;
 
         /// <summary>
         /// The used HTTP client
         /// </summary>
-        public HttpClient HttpClient { get; }
+        public HttpClient HttpClient { get; private set; }
 
         #region Constructors
 
@@ -168,6 +169,9 @@ namespace SimpleSOAPClient
         public virtual async Task<SoapEnvelope> SendAsync(
             string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
         {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(SoapClient));
+
             var trackingId = Guid.NewGuid();
             var handlersOrderedAsc = _handlers.OrderBy(e => e.Order).ToList();
 
@@ -263,8 +267,16 @@ namespace SimpleSOAPClient
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
+            if (_disposed)
+                return;
+
             if (disposing && _disposeHttpClient)
                 HttpClient.Dispose();
+
+            HttpClient = null;
+            _handlers.Clear();
+
+            _disposed = true;
         }
 
         #endregion
