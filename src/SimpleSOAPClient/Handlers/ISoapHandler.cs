@@ -44,25 +44,9 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeRequestArguments arguments);
-
-        /// <summary>
-        /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
-        /// Useful to add properties like <see cref="SoapHeader"/>.
-        /// </summary>
-        /// <param name="client">The client sending the request</param>
-        /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
         Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeRequestArguments arguments, CancellationToken ct);
-
-        /// <summary>
-        /// Method invoked before sending the <see cref="HttpRequestMessage"/> to the server.
-        /// Useful to log the request or change properties like HTTP headers.
-        /// </summary>
-        /// <param name="client">The client sending the request</param>
-        /// <param name="arguments">The method arguments</param>
-        void OnHttpRequest(ISoapClient client, OnHttpRequestArguments arguments);
 
         /// <summary>
         /// Method invoked before sending the <see cref="HttpRequestMessage"/> to the server.
@@ -80,25 +64,9 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        void OnHttpResponse(ISoapClient client, OnHttpResponseArguments arguments);
-
-        /// <summary>
-        /// Method invoked after receiving a <see cref="HttpResponseMessage"/> from the server.
-        /// Useful to log the response or validate HTTP headers.
-        /// </summary>
-        /// <param name="client">The client sending the request</param>
-        /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
         Task OnHttpResponseAsync(ISoapClient client, OnHttpResponseArguments arguments, CancellationToken ct);
-
-        /// <summary>
-        /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
-        /// Useful to validate properties like <see cref="SoapHeader"/>.
-        /// </summary>
-        /// <param name="client">The client sending the request</param>
-        /// <param name="arguments">The method arguments</param>
-        void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeResponseArguments arguments);
 
         /// <summary>
         /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 

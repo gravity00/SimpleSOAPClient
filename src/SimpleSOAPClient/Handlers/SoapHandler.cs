@@ -34,6 +34,8 @@ namespace SimpleSOAPClient.Handlers
     /// </summary>
     public class SoapHandler : ISoapHandler
     {
+        private static readonly Task CachedTask = Task.FromResult(true);
+
         #region Implementation of ISoapHandler
 
         /// <summary>
@@ -47,34 +49,11 @@ namespace SimpleSOAPClient.Handlers
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
-        public virtual void OnSoapEnvelopeRequest(ISoapClient client, OnSoapEnvelopeRequestArguments arguments)
-        {
-            
-        }
-
-        /// <summary>
-        /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
-        /// Useful to add properties like <see cref="SoapHeader"/>.
-        /// </summary>
-        /// <param name="client">The client sending the request</param>
-        /// <param name="arguments">The method arguments</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>Task to be awaited</returns>
         public virtual Task OnSoapEnvelopeRequestAsync(ISoapClient client, OnSoapEnvelopeRequestArguments arguments, CancellationToken ct)
         {
-            OnSoapEnvelopeRequest(client, arguments);
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Method invoked before sending the <see cref="HttpRequestMessage"/> to the server.
-        /// Useful to log the request or change properties like HTTP headers.
-        /// </summary>
-        /// <param name="client">The client sending the request</param>
-        /// <param name="arguments">The method arguments</param>
-        public virtual void OnHttpRequest(ISoapClient client, OnHttpRequestArguments arguments)
-        {
-
+            return CachedTask;
         }
 
         /// <summary>
@@ -87,19 +66,7 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public virtual Task OnHttpRequestAsync(ISoapClient client, OnHttpRequestArguments arguments, CancellationToken ct)
         {
-            OnHttpRequest(client, arguments);
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Method invoked after receiving a <see cref="HttpResponseMessage"/> from the server.
-        /// Useful to log the response or validate HTTP headers.
-        /// </summary>
-        /// <param name="client">The client sending the request</param>
-        /// <param name="arguments">The method arguments</param>
-        public virtual void OnHttpResponse(ISoapClient client, OnHttpResponseArguments arguments)
-        {
-
+            return CachedTask;
         }
 
         /// <summary>
@@ -112,19 +79,7 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public virtual Task OnHttpResponseAsync(ISoapClient client, OnHttpResponseArguments arguments, CancellationToken ct)
         {
-            OnHttpResponse(client, arguments);
-            return Task.FromResult(true);
-        }
-
-        /// <summary>
-        /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
-        /// Useful to validate properties like <see cref="SoapHeader"/>.
-        /// </summary>
-        /// <param name="client">The client sending the request</param>
-        /// <param name="arguments">The method arguments</param>
-        public virtual void OnSoapEnvelopeResponse(ISoapClient client, OnSoapEnvelopeResponseArguments arguments)
-        {
-
+            return CachedTask;
         }
 
         /// <summary>
@@ -137,8 +92,7 @@ namespace SimpleSOAPClient.Handlers
         /// <returns>Task to be awaited</returns>
         public virtual Task OnSoapEnvelopeResponseAsync(ISoapClient client, OnSoapEnvelopeResponseArguments arguments, CancellationToken ct)
         {
-            OnSoapEnvelopeResponse(client, arguments);
-            return Task.FromResult(true);
+            return CachedTask;
         }
 
         #endregion

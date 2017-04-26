@@ -232,20 +232,6 @@ namespace SimpleSOAPClient
             return afterSoapEnvelopeDeserializationHandlerResult.Envelope;
         }
 
-        /// <summary>
-        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
-        /// </summary>
-        /// <param name="url">The url that will receive the request</param>
-        /// <param name="action">The SOAP action beeing performed</param>
-        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
-        /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
-        /// <exception cref="SoapEnvelopeSerializationException"></exception>
-        /// <exception cref="SoapEnvelopeDeserializationException"></exception>
-        public virtual SoapEnvelope Send(string url, string action, SoapEnvelope requestEnvelope)
-        {
-            return SendAsync(url, action, requestEnvelope).ConfigureAwait(false).GetAwaiter().GetResult();
-        }
-
         #endregion
 
         /// <summary>

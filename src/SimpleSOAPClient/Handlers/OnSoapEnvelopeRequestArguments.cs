@@ -27,7 +27,7 @@ namespace SimpleSOAPClient.Handlers
     using Models;
 
     /// <summary>
-    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnSoapEnvelopeRequest"/> method.
+    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnSoapEnvelopeRequestAsync"/> method.
     /// </summary>
     public sealed class OnSoapEnvelopeRequestArguments : SoapHandlerArguments
     {

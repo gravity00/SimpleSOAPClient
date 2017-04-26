@@ -27,7 +27,7 @@ namespace SimpleSOAPClient.Handlers
     using System.Net.Http;
 
     /// <summary>
-    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnHttpResponse"/> method.
+    /// The SOAP Handler arguments for <see cref="ISoapHandler.OnHttpResponseAsync"/> method.
     /// </summary>
     public sealed class OnHttpResponseArguments : SoapHandlerArguments
     {
