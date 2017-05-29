@@ -1,155 +1,155 @@
 ﻿{
-  "version": "2.0.0-rc03",
-  "title": "Simple SOAP Client",
-  "description": "Lightweight SOAP client for invoking HTTP SOAP endpoints",
-  "authors": [ "João Simões" ],
-  "copyright": "Copyright © 2016 João Simões",
-  "packOptions": {
-    "summary": "Lightweight HTTP SOAP client",
-    "tags": [ "SOAP", "Simple Object Access Protocol", "HTTP SOAP Client", "Web Client" ],
-    "projectUrl": "https://github.com/gravity00/SimpleSOAPClient",
-    "licenseUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE",
-    "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
-    "releaseNotes": "Removed SOAP Client methods that didn't require a SOAP action\nRemoved support for .NET 4.0\nMissing ConfigureAwait(false)\nAdded factory interface for SOAP Client instances\nChanged SOAP request and response handlers logic\nThe SOAP Client now have a settings property",
-    "owners": [ "João Simões" ],
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/gravity00/SimpleSOAPClient"
-    }
-  },
-  "buildOptions": {
-    "xmlDoc": true,
-    "keyFile": "../../tools/SimpleSOAPClient.snk",
-    "optimize": true
-  },
+    "version": "2.0.0-rc03",
+    "title": "Simple SOAP Client",
+    "description": "Lightweight SOAP client for invoking HTTP SOAP endpoints",
+    "authors": [ "João Simões" ],
+    "copyright": "Copyright © 2016 João Simões",
+    "packOptions": {
+        "summary": "Lightweight HTTP SOAP client",
+        "tags": [ "SOAP", "Simple Object Access Protocol", "HTTP SOAP Client", "Web Client" ],
+        "projectUrl": "https://github.com/gravity00/SimpleSOAPClient",
+        "licenseUrl": "https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE",
+        "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png",
+        "releaseNotes": "Removed SOAP Client methods that didn't require a SOAP action\nRemoved support for .NET 4.0\nMissing ConfigureAwait(false)\nAdded factory interface for SOAP Client instances\nChanged SOAP request and response handlers logic\nThe SOAP Client now have a settings property",
+        "owners": [ "João Simões" ],
+        "repository": {
+            "type": "git",
+            "url": "https://github.com/gravity00/SimpleSOAPClient"
+        }
+    },
+    "buildOptions": {
+        "xmlDoc": true,
+        "keyFile": "../../tools/SimpleSOAPClient.snk",
+        "optimize": true
+    },
 
-  "frameworks": {
-    ".NETPortable,Version=v4.5,Profile=Profile111": {
-      "buildOptions": {
-        "define": [ "PORTABLE45" ]
-      },
-      "frameworkAssemblies": {
-        "mscorlib": "",
-        "System": "",
-        "System.Collections": "",
-        "System.Core": "",
-        "System.IO": "",
-        "System.Linq": "",
-        "System.Net.Http": "",
-        "System.Runtime": "",
-        "System.Text.Encoding": "",
-        "System.Threading": "",
-        "System.Threading.Tasks": "",
-        "System.Xml": "",
-        "System.Xml.Linq": "",
-        "System.Xml.ReaderWriter": "",
-        "System.Xml.XDocument": "",
-        "System.Xml.XmlSerializer": ""
-      }
-    },
-    "monoandroid1.0": {
-      "frameworkAssemblies": {
-        "mscorlib": "",
-        "System": "",
-        "System.Core": "",
-        "System.IO": "",
-        "System.Net.Http": "",
-        "System.Runtime": "",
-        "System.Xml": "",
-        "System.Xml.Linq": "",
-        "System.Xml.XDocument": "",
-        "System.Xml.XmlSerializer": ""
-      }
-    },
-    "monotouch1.0": {
-      "frameworkAssemblies": {
-        "mscorlib": "",
-        "System": "",
-        "System.Core": "",
-        "System.IO": "",
-        "System.Net.Http": "",
-        "System.Runtime": "",
-        "System.Xml": "",
-        "System.Xml.Linq": "",
-        "System.Xml.XDocument": "",
-        "System.Xml.XmlSerializer": ""
-      }
-    },
-    "net4.5": {
-      "frameworkAssemblies": {
-        "System.IO": "",
-        "System.Linq": "",
-        "System.Net.Http": "",
-        "System.Runtime": "",
-        "System.Xml": "",
-        "System.Xml.Linq": "",
-        "System.Xml.XDocument": "",
-        "System.Xml.XmlSerializer": ""
-      }
-    },
-    "netcore5.0": {
-      "dependencies": {
-        "System.Net.Http": "4.1.0",
-        "System.Linq": "4.1.0",
-        "System.Xml.XDocument": "4.0.11",
-        "System.Xml.XmlSerializer": "4.0.11"
-      }
-    },
-    "netstandard1.1": {
-      "dependencies": {
-        "System.Net.Http": "4.1.0",
-        "System.Linq": "4.1.0",
-        "System.Xml.XDocument": "4.0.11",
-        "System.Xml.XmlSerializer": "4.0.11"
-      }
-    },
-    "wpa8.1": {
-      "frameworkAssemblies": {
-        "mscorlib": "",
-        "System": "",
-        "System.Collections": "",
-        "System.Core": "",
-        "System.IO": "",
-        "System.Linq": "",
-        "System.Net.Http": "",
-        "System.Runtime": "",
-        "System.Text.Encoding": "",
-        "System.Threading": "",
-        "System.Threading.Tasks": "",
-        "System.Xml": "",
-        "System.Xml.Linq": "",
-        "System.Xml.ReaderWriter": "",
-        "System.Xml.XDocument": "",
-        "System.Xml.XmlSerializer": ""
-      }
-    },
-    "xamarinios1.0": {
-      "frameworkAssemblies": {
-        "mscorlib": "",
-        "System": "",
-        "System.Core": "",
-        "System.IO": "",
-        "System.Net.Http": "",
-        "System.Runtime": "",
-        "System.Xml": "",
-        "System.Xml.Linq": "",
-        "System.Xml.XDocument": "",
-        "System.Xml.XmlSerializer": ""
-      }
-    },
-    "xamarintvos1.0": {
-      "frameworkAssemblies": {
-        "mscorlib": "",
-        "System": "",
-        "System.Core": "",
-        "System.IO": "",
-        "System.Net.Http": "",
-        "System.Runtime": "",
-        "System.Xml": "",
-        "System.Xml.Linq": "",
-        "System.Xml.XDocument": "",
-        "System.Xml.XmlSerializer": ""
-      }
+    "frameworks": {
+        ".NETPortable,Version=v4.5,Profile=Profile111": {
+            "buildOptions": {
+                "define": [ "PORTABLE45" ]
+            },
+            "frameworkAssemblies": {
+                "mscorlib": "",
+                "System": "",
+                "System.Collections": "",
+                "System.Core": "",
+                "System.IO": "",
+                "System.Linq": "",
+                "System.Net.Http": "",
+                "System.Runtime": "",
+                "System.Text.Encoding": "",
+                "System.Threading": "",
+                "System.Threading.Tasks": "",
+                "System.Xml": "",
+                "System.Xml.Linq": "",
+                "System.Xml.ReaderWriter": "",
+                "System.Xml.XDocument": "",
+                "System.Xml.XmlSerializer": ""
+            }
+        },
+        "monoandroid1.0": {
+            "frameworkAssemblies": {
+                "mscorlib": "",
+                "System": "",
+                "System.Core": "",
+                "System.IO": "",
+                "System.Net.Http": "",
+                "System.Runtime": "",
+                "System.Xml": "",
+                "System.Xml.Linq": "",
+                "System.Xml.XDocument": "",
+                "System.Xml.XmlSerializer": ""
+            }
+        },
+        "monotouch1.0": {
+            "frameworkAssemblies": {
+                "mscorlib": "",
+                "System": "",
+                "System.Core": "",
+                "System.IO": "",
+                "System.Net.Http": "",
+                "System.Runtime": "",
+                "System.Xml": "",
+                "System.Xml.Linq": "",
+                "System.Xml.XDocument": "",
+                "System.Xml.XmlSerializer": ""
+            }
+        },
+        "net4.5": {
+            "frameworkAssemblies": {
+                "System.IO": "",
+                "System.Linq": "",
+                "System.Net.Http": "",
+                "System.Runtime": "",
+                "System.Xml": "",
+                "System.Xml.Linq": "",
+                "System.Xml.XDocument": "",
+                "System.Xml.XmlSerializer": ""
+            }
+        },
+        "netcore5.0": {
+            "dependencies": {
+                "System.Net.Http": "4.1.0",
+                "System.Linq": "4.1.0",
+                "System.Xml.XDocument": "4.0.11",
+                "System.Xml.XmlSerializer": "4.0.11"
+            }
+        },
+        "netstandard1.1": {
+            "dependencies": {
+                "System.Net.Http": "4.1.0",
+                "System.Linq": "4.1.0",
+                "System.Xml.XDocument": "4.0.11",
+                "System.Xml.XmlSerializer": "4.0.11"
+            }
+        },
+        "wpa8.1": {
+            "frameworkAssemblies": {
+                "mscorlib": "",
+                "System": "",
+                "System.Collections": "",
+                "System.Core": "",
+                "System.IO": "",
+                "System.Linq": "",
+                "System.Net.Http": "",
+                "System.Runtime": "",
+                "System.Text.Encoding": "",
+                "System.Threading": "",
+                "System.Threading.Tasks": "",
+                "System.Xml": "",
+                "System.Xml.Linq": "",
+                "System.Xml.ReaderWriter": "",
+                "System.Xml.XDocument": "",
+                "System.Xml.XmlSerializer": ""
+            }
+        },
+        "xamarinios1.0": {
+            "frameworkAssemblies": {
+                "mscorlib": "",
+                "System": "",
+                "System.Core": "",
+                "System.IO": "",
+                "System.Net.Http": "",
+                "System.Runtime": "",
+                "System.Xml": "",
+                "System.Xml.Linq": "",
+                "System.Xml.XDocument": "",
+                "System.Xml.XmlSerializer": ""
+            }
+        },
+        "xamarintvos1.0": {
+            "frameworkAssemblies": {
+                "mscorlib": "",
+                "System": "",
+                "System.Core": "",
+                "System.IO": "",
+                "System.Net.Http": "",
+                "System.Runtime": "",
+                "System.Xml": "",
+                "System.Xml.Linq": "",
+                "System.Xml.XDocument": "",
+                "System.Xml.XmlSerializer": ""
+            }
+        }
     }
-  }
 }
