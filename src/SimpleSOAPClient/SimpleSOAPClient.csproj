@@ -18,7 +18,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
-    <TargetFrameworks>netstandard2.0;netstandard1.1;net4.5</TargetFrameworks>
+    <TargetFrameworks>netstandard1.1;netstandard2.0;net4.5;</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
