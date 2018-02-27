@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SimpleSOAPClient</RootNamespace>
+    <AssemblyTitle>SimpleSOAPClient</AssemblyTitle>
+    <AssemblyName>SimpleSOAPClient</AssemblyName>
+    <Description>Lightweight SOAP client for invoking HTTP SOAP endpoints.</Description>
+    <Product>SimpleSOAPClient</Product>
+    <Company>Net.JoaoSimoes</Company>
+    <Copyright>Copyright © 2018 João Simões</Copyright>
+    <Authors>João Simões</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>../../tools/SimpleSOAPClient.snk</AssemblyOriginatorKeyFile>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <SignAssembly>true</SignAssembly>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
+    <TargetFrameworks>netstandard2.0;netstandard1.1;net4.5</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>SimpleSOAPClient</PackageId>
+    <PackageTags>SOAP;HTTP</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/gravity00/SimpleSOAPClient</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/gravity00/SimpleSOAPClient</RepositoryUrl>
+    <GeneratePackageOnBuild Condition=" '$(BuildConfiguration)' == 'release' ">true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.17190</FileVersion>
+    <VersionPrefix>2.0.0-rc04</VersionPrefix>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net4.5'">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>
