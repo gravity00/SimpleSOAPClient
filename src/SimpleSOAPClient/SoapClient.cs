@@ -334,7 +334,11 @@ namespace SimpleSOAPClient
             var beforeHttpRequestArguments =
                 new OnHttpRequestArguments(new HttpRequestMessage(HttpMethod.Post, url)
                 {
-                    Content = new StringContent(xml, Encoding.UTF8, "text/xml")
+                    Content = new StringContent(xml, Encoding.UTF8, "text/xml"),
+                    Headers =
+                    {
+                        {"SOAPAction", action}
+                    }
                 }, url, action, trackingId)
                 {
                     State = state
