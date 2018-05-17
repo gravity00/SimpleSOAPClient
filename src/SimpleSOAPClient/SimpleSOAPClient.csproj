@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>SimpleSOAPClient</RootNamespace>
@@ -34,8 +34,8 @@
 
   <PropertyGroup>
     <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.17190</FileVersion>
-    <VersionPrefix>2.0.0-rc04</VersionPrefix>
+    <FileVersion>2.0.0.18137</FileVersion>
+    <VersionPrefix>2.0.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
