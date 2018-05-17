@@ -14,13 +14,12 @@ Install-Package SimpleSOAPClient
 
 This library is compatible with the folowing frameworks:
 
-* .NET for Windows Store apps (> .NETCore 4.5);
-* .NET Framework 4.0
 * .NET Framework 4.5
-* .NET Platform (> DotNET 5.0)
-* DNX Core (> DNXCore 5.0)
+* .NET Standard 1.1
+* .NET Standard 2.0
+* UAP 10.0
 
-## Usage (Version 2.0.0-rc04)
+## Usage
 
 ```csharp
 public static async Task MainAsync(string[] args, CancellationToken ct)
