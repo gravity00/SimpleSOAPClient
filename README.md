@@ -24,68 +24,76 @@ This library is compatible with the folowing frameworks:
 ```csharp
 public static async Task MainAsync(string[] args, CancellationToken ct)
 {
-	using (var client =
-		SoapClient.Prepare()
-			.OnSerializeRemoveXmlDeclaration()
-			.UsingRequestEnvelopeHandler((c, d) =>
-			{
-				d.Envelope.WithHeaders(
-					KnownHeader.Oasis.Security.UsernameTokenAndPasswordText(
-						"some-user", "some-password"));
-			})
-			.UsingRequestRawHandler((c, d) =>
-			{
-				Logger.Trace(
-					"SOAP Outbound Request -> {0} {1}({2})\n{3}",
-					d.Request.Method, d.Url, d.Action, d.Content);
-			})
-			.UsingResponseRawHandler((c, d) =>
-			{
-				Logger.Trace(
-					"SOAP Outbound Response -> {0}({1}) {2} {3}\n{4}",
-					d.Url, d.Action, (int) d.Response.StatusCode, d.Response.StatusCode, d.Content);
-			}).UsingResponseEnvelopeHandler((c, d) =>
-			{
-				var header =
-					d.Envelope.Header<UsernameTokenAndPasswordTextSoapHeader>(
-						"{" +
-						Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10 +
-						"}Security");
-			}))
-	{
-		var requestEnvelope =
-			SoapEnvelope.Prepare().Body(new IsAliveRequest());
-		
-		SoapEnvelope responseEnvelope;	
-		try
-		{
-			responseEnvelope =
-				await client.SendAsync(
-					"https://services.company.com/Service.svc",
-					"http://services.company.com/IService/IsAlive",
-					requestEnvelope, ct);
-		}
-		catch (SoapEnvelopeSerializationException e)
-		{
-			Logger.Error(e, $"Failed to serialize the SOAP Envelope [Envelope={e.Envelope}]");
-			throw;
-		}
-		catch (SoapEnvelopeDeserializationException e)
-		{
-			Logger.Error(e, $"Failed to deserialize the response into a SOAP Envelope [XmlValue={e.XmlValue}]");
-			throw;
-		}
+    using (var client =
+        SoapClient.Prepare()
+            .WithHandler(new DelegatingSoapHandler
+            {
+                OnSoapEnvelopeRequestAsyncAction = (c, d, cancellationToken) =>
+                {
+                    d.Envelope.WithHeaders(
+                        KnownHeader.Oasis.Security.UsernameTokenAndPasswordText(
+                            "some-user", "some-password"));
+                    return Task.CompletedTask;
+                },
+                OnHttpRequestAsyncAction = async (soapClient, d, cancellationToken) =>
+                {
+                    Logger.LogTrace(
+                        "SOAP Outbound Request -> {0} {1}({2})\n{3}",
+                        d.Request.Method, d.Url, d.Action, await d.Request.Content.ReadAsStringAsync());
+                },
+                OnHttpResponseAsyncAction = async (soapClient, d, cancellationToken) =>
+                {
+                    Logger.LogTrace(
+                        "SOAP Outbound Response -> {0}({1}) {2} {3}\n{4}",
+                        d.Url, d.Action, (int) d.Response.StatusCode, d.Response.StatusCode,
+                        await d.Response.Content.ReadAsStringAsync());
+                },
+                OnSoapEnvelopeResponseAsyncAction = (soapClient, d, cancellationToken) =>
+                {
+                    var header =
+                        d.Envelope.Header<UsernameTokenAndPasswordTextSoapHeader>(
+                            "{" + Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10 +
+                            "}Security");
+                    return Task.CompletedTask;
+                }
+            }))
+    {
+        var requestEnvelope =
+            SoapEnvelope.Prepare().Body(new IsAliveRequest());
 
-		try
-		{
-			var response = responseEnvelope.Body<IsAliveResponse>();
-		}
-		catch (FaultException e)
-		{
-			Logger.Error(e, $"The server returned a fault [Code={e.Code}, String={e.String}, Actor={e.Actor}]");
-			throw;
-		}
-	}
+        SoapEnvelope responseEnvelope;
+        try
+        {
+            responseEnvelope =
+                await client.SendAsync(
+                    "https://services.company.com/Service.svc",
+                    "http://services.company.com/IService/IsAlive",
+                    requestEnvelope, ct);
+        }
+        catch (SoapEnvelopeSerializationException e)
+        {
+            Logger.LogError(e, 
+                $"Failed to serialize the SOAP Envelope [Envelope={e.Envelope}]");
+            throw;
+        }
+        catch (SoapEnvelopeDeserializationException e)
+        {
+            Logger.LogError(e,
+                $"Failed to deserialize the response into a SOAP Envelope [XmlValue={e.XmlValue}]");
+            throw;
+        }
+
+        try
+        {
+            var response = responseEnvelope.Body<IsAliveResponse>();
+        }
+        catch (FaultException e)
+        {
+            Logger.LogError(e,
+                $"The server returned a fault [Code={e.Code}, String={e.String}, Actor={e.Actor}]");
+            throw;
+        }
+    }
 }
 
 [XmlRoot("IsAliveRequest", Namespace = "http://services.company.com")]
