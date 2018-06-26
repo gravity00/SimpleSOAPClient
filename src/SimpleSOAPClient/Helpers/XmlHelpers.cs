@@ -20,13 +20,25 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-#endregion
+#endregion    
+
+using System.Runtime.CompilerServices;
+using System.IO;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using System;
+
+[assembly: InternalsVisibleTo("SimpleSOAPClient.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100e9d4b3865537a3" +
+                                                                "5aabe1076ab836c58e47a3315970568d17b1d58b6d08a648e6333a714112adeb9481d79cd3a529" +
+                                                                "ab6ee0e643b9098fa703ca085202968cb4792fc1ccc0d85fff62ed01993ed67f5cf5c2fac83622" +
+                                                                "e019654eab372c6c4ecefbc8198b267ed757b30da82779857ca6861204961aa175ef48a7e79ad3" +
+                                                                "b0d754bd")]
 namespace SimpleSOAPClient.Helpers
 {
-    using System.IO;
-    using System.Xml;
-    using System.Xml.Linq;
-    using System.Xml.Serialization;
+
+
+
 
     /// <summary>
     /// Helper class with extensions for XML manipulation
@@ -60,6 +72,15 @@ namespace SimpleSOAPClient.Helpers
                 NamespaceHandling = NamespaceHandling.OmitDuplicates
             }))
             {
+#if NETSTANDARD2_0 || NET45
+                if (Attribute.IsDefined(item.GetType(), typeof(System.Runtime.Serialization.DataContractAttribute)))
+                {
+                    var serializer = new System.Runtime.Serialization.DataContractSerializer(typeof(T));
+                    serializer.WriteObject(xmlWriter, item);
+                    xmlWriter.Flush();
+                    return textWriter.ToString();
+                }
+#endif
                 new XmlSerializer(item.GetType())
                     .Serialize(xmlWriter, item, EmptyXmlSerializerNamespaces);
                 return textWriter.ToString();
@@ -111,10 +132,18 @@ namespace SimpleSOAPClient.Helpers
         {
             if (string.IsNullOrWhiteSpace(xml)) return default(T);
 
-            using (var textWriter = new StringReader(xml))
+            using (var stringReader = new StringReader(xml))
+            using (var xmlReader = XmlReader.Create(stringReader))
             {
-                var result = (T)new XmlSerializer(typeof(T)).Deserialize(textWriter);
+#if NETSTANDARD2_0 || NET45
+                if (Attribute.IsDefined(typeof(T), typeof(System.Runtime.Serialization.DataContractAttribute)))
+                {
+                    var serializer = new System.Runtime.Serialization.DataContractSerializer(typeof(T));
+                    return (T)serializer.ReadObject(xmlReader);
+                }
+#endif
 
+                var result = (T)new XmlSerializer(typeof(T)).Deserialize(xmlReader);
                 return result;
             }
         }
