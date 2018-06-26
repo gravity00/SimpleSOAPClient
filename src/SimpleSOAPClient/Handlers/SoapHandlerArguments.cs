@@ -1,7 +1,7 @@
 #region License
 // The MIT License (MIT)
 // 
-// Copyright (c) 2016 Jo„o Simıes
+// Copyright (c) 2016 Jo√£o Sim√µes
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -46,8 +46,6 @@ namespace SimpleSOAPClient.Handlers
                 throw new ArgumentNullException(nameof(action));
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(url));
-            if (string.IsNullOrWhiteSpace(action))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(action));
 
             Url = url;
             Action = action;
