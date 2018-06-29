@@ -28,12 +28,11 @@ public static async Task MainAsync(string[] args, CancellationToken ct)
         SoapClient.Prepare()
             .WithHandler(new DelegatingSoapHandler
             {
-                OnSoapEnvelopeRequestAsyncAction = (c, d, cancellationToken) =>
+                OnSoapEnvelopeRequestAsyncAction = async (c, d, cancellationToken) =>
                 {
                     d.Envelope.WithHeaders(
                         KnownHeader.Oasis.Security.UsernameTokenAndPasswordText(
                             "some-user", "some-password"));
-                    return Task.CompletedTask;
                 },
                 OnHttpRequestAsyncAction = async (soapClient, d, cancellationToken) =>
                 {
@@ -48,13 +47,12 @@ public static async Task MainAsync(string[] args, CancellationToken ct)
                         d.Url, d.Action, (int) d.Response.StatusCode, d.Response.StatusCode,
                         await d.Response.Content.ReadAsStringAsync());
                 },
-                OnSoapEnvelopeResponseAsyncAction = (soapClient, d, cancellationToken) =>
+                OnSoapEnvelopeResponseAsyncAction = async (soapClient, d, cancellationToken) =>
                 {
                     var header =
                         d.Envelope.Header<UsernameTokenAndPasswordTextSoapHeader>(
                             "{" + Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10 +
                             "}Security");
-                    return Task.CompletedTask;
                 }
             }))
     {
