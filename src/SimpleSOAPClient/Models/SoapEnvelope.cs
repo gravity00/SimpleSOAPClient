@@ -21,6 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
+
+using System.Collections.Generic;
+using System.Net.Http;
+
 namespace SimpleSOAPClient.Models
 {
     using System.Xml.Serialization;
@@ -42,6 +46,13 @@ namespace SimpleSOAPClient.Models
         /// </summary>
         [XmlElement("Body")]
         public SoapEnvelopeBody Body { get; set; }
+        
+        /// <summary>
+        /// MTOM attachments of the SOAP message.
+        /// See https://www.w3.org/TR/soap12-mtom.
+        /// </summary>
+        [XmlIgnore]
+        public IDictionary<string, HttpContent> Attachments { get; set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="SoapEnvelope"/>
