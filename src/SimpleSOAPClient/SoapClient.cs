@@ -208,6 +208,8 @@ namespace SimpleSOAPClient
                 await HttpClient.SendAsync(beforeHttpRequestHandlersResult.Request, ct).ConfigureAwait(false);
             
             // Handle multipart responses
+            // DotNet Standard 1.1 isn't supported by the multipart library
+#if !NETSTANDARD1_1
             IDictionary<string, HttpContent> attachments = new Dictionary<string, HttpContent>();
             if (response.Content.IsMimeMultipartContent())
             {
@@ -234,6 +236,7 @@ namespace SimpleSOAPClient
                     }
                 }
             }
+#endif
             
             var handlersOrderedDesc = _handlers.OrderByDescending(e => e.Order).ToList();
             
@@ -251,7 +254,9 @@ namespace SimpleSOAPClient
             {
                 responseEnvelope = 
                     Settings.SerializationProvider.ToSoapEnvelope(responseXml);
+#if !NETSTANDARD1_1
                 responseEnvelope.Attachments = attachments;
+#endif
             }
             catch (SoapEnvelopeDeserializationException)
             {
