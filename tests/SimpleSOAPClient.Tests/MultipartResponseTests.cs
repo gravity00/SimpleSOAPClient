@@ -14,7 +14,7 @@ namespace SimpleSOAPClient.Tests
         private const string AttachmentContentId = "test-content@test.com";
 
         [Fact]
-        public async Task Test()
+        public async Task TestReceiveAndDeserializeSingleAttachment()
         {
             var httpMessageHandler = new TestHttpMessageHandler();
             var httpClient = new HttpClient(httpMessageHandler);

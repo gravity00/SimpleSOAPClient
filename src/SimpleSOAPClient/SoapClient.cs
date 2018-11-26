@@ -207,6 +207,7 @@ namespace SimpleSOAPClient
             var response =
                 await HttpClient.SendAsync(beforeHttpRequestHandlersResult.Request, ct).ConfigureAwait(false);
             
+            // Handle multipart responses
             IDictionary<string, HttpContent> attachments = new Dictionary<string, HttpContent>();
             if (response.Content.IsMimeMultipartContent())
             {
@@ -215,15 +216,20 @@ namespace SimpleSOAPClient
                 {
                     if (content.Headers.ContentType.MediaType == "application/xop+xml")
                     {
-                        // This is the SoapEnvelope
+                        // This part contains the Soap Envelop XML
                         response.Content = content;
                     }
                     else
                     {
+                        // Any other part is an attachment and should have a content id
                         var cidMatch = _cidRegex.Match(content.Headers.GetValues("Content-Id").First());
                         if (cidMatch.Success)
                         {
                             attachments.Add(cidMatch.Groups[1].Value, content);
+                        }
+                        else
+                        {
+                            throw new SoapAttachmentDeserializationException("Multipart message part without content id found; all attachments much have a content id.");
                         }
                     }
                 }
