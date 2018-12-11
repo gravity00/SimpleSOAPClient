@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SimpleSOAPClient</RootNamespace>
+    <AssemblyTitle>SimpleSOAPClient.Contracts</AssemblyTitle>
+    <AssemblyName>SimpleSOAPClient.Contracts</AssemblyName>
+    <Description>Lightweight SOAP client for invoking HTTP SOAP endpoints.</Description>
+    <Product>SimpleSOAPClient</Product>
+    <Company>Net.JoaoSimoes</Company>
+    <Copyright>Copyright © 2018 João Simões</Copyright>
+    <Authors>João Simões</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>../../tools/SimpleSOAPClient.snk</AssemblyOriginatorKeyFile>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <SignAssembly>true</SignAssembly>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
+    <TargetFrameworks>netstandard1.1;netstandard2.0;net4.5</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>SimpleSOAPClient.Contracts</PackageId>
+    <PackageTags>SOAP;HTTP</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/gravity00/SimpleSOAPClient/master/SimpleSOAPClient-Logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/gravity00/SimpleSOAPClient</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/gravity00/SimpleSOAPClient/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/gravity00/SimpleSOAPClient</RepositoryUrl>
+    <GeneratePackageOnBuild Condition=" '$(BuildConfiguration)' == 'release' ">true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.18137</FileVersion>
+    <VersionPrefix>2.0.0</VersionPrefix>
+  </PropertyGroup>
+
+</Project>

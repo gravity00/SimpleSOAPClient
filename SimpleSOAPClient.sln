@@ -21,7 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{6C152128
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{A2159B1B-25D6-4AFA-A30A-22207B226377}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSOAPClient", "src\SimpleSOAPClient\SimpleSOAPClient.csproj", "{BD232C77-3DEB-4CB1-8BC7-30A4C1A50DEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleSOAPClient", "src\SimpleSOAPClient\SimpleSOAPClient.csproj", "{BD232C77-3DEB-4CB1-8BC7-30A4C1A50DEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSOAPClient.Contracts", "src\SimpleSOAPClient.Contracts\SimpleSOAPClient.Contracts.csproj", "{6FAD62DC-11D1-4DE6-83AC-F0179EBB2AA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{BD232C77-3DEB-4CB1-8BC7-30A4C1A50DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD232C77-3DEB-4CB1-8BC7-30A4C1A50DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD232C77-3DEB-4CB1-8BC7-30A4C1A50DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FAD62DC-11D1-4DE6-83AC-F0179EBB2AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FAD62DC-11D1-4DE6-83AC-F0179EBB2AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FAD62DC-11D1-4DE6-83AC-F0179EBB2AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FAD62DC-11D1-4DE6-83AC-F0179EBB2AA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{E136A35F-1EC1-4A90-9369-C278E33BA475} = {A2159B1B-25D6-4AFA-A30A-22207B226377}
 		{6C152128-CC1B-4140-9FE1-8E86B013AB88} = {A2159B1B-25D6-4AFA-A30A-22207B226377}
 		{BD232C77-3DEB-4CB1-8BC7-30A4C1A50DEA} = {68E461E4-64AD-4CC4-959D-613F5C84242B}
+		{6FAD62DC-11D1-4DE6-83AC-F0179EBB2AA9} = {68E461E4-64AD-4CC4-959D-613F5C84242B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B2AD5ABD-A184-4781-910A-F187301694F8}
