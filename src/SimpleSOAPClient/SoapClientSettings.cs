@@ -55,7 +55,6 @@ namespace SimpleSOAPClient
         #endregion
 
         private ISoapEnvelopeSerializationProvider _serializationProvider;
-        private IHttpClientFactory _httpClientFactory;
 
         /// <summary>
         /// The SOAP Envelope serialization provider
@@ -71,25 +70,11 @@ namespace SimpleSOAPClient
         }
 
         /// <summary>
-        /// The HTTP client factory
-        /// </summary>
-        public IHttpClientFactory HttpClientFactory
-        {
-            get { return _httpClientFactory; }
-            set
-            {
-                if (value == null) throw new ArgumentNullException(nameof(value));
-                _httpClientFactory = value;
-            }
-        }
-
-        /// <summary>
         /// Creates a new instance with default values
         /// </summary>
         public SoapClientSettings()
         {
             _serializationProvider = new SoapEnvelopeSerializationProvider();
-            _httpClientFactory = new HttpClientFactory();
         }
     }
 }

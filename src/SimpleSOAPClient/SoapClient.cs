@@ -61,7 +61,7 @@ namespace SimpleSOAPClient
             if (settings == null) throw new ArgumentNullException(nameof(settings));
 
             _settings = settings;
-            HttpClient = _settings.HttpClientFactory.Get();
+            HttpClient = new HttpClient();
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace SimpleSOAPClient
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             _settings = settings;
-            HttpClient = _settings.HttpClientFactory.Get(handler);
+            HttpClient = new HttpClient(handler);
         }
 
         /// <summary>
