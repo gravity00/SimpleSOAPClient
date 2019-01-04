@@ -23,37 +23,42 @@
 #endregion
 namespace SimpleSOAPClient.Models
 {
-    using System.Xml.Linq;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents a SOAP Fault
+    /// Represents a SOAP Envelope
     /// </summary>
-    [XmlRoot("Fault", Namespace = Constant.Namespace.OrgXmlSoapSchemasSoapEnvelope)]
-    public class SoapFault
+    [XmlRoot("Envelope", Namespace = Constant.Namespace.OrgXmlSoapSchemasSoapEnvelope)]
+    public class SoapEnvelopeOld
     {
         /// <summary>
-        /// The fault code
+        /// The SOAP Envelope Header section
         /// </summary>
-        [XmlElement("faultcode", Namespace = "")]
-        public string Code { get; set; }
+        [XmlElement("Header")]
+        public SoapEnvelopeHeaderOld Header { get; set; }
 
         /// <summary>
-        /// The fault string
+        /// The SOAP Envelope Body section
         /// </summary>
-        [XmlElement("faultstring", Namespace = "")]
-        public string String { get; set; }
+        [XmlElement("Body")]
+        public SoapEnvelopeBodyOld Body { get; set; }
 
         /// <summary>
-        /// The fault actor
+        /// Initializes a new instance of <see cref="SoapEnvelopeOld"/>
         /// </summary>
-        [XmlElement("faultactor", Namespace = "")]
-        public string Actor { get; set; }
+        public SoapEnvelopeOld()
+        {
+            Header = new SoapEnvelopeHeaderOld();
+            Body = new SoapEnvelopeBodyOld();
+        }
 
         /// <summary>
-        /// The fault detail
+        /// Prepares a new SOAP Envelope to be manipulated
         /// </summary>
-        [XmlAnyElement("detail", Namespace = "")]
-        public XElement Detail { get; set; }
+        /// <returns>The <see cref="SoapEnvelopeOld"/> instance</returns>
+        public static SoapEnvelopeOld Prepare()
+        {
+            return new SoapEnvelopeOld();
+        }
     }
 }

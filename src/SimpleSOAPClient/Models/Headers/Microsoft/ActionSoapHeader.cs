@@ -29,7 +29,7 @@ namespace SimpleSOAPClient.Models.Headers.Microsoft
     /// The Microsoft Action SOAP Header
     /// </summary>
     [XmlRoot("Action", Namespace = Constant.Namespace.ComMicrosoftSchemasWs200505AddressingNone)]
-    public class ActionSoapHeader : SoapHeader
+    public class ActionSoapHeader : SoapHeaderOld
     {
         /// <summary>
         /// The header action content

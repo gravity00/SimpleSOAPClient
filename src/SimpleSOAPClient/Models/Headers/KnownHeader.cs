@@ -28,12 +28,12 @@ namespace SimpleSOAPClient.Models.Headers
     using Oasis.Security;
 
     /// <summary>
-    /// Class with known <see cref="SoapHeader"/> builder methods.
+    /// Class with known <see cref="SoapHeaderOld"/> builder methods.
     /// </summary>
     public static class KnownHeader
     {
         /// <summary>
-        /// Class with Microsoft specific <see cref="SoapHeader"/> builder methods.
+        /// Class with Microsoft specific <see cref="SoapHeaderOld"/> builder methods.
         /// </summary>
         public static class Microsoft
         {
@@ -69,12 +69,12 @@ namespace SimpleSOAPClient.Models.Headers
         }
 
         /// <summary>
-        /// Class with Oasis specific <see cref="SoapHeader"/> builder methods.
+        /// Class with Oasis specific <see cref="SoapHeaderOld"/> builder methods.
         /// </summary>
         public static class Oasis
         {
             /// <summary>
-            /// Class with Oasis Security specific <see cref="SoapHeader"/> builder methods.
+            /// Class with Oasis Security specific <see cref="SoapHeaderOld"/> builder methods.
             /// </summary>
             public static class Security
             {

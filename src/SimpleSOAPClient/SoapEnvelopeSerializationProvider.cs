@@ -31,7 +31,7 @@ namespace SimpleSOAPClient
     using Models;
 
     /// <summary>
-    /// Provider for serialization and deserialization of <see cref="SoapEnvelope"/> instances.
+    /// Provider for serialization and deserialization of <see cref="SoapEnvelopeOld"/> instances.
     /// </summary>
     public class SoapEnvelopeSerializationProvider : ISoapEnvelopeSerializationProvider
     {
@@ -39,7 +39,7 @@ namespace SimpleSOAPClient
         private XmlSerializerNamespaces _xmlSerializerNamespaces;
 
         /// <summary>
-        /// XML writer settings to be used when serializing <see cref="SoapEnvelope"/>
+        /// XML writer settings to be used when serializing <see cref="SoapEnvelopeOld"/>
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
         public XmlWriterSettings XmlWriterSettings
@@ -53,7 +53,7 @@ namespace SimpleSOAPClient
         }
 
         /// <summary>
-        /// XML serializer namespaces to be used when serializing <see cref="SoapEnvelope"/>
+        /// XML serializer namespaces to be used when serializing <see cref="SoapEnvelopeOld"/>
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
         public XmlSerializerNamespaces XmlSerializerNamespaces
@@ -85,11 +85,11 @@ namespace SimpleSOAPClient
         #region Implementation of ISoapEnvelopeSerializationProvider
 
         /// <summary>
-        /// Serializes a given <see cref="SoapEnvelope"/> instance into a XML string.
+        /// Serializes a given <see cref="SoapEnvelopeOld"/> instance into a XML string.
         /// </summary>
         /// <param name="envelope">The instance to serialize</param>
         /// <returns>The resulting XML string</returns>
-        public string ToXmlString(SoapEnvelope envelope)
+        public string ToXmlString(SoapEnvelopeOld envelope)
         {
             if (envelope == null) return null;
 
@@ -98,7 +98,7 @@ namespace SimpleSOAPClient
                 using (var textWriter = new StringWriter())
                 using (var xmlWriter = XmlWriter.Create(textWriter, XmlWriterSettings))
                 {
-                    new XmlSerializer(typeof(SoapEnvelope))
+                    new XmlSerializer(typeof(SoapEnvelopeOld))
                         .Serialize(xmlWriter, envelope, XmlSerializerNamespaces);
                     return textWriter.ToString();
                 }
@@ -110,11 +110,11 @@ namespace SimpleSOAPClient
         }
 
         /// <summary>
-        /// Deserializes a given XML string into a <see cref="SoapEnvelope"/>.
+        /// Deserializes a given XML string into a <see cref="SoapEnvelopeOld"/>.
         /// </summary>
         /// <param name="xml">The XML string do deserialize</param>
-        /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
-        public SoapEnvelope ToSoapEnvelope(string xml)
+        /// <returns>The resulting <see cref="SoapEnvelopeOld"/></returns>
+        public SoapEnvelopeOld ToSoapEnvelope(string xml)
         {
             if (string.IsNullOrWhiteSpace(xml)) return null;
 
@@ -122,7 +122,7 @@ namespace SimpleSOAPClient
             {
                 using (var textWriter = new StringReader(xml))
                 {
-                    var result = (SoapEnvelope)new XmlSerializer(typeof(SoapEnvelope)).Deserialize(textWriter);
+                    var result = (SoapEnvelopeOld)new XmlSerializer(typeof(SoapEnvelopeOld)).Deserialize(textWriter);
 
                     return result;
                 }

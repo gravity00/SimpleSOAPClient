@@ -44,8 +44,8 @@ namespace SimpleSOAPClient.Handlers
         public int Order { get; set; }
 
         /// <summary>
-        /// Method invoked before serializing a <see cref="SoapEnvelope"/>. 
-        /// Useful to add properties like <see cref="SoapHeader"/>.
+        /// Method invoked before serializing a <see cref="SoapEnvelopeOld"/>. 
+        /// Useful to add properties like <see cref="SoapHeaderOld"/>.
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>
@@ -83,8 +83,8 @@ namespace SimpleSOAPClient.Handlers
         }
 
         /// <summary>
-        /// Method invoked after deserializing a <see cref="SoapEnvelope"/> from the server response. 
-        /// Useful to validate properties like <see cref="SoapHeader"/>.
+        /// Method invoked after deserializing a <see cref="SoapEnvelopeOld"/> from the server response. 
+        /// Useful to validate properties like <see cref="SoapHeaderOld"/>.
         /// </summary>
         /// <param name="client">The client sending the request</param>
         /// <param name="arguments">The method arguments</param>

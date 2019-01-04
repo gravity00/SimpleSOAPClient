@@ -157,17 +157,17 @@ namespace SimpleSOAPClient
         #region Send
 
         /// <summary>
-        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
+        /// Sends the given <see cref="SoapEnvelopeOld"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
         /// <param name="action">The SOAP action beeing performed</param>
-        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelopeOld"/> to be sent</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>A task to be awaited for the result</returns>
         /// <exception cref="SoapEnvelopeSerializationException"></exception>
         /// <exception cref="SoapEnvelopeDeserializationException"></exception>
-        public virtual async Task<SoapEnvelope> SendAsync(
-            string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken))
+        public virtual async Task<SoapEnvelopeOld> SendAsync(
+            string url, string action, SoapEnvelopeOld requestEnvelope, CancellationToken ct = default(CancellationToken))
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(SoapClient));
@@ -213,7 +213,7 @@ namespace SimpleSOAPClient
 
             if (string.IsNullOrWhiteSpace(responseXml))
                 throw new SoapEnvelopeDeserializationException(responseXml, "The response content is empty.");
-            SoapEnvelope responseEnvelope;
+            SoapEnvelopeOld responseEnvelope;
             try
             {
                 responseEnvelope = 
@@ -318,7 +318,7 @@ namespace SimpleSOAPClient
         #region Private
 
         private async Task<OnSoapEnvelopeRequestArguments> RunBeforeSoapEnvelopeSerializationHandlers(
-            SoapEnvelope envelope, string url, string action, Guid trackingId, IEnumerable<ISoapHandler> handlers, CancellationToken ct)
+            SoapEnvelopeOld envelope, string url, string action, Guid trackingId, IEnumerable<ISoapHandler> handlers, CancellationToken ct)
         {
             var beforeSoapEnvelopeSerializationArg =
                 new OnSoapEnvelopeRequestArguments(envelope, url, action, trackingId);
@@ -364,7 +364,7 @@ namespace SimpleSOAPClient
         }
 
         private async Task<OnSoapEnvelopeResponseArguments> RunAfterSoapEnvelopeDeserializationHandler(
-            SoapEnvelope envelope, string url, string action, Guid trackingId, object state, IEnumerable<ISoapHandler> handlers, CancellationToken ct)
+            SoapEnvelopeOld envelope, string url, string action, Guid trackingId, object state, IEnumerable<ISoapHandler> handlers, CancellationToken ct)
         {
             var afterSoapEnvelopeDeserializationArguments =
                 new OnSoapEnvelopeResponseArguments(envelope, url, action, trackingId)

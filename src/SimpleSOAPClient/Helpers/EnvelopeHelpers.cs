@@ -31,7 +31,7 @@ namespace SimpleSOAPClient.Helpers
     using Models;
 
     /// <summary>
-    /// Helper methods for working with <see cref="SoapEnvelope"/> instances.
+    /// Helper methods for working with <see cref="SoapEnvelopeOld"/> instances.
     /// </summary>
     public static class EnvelopeHelpers
     {
@@ -43,16 +43,16 @@ namespace SimpleSOAPClient.Helpers
         /// <summary>
         /// Sets the given <see cref="XElement"/> as the envelope body.
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> to be used.</param>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> to be used.</param>
         /// <param name="body">The <see cref="XElement"/> to set as the body.</param>
-        /// <returns>The <see cref="SoapEnvelope"/> after changes.</returns>
+        /// <returns>The <see cref="SoapEnvelopeOld"/> after changes.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static SoapEnvelope Body(this SoapEnvelope envelope, XElement body)
+        public static SoapEnvelopeOld Body(this SoapEnvelopeOld envelope, XElement body)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
             if (envelope.Body == null)
-                envelope.Body = new SoapEnvelopeBody();
+                envelope.Body = new SoapEnvelopeBodyOld();
 
             envelope.Body.Value = body;
 
@@ -63,24 +63,24 @@ namespace SimpleSOAPClient.Helpers
         /// Sets the given entity as the envelope body.
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> to be used.</param>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> to be used.</param>
         /// <param name="body">The entity to set as the body.</param>
-        /// <returns>The <see cref="SoapEnvelope"/> after changes.</returns>
+        /// <returns>The <see cref="SoapEnvelopeOld"/> after changes.</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static SoapEnvelope Body<T>(this SoapEnvelope envelope, T body)
+        public static SoapEnvelopeOld Body<T>(this SoapEnvelopeOld envelope, T body)
         {
             return envelope.Body(body.ToXElement());
         }
 
         /// <summary>
-        /// Extracts the <see cref="SoapEnvelope.Body"/> as an object of the given type.
+        /// Extracts the <see cref="SoapEnvelopeOld.Body"/> as an object of the given type.
         /// </summary>
         /// <typeparam name="T">The type do be deserialized.</typeparam>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/></param>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/></param>
         /// <returns>The deserialized object</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="FaultException">Thrown if the body contains a fault</exception>
-        public static T Body<T>(this SoapEnvelope envelope)
+        public static T Body<T>(this SoapEnvelopeOld envelope)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
@@ -95,14 +95,14 @@ namespace SimpleSOAPClient.Helpers
 
         /// <summary>
         /// Appends the received <see cref="XElement"/> collection to the existing
-        /// ones in the received <see cref="SoapEnvelope"/>.
+        /// ones in the received <see cref="SoapEnvelopeOld"/>.
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> to append the headers</param>
-        /// <param name="headers">The <see cref="SoapHeader"/> collection to append</param>
-        /// <returns>The <see cref="SoapEnvelope"/> after changes</returns>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> to append the headers</param>
+        /// <param name="headers">The <see cref="SoapHeaderOld"/> collection to append</param>
+        /// <returns>The <see cref="SoapEnvelopeOld"/> after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static SoapEnvelope WithHeaders(
-            this SoapEnvelope envelope, params XElement[] headers)
+        public static SoapEnvelopeOld WithHeaders(
+            this SoapEnvelopeOld envelope, params XElement[] headers)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
             if (headers == null) throw new ArgumentNullException(nameof(headers));
@@ -111,7 +111,7 @@ namespace SimpleSOAPClient.Helpers
 
             if (envelope.Header == null)
             {
-                envelope.Header = new SoapEnvelopeHeader
+                envelope.Header = new SoapEnvelopeHeaderOld
                 {
                     Headers = headers
                 };
@@ -128,28 +128,28 @@ namespace SimpleSOAPClient.Helpers
 
         /// <summary>
         /// Appends the received <see cref="XElement"/> collection to the existing
-        /// ones in the received <see cref="SoapEnvelope"/>.
+        /// ones in the received <see cref="SoapEnvelopeOld"/>.
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> to append the headers</param>
-        /// <param name="headers">The <see cref="SoapHeader"/> collection to append</param>
-        /// <returns>The <see cref="SoapEnvelope"/> after changes</returns>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> to append the headers</param>
+        /// <param name="headers">The <see cref="SoapHeaderOld"/> collection to append</param>
+        /// <returns>The <see cref="SoapEnvelopeOld"/> after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static SoapEnvelope WithHeaders(
-            this SoapEnvelope envelope, IEnumerable<XElement> headers)
+        public static SoapEnvelopeOld WithHeaders(
+            this SoapEnvelopeOld envelope, IEnumerable<XElement> headers)
         {
             return envelope.WithHeaders(headers.ToArray());
         }
 
         /// <summary>
-        /// Appends the received <see cref="SoapHeader"/> collection to the existing
-        /// ones in the received <see cref="SoapEnvelope"/>.
+        /// Appends the received <see cref="SoapHeaderOld"/> collection to the existing
+        /// ones in the received <see cref="SoapEnvelopeOld"/>.
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> to append the headers</param>
-        /// <param name="headers">The <see cref="SoapHeader"/> collection to append</param>
-        /// <returns>The <see cref="SoapEnvelope"/> after changes</returns>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> to append the headers</param>
+        /// <param name="headers">The <see cref="SoapHeaderOld"/> collection to append</param>
+        /// <returns>The <see cref="SoapEnvelopeOld"/> after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static SoapEnvelope WithHeaders(
-            this SoapEnvelope envelope, params SoapHeader[] headers)
+        public static SoapEnvelopeOld WithHeaders(
+            this SoapEnvelopeOld envelope, params SoapHeaderOld[] headers)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
             if (headers == null) throw new ArgumentNullException(nameof(headers));
@@ -164,15 +164,15 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
-        /// Appends the received <see cref="SoapHeader"/> collection to the existing
-        /// ones in the received <see cref="SoapEnvelope"/>.
+        /// Appends the received <see cref="SoapHeaderOld"/> collection to the existing
+        /// ones in the received <see cref="SoapEnvelopeOld"/>.
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> to append the headers</param>
-        /// <param name="headers">The <see cref="SoapHeader"/> collection to append</param>
-        /// <returns>The <see cref="SoapEnvelope"/> after changes</returns>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> to append the headers</param>
+        /// <param name="headers">The <see cref="SoapHeaderOld"/> collection to append</param>
+        /// <returns>The <see cref="SoapEnvelopeOld"/> after changes</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static SoapEnvelope WithHeaders(
-            this SoapEnvelope envelope, IEnumerable<SoapHeader> headers)
+        public static SoapEnvelopeOld WithHeaders(
+            this SoapEnvelopeOld envelope, IEnumerable<SoapHeaderOld> headers)
         {
             return envelope.WithHeaders(headers.ToArray());
         }
@@ -180,11 +180,11 @@ namespace SimpleSOAPClient.Helpers
         /// <summary>
         /// Gets a given <see cref="XElement"/> by its <see cref="XName"/>.
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> with the headers.</param>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> with the headers.</param>
         /// <param name="name">The <see cref="XName"/> to search.</param>
         /// <returns>The <see cref="XElement"/> or null if not match is found</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static XElement Header(this SoapEnvelope envelope, XName name)
+        public static XElement Header(this SoapEnvelopeOld envelope, XName name)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
@@ -195,14 +195,14 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
-        /// Gets a given <see cref="SoapHeader"/> by its <see cref="XName"/>.
+        /// Gets a given <see cref="SoapHeaderOld"/> by its <see cref="XName"/>.
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> with the headers.</param>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> with the headers.</param>
         /// <param name="name">The <see cref="XName"/> to search.</param>
-        /// <returns>The <see cref="SoapHeader"/> or null if not match is found</returns>
+        /// <returns>The <see cref="SoapHeaderOld"/> or null if not match is found</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static T Header<T>(this SoapEnvelope envelope, XName name)
-            where T: SoapHeader
+        public static T Header<T>(this SoapEnvelopeOld envelope, XName name)
+            where T: SoapHeaderOld
         {
             return envelope.Header(name).ToObject<T>();
         }
@@ -212,12 +212,12 @@ namespace SimpleSOAPClient.Helpers
         #region Faulted
 
         /// <summary>
-        /// Does the <see cref="SoapEnvelope.Body"/> contains a fault?
+        /// Does the <see cref="SoapEnvelopeOld.Body"/> contains a fault?
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> to validate</param>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> to validate</param>
         /// <returns>True if a fault exists</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static bool IsFaulted(this SoapEnvelope envelope)
+        public static bool IsFaulted(this SoapEnvelopeOld envelope)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
@@ -225,13 +225,13 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
-        /// Checks if the <see cref="SoapEnvelope.Body"/> contains a fault 
+        /// Checks if the <see cref="SoapEnvelopeOld.Body"/> contains a fault 
         /// and throws an <see cref="FaultException"/> if true.
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> to validate.</param>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> to validate.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="FaultException">Thrown if the body contains a fault</exception>
-        public static void ThrowIfFaulted(this SoapEnvelope envelope)
+        public static void ThrowIfFaulted(this SoapEnvelopeOld envelope)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
@@ -248,18 +248,18 @@ namespace SimpleSOAPClient.Helpers
         }
 
         /// <summary>
-        /// Extracts the <see cref="SoapEnvelope.Body"/> as a <see cref="SoapFault"/>.
+        /// Extracts the <see cref="SoapEnvelopeOld.Body"/> as a <see cref="SoapFaultOld"/>.
         /// It will fail to deserialize if the body is not a fault. Consider to
         /// use <see cref="IsFaulted"/> first.
         /// </summary>
-        /// <param name="envelope">The <see cref="SoapEnvelope"/> to be used</param>
-        /// <returns>The <see cref="SoapFault"/></returns>
+        /// <param name="envelope">The <see cref="SoapEnvelopeOld"/> to be used</param>
+        /// <returns>The <see cref="SoapFaultOld"/></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static SoapFault Fault(this SoapEnvelope envelope)
+        public static SoapFaultOld Fault(this SoapEnvelopeOld envelope)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
 
-            return envelope.Body?.Value.ToObject<SoapFault>();
+            return envelope.Body?.Value.ToObject<SoapFaultOld>();
         }
 
         #endregion

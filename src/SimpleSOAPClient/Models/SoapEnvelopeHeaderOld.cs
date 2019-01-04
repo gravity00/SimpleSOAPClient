@@ -1,7 +1,7 @@
-#region License
+Ôªø#region License
 // The MIT License (MIT)
 // 
-// Copyright (c) 2016 Jo„o Simıes
+// Copyright (c) 2016 Jo√£o Sim√µes
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,42 +23,26 @@
 #endregion
 namespace SimpleSOAPClient.Models
 {
+    using System.Xml.Linq;
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents a SOAP Envelope
+    /// Represents the SOAP Envelope Header section
     /// </summary>
-    [XmlRoot("Envelope", Namespace = Constant.Namespace.OrgXmlSoapSchemasSoapEnvelope)]
-    public class SoapEnvelope
+    public class SoapEnvelopeHeaderOld
     {
         /// <summary>
-        /// The SOAP Envelope Header section
+        /// The collection of headers
         /// </summary>
-        [XmlElement("Header")]
-        public SoapEnvelopeHeader Header { get; set; }
+        [XmlAnyElement]
+        public XElement[] Headers { get; set; }
 
         /// <summary>
-        /// The SOAP Envelope Body section
+        /// Initializes a new instance of <see cref="SoapEnvelopeHeaderOld"/>
         /// </summary>
-        [XmlElement("Body")]
-        public SoapEnvelopeBody Body { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="SoapEnvelope"/>
-        /// </summary>
-        public SoapEnvelope()
+        public SoapEnvelopeHeaderOld()
         {
-            Header = new SoapEnvelopeHeader();
-            Body = new SoapEnvelopeBody();
-        }
-
-        /// <summary>
-        /// Prepares a new SOAP Envelope to be manipulated
-        /// </summary>
-        /// <returns>The <see cref="SoapEnvelope"/> instance</returns>
-        public static SoapEnvelope Prepare()
-        {
-            return new SoapEnvelope();
+            Headers = new XElement[0];
         }
     }
 }

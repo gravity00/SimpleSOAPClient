@@ -28,7 +28,7 @@ namespace SimpleSOAPClient.Exceptions
 
     /// <summary>
     /// Exception thrown when an exception is thrown when deserializing
-    /// a given XML string to a <see cref="SoapEnvelope"/>.
+    /// a given XML string to a <see cref="SoapEnvelopeOld"/>.
     /// </summary>
     public class SoapEnvelopeDeserializationException : SoapClientException
     {

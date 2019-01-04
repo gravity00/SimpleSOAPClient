@@ -31,7 +31,7 @@ namespace SimpleSOAPClient.Handlers
     /// </summary>
     public sealed class OnSoapEnvelopeRequestArguments : SoapHandlerArguments
     {
-        private SoapEnvelope _envelope;
+        private SoapEnvelopeOld _envelope;
 
         /// <summary>
         /// Creates a new instance
@@ -42,7 +42,7 @@ namespace SimpleSOAPClient.Handlers
         /// <param name="trackingId">An optional tracking id</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public OnSoapEnvelopeRequestArguments(SoapEnvelope envelope, string url, string action, Guid? trackingId = null)
+        public OnSoapEnvelopeRequestArguments(SoapEnvelopeOld envelope, string url, string action, Guid? trackingId = null)
             : base(url, action, trackingId)
         {
             if (envelope == null) throw new ArgumentNullException(nameof(envelope));
@@ -55,7 +55,7 @@ namespace SimpleSOAPClient.Handlers
         /// <summary>
         /// The SOAP Envelope to be serialized
         /// </summary>
-        public SoapEnvelope Envelope
+        public SoapEnvelopeOld Envelope
         {
             get { return _envelope; }
             set

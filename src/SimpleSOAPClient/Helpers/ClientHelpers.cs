@@ -338,16 +338,16 @@ namespace SimpleSOAPClient.Helpers
         #endregion
 
         /// <summary>
-        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
+        /// Sends the given <see cref="SoapEnvelopeOld"/> into the specified url.
         /// </summary>
         /// <param name="client">The client to be used</param>
         /// <param name="url">The url that will receive the request</param>
         /// <param name="action">The SOAP Action beeing performed</param>
-        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
-        /// <returns>The resulting <see cref="SoapEnvelope"/></returns>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelopeOld"/> to be sent</param>
+        /// <returns>The resulting <see cref="SoapEnvelopeOld"/></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static SoapEnvelope Send(
-            this ISoapClient client, string url, string action, SoapEnvelope requestEnvelope)
+        public static SoapEnvelopeOld Send(
+            this ISoapClient client, string url, string action, SoapEnvelopeOld requestEnvelope)
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
 

@@ -29,7 +29,7 @@ namespace SimpleSOAPClient.Models.Headers.Microsoft
     /// The Microsoft To SOAP Header
     /// </summary>
     [XmlRoot("To", Namespace = Constant.Namespace.ComMicrosoftSchemasWs200505AddressingNone)]
-    public class ToSoapHeader : SoapHeader
+    public class ToSoapHeader : SoapHeaderOld
     {
         /// <summary>
         /// The header to content

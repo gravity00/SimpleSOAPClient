@@ -27,22 +27,14 @@ namespace SimpleSOAPClient.Models
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents the SOAP Envelope Header section
+    /// Represents the SOAP Envelope Body section
     /// </summary>
-    public class SoapEnvelopeHeader
+    public class SoapEnvelopeBodyOld
     {
         /// <summary>
-        /// The collection of headers
+        /// The body content
         /// </summary>
         [XmlAnyElement]
-        public XElement[] Headers { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="SoapEnvelopeHeader"/>
-        /// </summary>
-        public SoapEnvelopeHeader()
-        {
-            Headers = new XElement[0];
-        }
+        public XElement Value { get; set; }
     }
 }

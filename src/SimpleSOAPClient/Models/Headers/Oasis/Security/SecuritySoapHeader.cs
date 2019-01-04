@@ -7,7 +7,7 @@
     /// </summary>
     [XmlRoot("Security",
         Namespace = Constant.Namespace.OrgOpenOasisDocsWss200401Oasis200401WssWssecuritySecext10)]
-    public class SecuritySoapHeader : SoapHeader
+    public class SecuritySoapHeader : SoapHeaderOld
     {
         /// <summary>
         /// The header timestamp

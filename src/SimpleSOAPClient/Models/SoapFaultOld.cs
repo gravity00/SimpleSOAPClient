@@ -1,7 +1,7 @@
-Ôªø#region License
+#region License
 // The MIT License (MIT)
 // 
-// Copyright (c) 2016 Jo√£o Sim√µes
+// Copyright (c) 2016 Jo„o Simıes
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,14 +27,33 @@ namespace SimpleSOAPClient.Models
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Represents the SOAP Envelope Body section
+    /// Represents a SOAP Fault
     /// </summary>
-    public class SoapEnvelopeBody
+    [XmlRoot("Fault", Namespace = Constant.Namespace.OrgXmlSoapSchemasSoapEnvelope)]
+    public class SoapFaultOld
     {
         /// <summary>
-        /// The body content
+        /// The fault code
         /// </summary>
-        [XmlAnyElement]
-        public XElement Value { get; set; }
+        [XmlElement("faultcode", Namespace = "")]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// The fault string
+        /// </summary>
+        [XmlElement("faultstring", Namespace = "")]
+        public string String { get; set; }
+
+        /// <summary>
+        /// The fault actor
+        /// </summary>
+        [XmlElement("faultactor", Namespace = "")]
+        public string Actor { get; set; }
+
+        /// <summary>
+        /// The fault detail
+        /// </summary>
+        [XmlAnyElement("detail", Namespace = "")]
+        public XElement Detail { get; set; }
     }
 }

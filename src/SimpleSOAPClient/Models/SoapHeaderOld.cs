@@ -29,7 +29,7 @@ namespace SimpleSOAPClient.Models
     /// <summary>
     /// Base classe for SOAP Headers
     /// </summary>
-    public abstract class SoapHeader
+    public abstract class SoapHeaderOld
     {
         private int _mustUnderstand;
 

@@ -48,16 +48,16 @@ namespace SimpleSOAPClient
         #region Send
 
         /// <summary>
-        /// Sends the given <see cref="SoapEnvelope"/> into the specified url.
+        /// Sends the given <see cref="SoapEnvelopeOld"/> into the specified url.
         /// </summary>
         /// <param name="url">The url that will receive the request</param>
         /// <param name="action">The SOAP action beeing performed</param>
-        /// <param name="requestEnvelope">The <see cref="SoapEnvelope"/> to be sent</param>
+        /// <param name="requestEnvelope">The <see cref="SoapEnvelopeOld"/> to be sent</param>
         /// <param name="ct">The cancellation token</param>
         /// <returns>A task to be awaited for the result</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        Task<SoapEnvelope> SendAsync(
-            string url, string action, SoapEnvelope requestEnvelope, CancellationToken ct = default(CancellationToken));
+        Task<SoapEnvelopeOld> SendAsync(
+            string url, string action, SoapEnvelopeOld requestEnvelope, CancellationToken ct = default(CancellationToken));
 
         #endregion
 
