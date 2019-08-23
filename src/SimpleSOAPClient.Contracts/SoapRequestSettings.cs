@@ -62,7 +62,7 @@ namespace SimpleSOAPClient
             set
             {
                 if (value != SoapProtocol.Version11 && value != SoapProtocol.Version12)
-                    throw new ArgumentException($"Unknown protocol version: {value}", nameof(value));
+                    throw new ArgumentOutOfRangeException(nameof(value), value, "Unknown protocol version");
                 _protocol = value;
             }
         }
