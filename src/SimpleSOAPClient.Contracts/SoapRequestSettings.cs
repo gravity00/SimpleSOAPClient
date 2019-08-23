@@ -5,7 +5,7 @@ namespace SimpleSOAPClient
     /// <summary>
     /// SOAP request settings
     /// </summary>
-    public struct SoapRequestSettings
+    public class SoapRequestSettings
     {
         /// <summary>
         /// Default SOAP protocol version.
@@ -66,6 +66,16 @@ namespace SimpleSOAPClient
                 _protocol = value;
             }
         }
+
+        /// <summary>
+        /// Duplicates this instance
+        /// </summary>
+        /// <returns></returns>
+        public SoapRequestSettings DeepClone() => new SoapRequestSettings(EndpointAddress)
+        {
+            _protocol = Protocol,
+            Timeout = Timeout
+        };
 
         private static void AssertEndpointAddress(Uri endpointAddress, string argName)
         {
