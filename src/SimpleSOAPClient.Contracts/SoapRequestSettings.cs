@@ -17,72 +17,30 @@ namespace SimpleSOAPClient
         /// </summary>
         public static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(15);
 
-        private Uri _endpointAddress;
-        private SoapProtocol _protocol;
-
-        /// <summary>
-        /// Creates a new instance
-        /// </summary>
-        /// <param name="endpointAddress"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentException"></exception>
-        public SoapRequestSettings(Uri endpointAddress)
-        {
-            AssertEndpointAddress(endpointAddress, nameof(endpointAddress));
-
-            _endpointAddress = endpointAddress;
-            Timeout = DefaultTimeout;
-            _protocol = DefaultProtocol;
-        }
-
-        /// <summary>
-        /// The endpoint the request will be sent
-        /// </summary>
-        public Uri EndpointAddress
-        {
-            get => _endpointAddress;
-            set
-            {
-                AssertEndpointAddress(value, nameof(value));
-                _endpointAddress = value;
-            }
-        }
+        private SoapProtocol? _protocol;
 
         /// <summary>
         /// Request timeout
         /// </summary>
-        public TimeSpan Timeout { get; set; }
+        public TimeSpan? Timeout { get; set; }
 
         /// <summary>
         /// SOAP protocol version. Defaults to <see cref="DefaultProtocol"/>.
         /// </summary>
-        public SoapProtocol Protocol
+        public SoapProtocol? Protocol
         {
             get => _protocol;
             set
             {
-                if (value != SoapProtocol.Version11 && value != SoapProtocol.Version12)
-                    throw new ArgumentOutOfRangeException(nameof(value), value, "Unknown protocol version");
-                _protocol = value;
+                if (value == null)
+                    _protocol = null;
+                else
+                {
+                    if (value != SoapProtocol.Version11 && value != SoapProtocol.Version12)
+                        throw new ArgumentOutOfRangeException(nameof(value), value, "Unknown protocol version");
+                    _protocol = value;
+                }
             }
-        }
-
-        /// <summary>
-        /// Duplicates this instance
-        /// </summary>
-        /// <returns></returns>
-        public SoapRequestSettings DeepClone() => new SoapRequestSettings(EndpointAddress)
-        {
-            _protocol = Protocol,
-            Timeout = Timeout
-        };
-
-        private static void AssertEndpointAddress(Uri endpointAddress, string argName)
-        {
-            if (endpointAddress == null)
-                throw new ArgumentNullException(argName);
-            if (!endpointAddress.IsAbsoluteUri)
-                throw new ArgumentException("Endpoint address must be an absolute Uri", argName);
         }
     }
 }

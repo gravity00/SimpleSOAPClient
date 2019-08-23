@@ -1,16 +1,25 @@
-﻿namespace SimpleSOAPClient
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace SimpleSOAPClient
 {
     /// <summary>
     /// The SOAP client that can be used to invoke SOAP Endpoints
     /// </summary>
-    public interface ISoapClient : IHaveSoapRequestSettings
+    public interface ISoapClient
     {
         /// <summary>
-        /// Creates a SOAP request
+        /// The service endpoint address
         /// </summary>
-        /// <param name="body">The request body</param>
-        /// <param name="action">The SOAP action</param>
+        Uri EndpointAddress { get; }
+
+        /// <summary>
+        /// Sends the <see cref="SoapRequestMessage"/> into the configured SOAP endpoint.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="ct"></param>
         /// <returns></returns>
-        ISoapRequestMessage CreateRequest(object body, string action = "");
+        Task<ISoapResponseMessage> SendAsync(SoapRequestMessage request, CancellationToken ct);
     }
 }
