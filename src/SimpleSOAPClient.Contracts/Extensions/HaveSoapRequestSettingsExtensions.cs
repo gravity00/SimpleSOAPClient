@@ -43,6 +43,7 @@ namespace SimpleSOAPClient
         /// <param name="requestSettings"></param>
         /// <param name="protocol"></param>
         /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static T Protocol<T>(this T requestSettings, SoapProtocol protocol)
             where T : IHaveSoapRequestSettings
         {
@@ -57,6 +58,8 @@ namespace SimpleSOAPClient
         /// <param name="requestSettings"></param>
         /// <param name="endpointAddress"></param>
         /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public static T EndpointAddress<T>(this T requestSettings, Uri endpointAddress)
             where T : IHaveSoapRequestSettings
         {
@@ -71,6 +74,8 @@ namespace SimpleSOAPClient
         /// <param name="requestSettings"></param>
         /// <param name="endpointAddress"></param>
         /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public static T EndpointAddress<T>(this T requestSettings, string endpointAddress)
             where T : IHaveSoapRequestSettings
         {
