@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace SimpleSOAPClient
@@ -7,17 +6,12 @@ namespace SimpleSOAPClient
     /// <summary>
     /// The SOAP request message
     /// </summary>
-    public interface ISoapRequestMessage
+    public interface ISoapRequestMessage : IHaveSoapRequestSettings
     {
-        /// <summary>
-        /// The endpoint the request will be sent
-        /// </summary>
-        Uri EndpointAddress { get; }
-
         /// <summary>
         /// The SOAP action
         /// </summary>
-        string Action { get; }
+        string Action { get; set; }
 
         /// <summary>
         /// The SOAP envelope
