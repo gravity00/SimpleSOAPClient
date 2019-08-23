@@ -45,8 +45,4 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SimpleSOAPClient.Contracts\SimpleSOAPClient.Contracts.csproj" />
-  </ItemGroup>
 </Project>
