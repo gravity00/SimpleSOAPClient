@@ -38,4 +38,12 @@
     <VersionPrefix>2.0.0</VersionPrefix>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net4.5'">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.1'">
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
+  </ItemGroup>
+
 </Project>

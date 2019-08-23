@@ -6,7 +6,7 @@ namespace SimpleSOAPClient
     /// <summary>
     /// Represents a SOAP envelope response
     /// </summary>
-    public class SoapEnvelopeResponse : SoapEnvelope<XElement, XElement>
+    public sealed class SoapEnvelopeResponse : SoapEnvelope<XElement, XElement>
     {
         /// <summary>
         /// Creates a new instance

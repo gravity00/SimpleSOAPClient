@@ -6,7 +6,7 @@ namespace SimpleSOAPClient
     /// Represents a collection of SOAP headers
     /// </summary>
     /// <typeparam name="THeader"></typeparam>
-    public class SoapEnvelopeHeader<THeader> where THeader : class
+    public sealed class SoapEnvelopeHeader<THeader> where THeader : class
     {
         /// <summary>
         /// Encoding style

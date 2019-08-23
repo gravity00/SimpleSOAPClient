@@ -6,7 +6,7 @@ namespace SimpleSOAPClient
     /// Represents a SOAP body
     /// </summary>
     /// <typeparam name="TContent"></typeparam>
-    public class SoapEnvelopeBody<TContent> where TContent : class
+    public sealed class SoapEnvelopeBody<TContent> where TContent : class
     {
         private TContent _content;
 

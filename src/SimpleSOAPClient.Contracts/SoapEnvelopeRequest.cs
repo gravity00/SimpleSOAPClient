@@ -5,7 +5,7 @@ namespace SimpleSOAPClient
     /// <summary>
     /// Represents a SOAP envelope for requests
     /// </summary>
-    public class SoapEnvelopeRequest : SoapEnvelope<SoapHeader, object>
+    public sealed class SoapEnvelopeRequest : SoapEnvelope<SoapHeader, object>
     {
         /// <summary>
         /// Creates a new instance
