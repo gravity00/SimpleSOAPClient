@@ -3,6 +3,8 @@ Lightweight SOAP client for invoking HTTP SOAP endpoints.
 Fluently create SOAP Envelopes, send them through the SOAP Client and extract the needed information from the returned SOAP Envelope.
 The client also exposes a range of handler that can be used as a pipeline to work with the SOAP Envelope or the HTTP requests and responses. 
 
+<a href="https://www.buymeacoffee.com/joaoprsimoes" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
 ## Installation 
 This library can be installed via [NuGet](https://www.nuget.org/packages/SimpleSOAPClient/) package. Just run the following command:
 
