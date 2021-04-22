@@ -21,6 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
+
+using System.Text.RegularExpressions;
+
 namespace SimpleSOAPClient
 {
     using System;
@@ -33,12 +36,14 @@ namespace SimpleSOAPClient
     using Exceptions;
     using Handlers;
     using Models;
+   
 
     /// <summary>
     /// The SOAP client that can be used to invoke SOAP Endpoints
     /// </summary>
     public class SoapClient : ISoapClient, IDisposable
     {
+        private readonly Regex _cidRegex = new Regex("^<(.*)>$");
         private readonly bool _disposeHttpClient = true;
         private readonly List<ISoapHandler> _handlers = new List<ISoapHandler>();
         private SoapClientSettings _settings;
@@ -198,12 +203,43 @@ namespace SimpleSOAPClient
                 await RunBeforeHttpRequestHandlers(
                     requestXml, url, action, trackingId,
                     beforeSoapEnvelopeSerializationHandlersResult.State, handlersOrderedAsc, ct);
-
+            
             var response =
                 await HttpClient.SendAsync(beforeHttpRequestHandlersResult.Request, ct).ConfigureAwait(false);
-
+            
+            // Handle multipart responses
+            // DotNet Standard 1.1 isn't supported by the multipart library
+#if !NETSTANDARD1_1
+            IDictionary<string, HttpContent> attachments = new Dictionary<string, HttpContent>();
+            if (response.Content.IsMimeMultipartContent())
+            {
+                var multipart = await response.Content.ReadAsMultipartAsync(ct);
+                foreach (var content in multipart.Contents)
+                {
+                    if (content.Headers.ContentType.MediaType == "application/xop+xml")
+                    {
+                        // This part contains the Soap Envelop XML
+                        response.Content = content;
+                    }
+                    else
+                    {
+                        // Any other part is an attachment and should have a content id
+                        var cidMatch = _cidRegex.Match(content.Headers.GetValues("Content-Id").First());
+                        if (cidMatch.Success)
+                        {
+                            attachments.Add(cidMatch.Groups[1].Value, content);
+                        }
+                        else
+                        {
+                            throw new SoapAttachmentDeserializationException("Multipart message part without content id found; all attachments much have a content id.");
+                        }
+                    }
+                }
+            }
+#endif
+            
             var handlersOrderedDesc = _handlers.OrderByDescending(e => e.Order).ToList();
-
+            
             var afterHttpResponseHandlersResult =
                 await RunAfterHttpResponseHandlers(
                     response, url, action, trackingId, beforeHttpRequestHandlersResult.State, handlersOrderedDesc, ct);
@@ -218,6 +254,9 @@ namespace SimpleSOAPClient
             {
                 responseEnvelope = 
                     Settings.SerializationProvider.ToSoapEnvelope(responseXml);
+#if !NETSTANDARD1_1
+                responseEnvelope.Attachments = attachments;
+#endif
             }
             catch (SoapEnvelopeDeserializationException)
             {
